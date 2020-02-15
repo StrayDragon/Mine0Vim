@@ -70,14 +70,15 @@ let g:mine0vim_path =
 	\   expand('$HOME/.vim')
 	\ )
 
-exec 'source' 'settings.vim'
-exec 'source' 'mapping.vim'
-exec 'source' 'theme.vim'
+exec 'source' g:mine0vim_path . '/core/settings.vim'
+exec 'source' g:mine0vim_path . '/core/mapping.vim'
 
-for plugin_config in split(glob(g:mine0vim_path . 'plugconf/*.vim'), '\n')
+for plugin_config in split(glob(g:mine0vim_path . '/plugconf/*.vim'), '\n')
   exec 'source' plugin_config
 endfor
 
-for coc_extension_config in split(glob(g:mine0vim_path . 'plugconf/coc/*.vim'), '\n')
+exec 'source' g:mine0vim_path . '/core/theme.vim'
+
+for coc_extension_config in split(glob(g:mine0vim_path . '/plugconf/coc/*.vim'), '\n')
   exec 'source' coc_extension_config
 endfor
