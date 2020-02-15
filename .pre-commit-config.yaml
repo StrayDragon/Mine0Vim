@@ -10,7 +10,7 @@ repos:
     -   id: check-yaml
     -   id: check-toml
     -   id: detect-private-key
--   repo: https://github.com/Vimjas/vint
-    rev: db881f8 
-    hooks:
-    -   id: vint
+# -   repo: https://github.com/Vimjas/vint
+#     rev: db881f8
+#     hooks:
+#     -   id: vint
