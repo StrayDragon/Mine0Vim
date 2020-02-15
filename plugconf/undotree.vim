@@ -1,4 +1,4 @@
-"- Plug 'mbbill/undotree' 
+"- Plug 'mbbill/undotree'
 "  Undo Tree style
 let g:undotree_WindowLayout = 1
 "  undotree window width

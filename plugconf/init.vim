@@ -1,7 +1,7 @@
 "# Plugins Management
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
-else 
+else
   call plug#begin('~/.vim/plugged')
 endif
 "## Startup Time and Profile
@@ -45,7 +45,7 @@ Plug 'sonph/onehalf' , { 'rtp': 'vim' }
 " Plug 'altercation/vim-colors-solarized'
 "## Status line and themes
 Plug 'itchyny/lightline.vim'
-"## Editor display enhance 
+"## Editor display enhance
 Plug 'Yggdroot/indentLine'
 Plug 'tweekmonster/braceless.vim'
 "## Editor functions enhancement
@@ -68,7 +68,7 @@ Plug 'tpope/vim-surround'
 "Plug 'junegunn/vim-easy-align' "FIXME:HowToUSE
 "Plug 'gcmt/wildfire.vim' "FIXME:HowToUSE
 "Plug 'godlygeek/tabular' "FIXME:HowToUSE
-"Plug 'tpope/vim-capslock'"FIXME:HowToUSE	
+"Plug 'tpope/vim-capslock'"FIXME:HowToUSE
 "Plug 'tpope/vim-abolish' "FIXME:HowToUSE
 "Plug 'kshenoy/vim-signature' "FIXME:HowToUSE
 "Plug 'mhinz/vim-signify' "FIXME:HowToUSE

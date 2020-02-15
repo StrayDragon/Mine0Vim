@@ -19,7 +19,7 @@ nnoremap <Leader>y :%s/<C-r><C-w>/
 "- 复制到(全局)剪切板
 nnoremap <Leader>Y ggVG"+y<CR><C-o><C-o>
 
-"- 英文拼写检查相关 
+"- 英文拼写检查相关
 "-  `z=` 打开建议列表
 " nnoremap <Leader>OC :set spell!<CR>
 "  - NOTE: need turn on spell(call the above cmd)
@@ -34,7 +34,7 @@ nnoremap <Leader>SK :set nosplitbelow<CR>:split<CR>
 nnoremap <Leader>SJ :set splitbelow<CR>:split<CR>
 
 "- 调整分屏转换 R: HL->KJ r: KJ->HL
-nnoremap <Leader>Sr <C-w>t<C-w>H<Esc> 
+nnoremap <Leader>Sr <C-w>t<C-w>H<Esc>
 nnoremap <Leader>SR <C-w>t<C-w>K<Esc>
 
 "- 调整分屏大小
@@ -60,7 +60,7 @@ nnoremap <Leader>y :%s/<C-r><C-w>/
 "- 复制到(全局)剪切板
 nnoremap <Leader>Y ggVG"+y<CR><C-o><C-o>
 
-"- 英文拼写检查相关 
+"- 英文拼写检查相关
 "-  `z=` 打开建议列表
 " nnoremap <Leader>OC :set spell!<CR>
 "  - NOTE: need turn on spell(call the above cmd)
@@ -75,7 +75,7 @@ nnoremap <Leader>SK :set nosplitbelow<CR>:split<CR>
 nnoremap <Leader>SJ :set splitbelow<CR>:split<CR>
 
 "- 调整分屏转换 R: HL->KJ r: KJ->HL
-nnoremap <Leader>Sr <C-w>t<C-w>H<Esc> 
+nnoremap <Leader>Sr <C-w>t<C-w>H<Esc>
 nnoremap <Leader>SR <C-w>t<C-w>K<Esc>
 
 "- 调整分屏大小

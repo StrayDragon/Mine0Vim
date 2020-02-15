@@ -38,13 +38,11 @@ command! -bang -nargs=* MRU call fzf#vim#history(fzf#vim#with_preview())
 command! -bang BTags
   \ call fzf#vim#buffer_tags('', {
   \     'down': '40%',
-  \     'options': '--with-nth 1 
-  \                 --reverse 
-  \                 --prompt "> " 
-  \                 --preview-window="70%" 
+  \     'options': '--with-nth 1
+  \                 --reverse
+  \                 --prompt "> "
+  \                 --preview-window="70%"
   \                 --preview "
   \                     tail -n +\$(echo {3} | tr -d \";\\\"\") {2} |
   \                     head -n 16"'
   \ })
-
-

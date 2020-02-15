@@ -7,14 +7,14 @@
 "endif
 "开启vim 256色
 " set t_Co=256
-syntax enable 
+syntax enable
 set background=dark
 colorscheme darcula
 " colorscheme ayu
 " colorscheme onedark
 " colorscheme gruvbox
 " colorscheme solarized8_flat
-" colorscheme palenight 
+" colorscheme palenight
 " colorscheme jellybeans
 " colorscheme nord
 " colorscheme iceberg
@@ -62,4 +62,3 @@ endfunction
 " let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-

@@ -12,7 +12,7 @@ let g:vista_fzf_preview = ['right:50%']
 " By default vista.vim never run if you don't call it explicitly.
 "
 " If you want to show the nearest function in your statusline automatically,
-" you can add the following line to your vimrc 
+" you can add the following line to your vimrc
 "autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " Executive used when opening vista sidebar without specifying it.

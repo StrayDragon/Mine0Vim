@@ -40,17 +40,17 @@ set undodir=~/.tmp/undo
 set relativenumber
 set backspace=2
 set backspace=indent,eol,start
-set textwidth=80    
-set expandtab     
-set tabstop=4       
-set softtabstop=4   
-set shiftwidth=4    
+set textwidth=80
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 autocmd FileType python setlocal et sta sw=4 sts=4
 autocmd FileType rust setlocal et sta sw=2 sts=2
-set smarttab        
-set autoindent      
-set smartindent    
-set shiftround      
+set smarttab
+set autoindent
+set smartindent
+set shiftround
 set hidden
 set noshowmode
 set shortmess=aFc
@@ -60,19 +60,19 @@ set completeopt =longest,menu
 set completeopt-=preview
 set list
 set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
-set ignorecase      
-set smartcase       
-set infercase       
-set incsearch       
-set hlsearch       
+set ignorecase
+set smartcase
+set infercase
+set incsearch
+set hlsearch
 execute "nohlsearch"
 set wrap
-set wrapscan        
+set wrapscan
 set linebreak
-set showmatch      
-set matchpairs+=<:> 
-set matchtime=1     
-set cpoptions-=m    
+set showmatch
+set matchpairs+=<:>
+set matchtime=1
+set cpoptions-=m
 set grepprg=rg\ --vimgrep\ $*
 set wildignore+=*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*
 if has('conceal')
