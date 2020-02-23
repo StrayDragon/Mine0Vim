@@ -1,4 +1,3 @@
-
 "- Plug 'liuchengxu/vista.vim'
 let g:vista_fzf_preview = ['right:50%']
 " How each level is indented and what to prepend.

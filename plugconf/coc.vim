@@ -1,17 +1,18 @@
 "- Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" NOTE: some settings are in ../core/settings.vim
 " if hidden is not set, TextEdit might fail.
-set hidden
+" set hidden
 " Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
+" set nobackup
+" set nowritebackup
 " Better display for messages
-set cmdheight=2
+" set cmdheight=2
 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=200
+" set updatetime=200
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+" set shortmess+=c
 " always show signcolumns
-set signcolumn=yes
+" set signcolumn=yes
  "Use tab for trigger completion with characters ahead and navigate.
  "Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -118,3 +119,4 @@ function! s:select_current_word()
   return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
 endfunc
 autocmd CursorHold * silent call CocActionAsync('highlight')
+" nnoremap <silent> <leader>z <Plug>(coc-openlink)

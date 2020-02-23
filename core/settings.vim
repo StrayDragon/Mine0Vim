@@ -16,7 +16,7 @@ set confirm
 set splitbelow
 set bsdir=buffer
 if has('mouse')
-  set mouse
+  set mouse=a
 endif
 if has('vim_starting')
 	set encoding=UTF-8
@@ -53,7 +53,7 @@ set smartindent
 set shiftround
 set hidden
 set noshowmode
-set shortmess=aFc
+set shortmess+=c
 set signcolumn=yes
 set completefunc=emoji#complete
 set completeopt =longest,menu

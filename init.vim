@@ -7,4 +7,4 @@ if has('nvim') && empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 
-exec 'source' fnamemodify(expand('<sfile>'), ':h').'/core/init.vim'
+exec 'source' fnamemodify(expand('<sfile>'), ':h').'/core/__init__.vim'
