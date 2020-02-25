@@ -1,111 +1,117 @@
 {
-  //# coc.nvim global configurations
-  "codeLens.enable": true,
-  "suggest.enablePreview": true,
-  "suggest.detailMaxLength": 60,
-  "suggest.maxPreviewWidth": 60,
-  //"suggest.maxCompleteItemCount": 14,
-  "diagnostic.virtualText": true,
-  //# coc-todolist
-  //# coc-yank
-  "yank.enableCompletion": false,
-  //# coc-pairs
-  "pairs.enableCharacters": [
-    "(",
-    "[",
-    "{",
-    "<",
-    "'",
-    "\"",
-    "`"
-  ],
-  //# coc-explorer
-  "explorer.width": 30,
-  "explorer.icon.enableNerdfont": true,
-  "explorer.activeMode": true,
-  "explorer.file.hiddenRules": {
-    "extensions": [
-      "o",
-      "a",
-      "obj",
-      "pyc"
+    //# coc.nvim global configurations
+    "codeLens.enable": true,
+    "suggest.enablePreview": true,
+    "suggest.detailMaxLength": 60,
+    "suggest.maxPreviewWidth": 60,
+    //"suggest.maxCompleteItemCount": 14,
+    "diagnostic.virtualText": true,
+    //# coc-todolist
+    //# coc-yank
+    "yank.enableCompletion": false,
+    //# coc-pairs
+    "pairs.enableCharacters": [
+        "(",
+        "[",
+        "{",
+        "<",
+        "'",
+        "\"",
+        "`"
     ],
-    "filenames": [],
-    "patternMatches": [
-      "^\\.",
-      "__pycache__",
-      "node_modules",
-      "\\S.egg-info",
-      "pip-\\S",
-      "dist",
-      "\\S.sqlite3",
-      "\\S.db"
-    ]
-  },
-  //# coc-git
-  "git.addGBlameToBufferVar": true,
-  "git.enableGutters": true,
-  //# coc-smartf
-  "smartf.timeout": 2500,
-  "smartf.charactersIgnoreByNavigator": [
-    "o",
-    "i",
-    "a",
-    "x",
-    "d",
-    "y"
-  ],
-  //# coc-json
-  "json.schemas": [
-    {
-      "fileMatch": [
-        ".vimspector.json"
-      ],
-      "url": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json"
+    //# coc-explorer
+    "explorer.previewAction.onHover": false,
+    "explorer.width": 30,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.activeMode": true,
+    "explorer.file.hiddenRules": {
+        "extensions": [
+            "o",
+            "a",
+            "obj",
+            "pyc"
+        ],
+        "filenames": [],
+        "patternMatches": [
+            "^\\.",
+            "__pycache__",
+            "node_modules",
+            "\\S.egg-info",
+            "pip-\\S",
+            "dist",
+            "\\S.sqlite3",
+            "\\S.db"
+        ]
     },
-    {
-      "fileMatch": [
-        ".gadgets.json",
-        ".gadgets.d/*.json"
-      ],
-      "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
-    }
-  ],
-  //# coc-flutter
-  "flutter.lsp.initialization.closingLabels": true,
-  //# coc-python
-  "python.poetryPath": "poetry",
-  "python.jediEnabled": false,
-  "python.trace.server": "verbose",
-  //# coc-pyright
-  //"pyright.openFilesOnly": true,
-  "pyright.useLibraryCodeForTypes": true,
-  "pyright.disableLanguageServices": true,
-  //# coc-java
-  "java.trace.server": "verbose",
-  "java.signatureHelp.enabled": true,
-  //# coc-go
-  "go.goplsPath": "~/LibHateRoot/go/bin/gopls",
-  //# coc.nvim LSP configurations
-  "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": [
-        "c",
-        "cpp",
-        "cuda",
-        "objc",
-        "objcpp"
-      ],
-      "rootPatterns": [
-        ".ccls-root",
-        "compile_commands.json"
-      ],
-      "initializationOptions": {
-        "cache": {
-          "directory": ".ccls-cache"
+    //# coc-git
+    "git.addGBlameToBufferVar": true,
+    "git.enableGutters": true,
+    "git.topRemovedSign.text": "‾",
+    "git.removedSign.text": "_",
+    "git.addedSign.text": "+",
+    "git.changedSign.text": "~",
+    "git.changeRemovedSign.text": "≃",
+    //# coc-smartf
+    "smartf.timeout": 2500,
+    "smartf.charactersIgnoreByNavigator": [
+        "o",
+        "i",
+        "a",
+        "x",
+        "d",
+        "y"
+    ],
+    //# coc-json
+    "json.schemas": [
+        {
+            "fileMatch": [
+                ".vimspector.json"
+            ],
+            "url": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json"
+        },
+        {
+            "fileMatch": [
+                ".gadgets.json",
+                ".gadgets.d/*.json"
+            ],
+            "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
         }
-      }
+    ],
+    //# coc-flutter
+    "flutter.lsp.initialization.closingLabels": true,
+    //# coc-python
+    "python.poetryPath": "poetry",
+    "python.jediEnabled": false,
+    "python.trace.server": "verbose",
+    //# coc-pyright
+    //"pyright.openFilesOnly": true,
+    "pyright.useLibraryCodeForTypes": true,
+    "pyright.disableLanguageServices": true,
+    //# coc-java
+    "java.trace.server": "verbose",
+    "java.signatureHelp.enabled": true,
+    //# coc-go
+    "go.goplsPath": "~/LibHateRoot/go/bin/gopls",
+    //# coc.nvim LSP configurations
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": [
+                "c",
+                "cpp",
+                "cuda",
+                "objc",
+                "objcpp"
+            ],
+            "rootPatterns": [
+                ".ccls-root",
+                "compile_commands.json"
+            ],
+            "initializationOptions": {
+                "cache": {
+                    "directory": ".ccls-cache"
+                }
+            }
+        }
     }
-  }
 }

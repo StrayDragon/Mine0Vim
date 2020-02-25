@@ -118,5 +118,4 @@ function! s:select_current_word()
   endif
   return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
 endfunc
-autocmd CursorHold * silent call CocActionAsync('highlight')
 " nnoremap <silent> <leader>z <Plug>(coc-openlink)

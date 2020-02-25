@@ -1,3 +1,8 @@
+"- vim-plug
+let g:plug_threads = 32
+let g:plug_timeout = 45
+" let g:plug_url_format = 'https://git::@github.com/%s.git'
+
 "# Plugins Management
 "- Use plug.vim
 call plug#begin('~/.config/nvim/plugged')
@@ -10,6 +15,7 @@ Plug 'StrayDragon/vim-smartim'
 
 "## Finder
 Plug 'dyng/ctrlsf.vim'
+Plug 'brooth/far.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
@@ -26,7 +32,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'honza/vim-snippets'
 
 "## Debug integrated
-Plug 'puremourning/vimspector'
+Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
 "Plug 'cpiger/NeoDebug' , { 'on': ['NeoDebug', 'NeoDebugStop'] }
 "Plug 'strottos/vim-padre', { 'dir': '~/.vim/plugged/vim-padre', 'do':'make' }
 "Plug 'dbgx/lldb.nvim'
@@ -38,7 +44,8 @@ Plug 'liuchengxu/vista.vim'
 "- use coc's LSP
 
 "## Git
-Plug 'airblade/vim-gitgutter'
+Plug 'lambdalisue/gina.vim'
+" Plug 'airblade/vim-gitgutter'
 "Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] } "FIXME:HowToUSE
 "Plug 'fszymanski/fzf-gitignore', { 'do': ':UpdateRemotePlugins' } "FIXME:HowToUSE
 "Plug 'tpope/vim-fugitive' " gv dependency "FIXME:HowToUSE
@@ -109,7 +116,10 @@ Plug 'tpope/vim-commentary'
 "Plug 'MattesGroeger/vim-bookmarks'
 
 "### Documentation
+"#### Find
 Plug 'KabbAmine/zeavim.vim' " <LEADER>z to find doc
+"#### Edit
+Plug 'kkoomen/vim-doge'
 
 "## Special Language enhancements
 
@@ -147,6 +157,7 @@ Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
 "Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-plug'] }
 
 "### Markdown
+Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
 "Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 "Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 "Plug 'theniceboy/bullets.vim'

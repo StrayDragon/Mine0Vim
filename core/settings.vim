@@ -9,6 +9,7 @@ if has('termguicolors')
 	set termguicolors
 endif
 set nobackup
+set nowritebackup
 set noswapfile
 set autoread
 set autowrite
@@ -55,11 +56,11 @@ set hidden
 set noshowmode
 set shortmess+=c
 set signcolumn=yes
-set completefunc=emoji#complete
-set completeopt =longest,menu
-set completeopt-=preview
-set list
-set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
+" set completefunc=emoji#complete
+" set completeopt =longest,menu
+" set completeopt-=preview
+" set list
+" set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
 set ignorecase
 set smartcase
 set infercase
@@ -75,47 +76,47 @@ set matchtime=1
 set cpoptions-=m
 set grepprg=rg\ --vimgrep\ $*
 set wildignore+=*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*
-if has('conceal')
-	set conceallevel=3 concealcursor=niv
-endif
-set undofile swapfile nobackup
-set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
-set viewdir=$DATA_PATH/view/
-set nospell spellfile=$VIM_PATH/spell/en.utf-8.add
-" History saving
+" if has('conceal')
+" 	set conceallevel=3 concealcursor=niv
+" endif
 set history=1000
-if has('nvim')
-	set shada='300,<50,@100,s10,h
-else
-	set viminfo='300,<10,@50,h,n$DATA_PATH/viminfo
-endif
-if $SUDO_USER !=# '' && $USER !=# $SUDO_USER
-		\ && $HOME !=# expand('~'.$USER)
-		\ && $HOME ==# expand('~'.$SUDO_USER)
-	set noswapfile
-	set nobackup
-	set nowritebackup
-	set noundofile
-	if has('nvim')
-		set shada="NONE"
-	else
-		set viminfo="NONE"
-	endif
-endif
-if exists('&backupskip')
-	set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
-	set backupskip+=.vault.vim
-endif
-augroup MyAutoCmd
-	autocmd!
-	silent! autocmd BufNewFile,BufReadPre
-		\ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
-		\ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
-augroup END
 if has('folding')
 	set foldenable
 	set foldmethod=syntax
 	set foldlevelstart=99
 endif
+" set undofile swapfile nobackup
+" set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
+" set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
+" set backupdir=$DATA_PATH/backup/,$DATA_PATH,~/tmp,/var/tmp,/tmp
+" set viewdir=$DATA_PATH/view/
+" set nospell spellfile=$VIM_PATH/spell/en.utf-8.add
+" History saving
+" if has('nvim')
+" 	set shada='300,<50,@100,s10,h
+" else
+" 	set viminfo='300,<10,@50,h,n$DATA_PATH/viminfo
+" endif
+" if $SUDO_USER !=# '' && $USER !=# $SUDO_USER
+" 		\ && $HOME !=# expand('~'.$USER)
+" 		\ && $HOME ==# expand('~'.$SUDO_USER)
+" 	set noswapfile
+" 	set nobackup
+" 	set nowritebackup
+" 	set noundofile
+" 	if has('nvim')
+" 		set shada="NONE"
+" 	else
+" 		set viminfo="NONE"
+" 	endif
+" endif
+" if exists('&backupskip')
+" 	set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+" 	set backupskip+=.vault.vim
+" endif
+" augroup MyAutoCmd
+" 	autocmd!
+" 	silent! autocmd BufNewFile,BufReadPre
+" 		\ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
+" 		\ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
+" augroup END
