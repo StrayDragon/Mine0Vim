@@ -1,3 +1,5 @@
+"Coc plugins configuration
+"coc-actions
 " Remap for do codeAction of selected region
 function! s:cocActionsOpenFromSelected(type) abort
   execute 'CocCommand actions.open ' . a:type

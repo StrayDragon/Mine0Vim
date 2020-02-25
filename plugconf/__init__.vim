@@ -10,6 +10,9 @@ call plug#begin('~/.config/nvim/plugged')
 "## Startup Time and Profile
 Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 
+"## Time statistics
+Plug 'wakatime/vim-wakatime'
+
 "## Auto Switch IM
 Plug 'StrayDragon/vim-smartim'
 
@@ -50,8 +53,6 @@ Plug 'lambdalisue/gina.vim'
 "Plug 'fszymanski/fzf-gitignore', { 'do': ':UpdateRemotePlugins' } "FIXME:HowToUSE
 "Plug 'tpope/vim-fugitive' " gv dependency "FIXME:HowToUSE
 "Plug 'junegunn/gv.vim' " gv (normal) to show git log "FIXME:HowToUSE
-"Plug 'lambdalisue/gina.vim'
-
 
 "## Editor functions enhancement
 Plug 'skywind3000/vim-terminal-help'
@@ -104,7 +105,7 @@ Plug 'tweekmonster/braceless.vim'
 " Plug 'junegunn/limelight.vim'
 " Plug 'TaDaa/vimade'
 
-"### Vimest
+"### Vimer est
 Plug 'takac/vim-hardtime'
 
 "### Comment shortcuts
@@ -122,6 +123,7 @@ Plug 'KabbAmine/zeavim.vim' " <LEADER>z to find doc
 Plug 'kkoomen/vim-doge'
 
 "## Special Language enhancements
+Plug 'honza/vim-snippets'
 
 "### Dart/Flutter
 Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
@@ -157,8 +159,11 @@ Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
 "Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-plug'] }
 
 "### Markdown
-Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
-"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-plug']  }
+" Plug 'godlygeek/tabular', { 'for' :['markdown', 'vim-plug'] }
+Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
+" Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 "Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 "Plug 'theniceboy/bullets.vim'
 

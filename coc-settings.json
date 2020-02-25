@@ -77,6 +77,13 @@
             "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
         }
     ],
+    //# coc-snippets
+    "snippets.snipmate.enable": false,
+    "snippets.ultisnips.enable": true,
+    "snippets.ultisnips.directories": [
+        "UltiSnips",
+        "gosnippets/UltiSnips"
+    ],
     //# coc-flutter
     "flutter.lsp.initialization.closingLabels": true,
     //# coc-python

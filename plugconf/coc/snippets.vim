@@ -1,4 +1,3 @@
-
 "Coc plugins configuration
 "coc-snippet
 " Use <C-l> for trigger snippet expand.
