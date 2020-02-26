@@ -41,11 +41,11 @@ set undodir=~/.tmp/undo
 set relativenumber
 set backspace=2
 set backspace=indent,eol,start
-set textwidth=80
+set textwidth=100
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 autocmd FileType python setlocal et sta sw=4 sts=4
 autocmd FileType rust setlocal et sta sw=2 sts=2
 set smarttab

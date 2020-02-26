@@ -78,8 +78,8 @@
         }
     ],
     //# coc-snippets
-    "snippets.snipmate.enable": false,
-    "snippets.ultisnips.enable": true,
+    "snippets.snipmate.enable": true,
+    "snippets.ultisnips.enable": false,
     "snippets.ultisnips.directories": [
         "UltiSnips",
         "gosnippets/UltiSnips"
