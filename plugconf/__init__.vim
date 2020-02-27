@@ -10,6 +10,10 @@ call plug#begin('~/.config/nvim/plugged')
 "## Startup Time and Profile
 Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 
+"## Session Management
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+
 "## Time statistics
 Plug 'wakatime/vim-wakatime'
 
@@ -59,6 +63,7 @@ Plug 'skywind3000/vim-terminal-help'
 Plug 'skywind3000/vim-quickui'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
+Plug 'farmergreg/vim-lastplace'
 " Plug 'aperezdc/vim-template', { 'on': ['Template', 'TemplateHere'] }
 "Plug 'tpope/vim-capslock'"FIXME:HowToUSE
 

@@ -120,5 +120,6 @@
                 }
             }
         }
-    }
+    },
+    "java.format.settings.url": "/home/l8ng/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml"
 }

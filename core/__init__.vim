@@ -5,6 +5,8 @@ if &compatible
 	" vint: +ProhibitSetNoCompatible
 endif
 
+"delegate to user by vim-session 
+let g:session_autosave = 'no'
 "# Optimalize
 "## Disable vim distribution plugins
 let g:loaded_getscript = 1

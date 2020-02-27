@@ -3,7 +3,7 @@ filetype plugin indent on
 set autochdir
 set wildmenu
 if has('gui')
-  set guifont=JetbrainsMono:h14
+  set guifont=JetbrainsMono NF:h14
 endif
 if has('termguicolors')
 	set termguicolors
@@ -26,9 +26,9 @@ endif
 set laststatus=2
 set showtabline=2
 set scrolloff=4
-if has('clipboard')
-	set clipboard& clipboard+=unnamedplus
-endif
+" if has('clipboard')
+" 	set clipboard& clipboard+=unnamedplus
+" endif
 set history=2000
 set number
 set timeout ttimeout
@@ -76,9 +76,9 @@ set matchtime=1
 set cpoptions-=m
 set grepprg=rg\ --vimgrep\ $*
 set wildignore+=*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*
-" if has('conceal')
-" 	set conceallevel=3 concealcursor=niv
-" endif
+if has('conceal')
+	set conceallevel=0 concealcursor=niv
+endif
 set history=1000
 if has('folding')
 	set foldenable
