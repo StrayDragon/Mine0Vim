@@ -1,2 +1,2 @@
-nnoremap <leader>z <Plug>(Zeavim)
+" nnoremap <leader>z <Plug>(Zeavim)
 

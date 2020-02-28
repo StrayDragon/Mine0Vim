@@ -14,6 +14,9 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 
+"## Fix functions
+" Plug 'drmikehenry/vim-fixkey'
+
 "## Time statistics
 Plug 'wakatime/vim-wakatime'
 

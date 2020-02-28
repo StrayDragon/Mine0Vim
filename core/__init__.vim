@@ -5,8 +5,6 @@ if &compatible
 	" vint: +ProhibitSetNoCompatible
 endif
 
-"delegate to user by vim-session 
-let g:session_autosave = 'no'
 "# Optimalize
 "## Disable vim distribution plugins
 let g:loaded_getscript = 1
@@ -34,12 +32,12 @@ let g:mapleader="\<Space>"
 let g:maplocalleader=','
 
 " Release keymappings prefixes, evict entirely for use of plug-ins.
-nnoremap <Space>  <Nop>
-xnoremap <Space>  <Nop>
-nnoremap ,        <Nop>
-xnoremap ,        <Nop>
-nnoremap ;        <Nop>
-xnoremap ;        <Nop>
+" nnoremap <Space>  <Nop>
+" xnoremap <Space>  <Nop>
+" nnoremap ,        <Nop>
+" xnoremap ,        <Nop>
+" nnoremap ;        <Nop>
+" xnoremap ;        <Nop>
 
 " Disable stop key
 map s <nop>
