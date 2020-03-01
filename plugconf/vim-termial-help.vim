@@ -1,4 +1,4 @@
-"- Plug 'skywind3000/vim-terminal-help'
+" Plug 'skywind3000/vim-terminal-help'
 " REF: https://github.com/skywind3000/vim-terminal-help#settings
 " g:terminal_key: which key will be used to toggle terminal window, default to <m-=>.
 " g:terminal_cwd: initialize working dir: 0 for unchanged, 1 for file path and 2 for project root.

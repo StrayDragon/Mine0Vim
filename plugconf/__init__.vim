@@ -24,7 +24,7 @@ Plug 'wakatime/vim-wakatime'
 Plug 'StrayDragon/vim-smartim'
 
 "## Finder
-Plug 'dyng/ctrlsf.vim'
+" Plug 'dyng/ctrlsf.vim'
 Plug 'brooth/far.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'

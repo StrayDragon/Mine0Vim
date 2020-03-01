@@ -1,4 +1,4 @@
-"- Plug 'skywind3000/vim-quickui'
+" Plug 'skywind3000/vim-quickui'
 let content = [
             \ ["&help Keyword\t\\ch", 'echo 100' ],
             \ ["&signature\t\\cs", 'echo 101'],
