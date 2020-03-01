@@ -120,3 +120,11 @@ endif
 " 		\ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim
 " 		\ setlocal noswapfile noundofile nobackup nowritebackup viminfo= shada=
 " augroup END
+"
+"  vim启动时打开NerdTree与Startify
+"autocmd VimEnter *
+            "\   if !argc()
+            "\ |   Startify
+            "\ |   NERDTree
+            "\ |   wincmd w
+            "\ | endif

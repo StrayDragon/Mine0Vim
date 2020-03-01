@@ -138,7 +138,9 @@ Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
 
 "### Rust
 Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
+if has('nvim')
 Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
+endif
 
 "### Cpp
 "Plug 'octol/vim-cpp-enhanced-highlight'
