@@ -1,4 +1,4 @@
-"- vim-plug
+"- vim-*plug
 let g:plug_threads = 32
 let g:plug_timeout = 45
 " let g:plug_url_format = 'https://git::@github.com/%s.git'
@@ -12,7 +12,7 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 
 "## Session Management
 Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc'
+Plug 'xolox/vim-misc' " xolox/vim-session deps
 
 "## Fix functions
 " Plug 'drmikehenry/vim-fixkey'
@@ -38,8 +38,6 @@ Plug 'mbbill/undotree'
 
 "## Language Server :Auto Complete, Navigate, Snippets...
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
 
 "## Debug integrated
 Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
@@ -56,7 +54,7 @@ Plug 'liuchengxu/vista.vim'
 "## Git
 Plug 'lambdalisue/gina.vim'
 " Plug 'airblade/vim-gitgutter'
-"Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] } "FIXME:HowToUSE
+"Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-*plug'] } "FIXME:HowToUSE
 "Plug 'fszymanski/fzf-gitignore', { 'do': ':UpdateRemotePlugins' } "FIXME:HowToUSE
 "Plug 'tpope/vim-fugitive' " gv dependency "FIXME:HowToUSE
 "Plug 'junegunn/gv.vim' " gv (normal) to show git log "FIXME:HowToUSE
@@ -74,12 +72,12 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'mhinz/vim-startify'
 
 "### Edit
-Plug 'terryma/vim-multiple-cursors'
 Plug 'AndrewRadev/switch.vim'
 Plug 'tpope/vim-surround'
+" Plug 'terryma/vim-multiple-cursors'
 "Plug 'junegunn/vim-easy-align' "FIXME:HowToUSE
 "Plug 'gcmt/wildfire.vim' "FIXME:HowToUSE
-"Plug 'godlygeek/tabular' "FIXME:HowToUSE
+"Plug 'godlygeek/tabular', { 'for' :['markdown', 'vim-*plug'] }
 "Plug 'tpope/vim-abolish' "FIXME:HowToUSE
 
 "### Move
@@ -91,11 +89,11 @@ Plug 'gryf/dragvisuals'
 Plug 'doums/darcula'
 Plug 'joshdick/onedark.vim'
 Plug 'lifepillar/vim-solarized8'
-Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'drewtempelmeyer/palenight.vim'
 " Plug 'ayu-theme/ayu-vim'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'arcticicestudio/nord-vim'
-Plug 'nanotech/jellybeans.vim'
+" Plug 'nanotech/jellybeans.vim'
 " Plug 'ayu-theme/ayu-vim'
 " Plug 'jacoborus/tender.vim'
 " Plug 'cocopon/iceberg.vim'
@@ -108,7 +106,6 @@ Plug 'itchyny/lightline.vim'
 
 "### Display effect enhance
 Plug 'Yggdroot/indentLine'
-Plug 'tweekmonster/braceless.vim'
 " Plug 'junegunn/goyo.vim'
 " Plug 'junegunn/limelight.vim'
 " Plug 'TaDaa/vimade'
@@ -120,26 +117,33 @@ Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 
 "### Bookmarks
+"- use coc-bookmark
 "Plug 'kshenoy/vim-signature' "FIXME:HowToUSE
 "Plug 'mhinz/vim-signify' "FIXME:HowToUSE
 "Plug 'MattesGroeger/vim-bookmarks'
 
 "### Documentation
+
 "#### Find
-Plug 'KabbAmine/zeavim.vim' " <LEADER>z to find doc
+Plug 'KabbAmine/zeavim.vim' 
+
 "#### Edit
 Plug 'kkoomen/vim-doge'
 
 "## Special Language enhancements
-Plug 'honza/vim-snippets'
+
+"### snippets
+"- use coc-snippets
+Plug 'honza/vim-snippets' " coc-snippets deps
+" Plug 'SirVer/ultisnips'
 
 "### Dart/Flutter
-Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
+Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-*plug' ] }
 
 "### Rust
-Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
+Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-*plug' ] }
 if has('nvim')
-Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
+Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-*plug' ] }
 endif
 
 "### Cpp
@@ -151,37 +155,34 @@ endif
 "### HTML, CSS, JavaScript, PHP, JSON, etc.
 "Plug 'elzr/vim-json'
 "Plug 'hail2u/vim-css3-syntax'
-"Plug 'spf13/PIV', { 'for' :['php', 'vim-plug'] }
-"Plug 'gko/vim-coloresque', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
-"Plug 'pangloss/vim-javascript' ", { 'for' :['javascript', 'vim-plug'] }
+"Plug 'spf13/PIV', { 'for' :['php', 'vim-*plug'] }
+"Plug 'gko/vim-coloresque', { 'for': ['vim-*plug', 'php', 'html', 'javascript', 'css', 'less'] }
+"Plug 'pangloss/vim-javascript' ", { 'for' :['javascript', 'vim-*plug'] }
 "Plug 'yuezk/vim-js'
 "Plug 'MaxMEllon/vim-jsx-pretty'
 "Plug 'jelera/vim-javascript-syntax'
 
 "### Go
-" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-*plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
 
 "### Python
+Plug 'tweekmonster/braceless.vim', { 'for': ['python', 'vim-*plug'] }
 "Plug 'tmhedberg/SimpylFold'
-"Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug'] }
+"Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-*plug'] }
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
-"Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
-"Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-plug'] }
+"Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-*plug'] }
+"Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-*plug'] }
 
 "### Markdown
-" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-plug']  }
-" Plug 'godlygeek/tabular', { 'for' :['markdown', 'vim-plug'] }
-Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
-" Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
-" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
+Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-*plug'] }
+"Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-*plug']  }
 "Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
-"Plug 'theniceboy/bullets.vim'
 
 "## Others Plugins
 "Plug 'reedes/vim-wordy' "FIXME:HowToUSE
-Plug 'voldikss/vim-translate-me', { 'on' : ['Translate','TranslateW','TranslateR','TranslateH'] }
+"Plug 'voldikss/vim-translate-me', { 'on' : ['Translate','TranslateW','TranslateR','TranslateH'] }
 "Plug 'ron89/thesaurus_query.vim' "FIXME:HowToUSE
-"Plug 'brooth/far.vim', { 'on': ['F', 'Far', 'Fardo'] } "FIXME:HowToUSE
 "Plug 'osyo-manga/vim-anzu' "FIXME:HowToUSE
 "Plug 'voldikss/vim-floaterm' "FIXME:HowToUSE
 "Plug 'jceb/vim-orgmode' "FIXME:HowToUSE
