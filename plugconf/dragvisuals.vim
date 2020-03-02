@@ -1,4 +1,4 @@
-"- Plug 'gryf/dragvisuals'
+" Plug 'gryf/dragvisuals'
 "- 模仿JB IDE整行移动
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')

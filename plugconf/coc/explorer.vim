@@ -1,4 +1,6 @@
 " coc-explorer
+call coc#add_extension('coc-explorer')
+
 let g:coc_explorer_global_presets = {
 \   'nvim': {
 \      'root-uri': '~/.config/nvim',
