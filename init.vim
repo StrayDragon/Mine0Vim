@@ -7,4 +7,5 @@
 " endif
 
 
+
 exec 'source' fnamemodify(expand('<sfile>'), ':h').'/core/__init__.vim'

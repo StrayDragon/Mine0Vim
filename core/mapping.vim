@@ -95,3 +95,15 @@ nnoremap <Leader>TL :tabnext<CR>
 "- 切换亮/暗主题
 " map <Leader>bl :set background=light<CR>
 " map <Leader>bd :set background=dark<CR>
+
+" # 学会使用帮助
+" - 自动补全帮助主题信息
+" `:help STRING<TAB>`
+" - 模糊匹配帮助信息
+" `:helpgrep` PATTERN
+"   - `:cnext`/ `:cprev` 所有帮助匹配项下一个/上一个
+"   - `:cnfile` / `:cpfile` 所有帮助匹配项以文件为单位上一个/下一个查找
+nmap <silent> <RIGHT> :cnext<CR>
+nmap <silent> <RIGHT><RIGHT> :cnfile<CR><C-G>
+nmap <silent> <LEFT> :cprev<CR>
+nmap <silent> <LEFT><LEFT> :cpfile<CR><C-G>

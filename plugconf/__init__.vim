@@ -1,4 +1,4 @@
-"- vim-*plug
+"- vim-plug
 let g:plug_threads = 32
 let g:plug_timeout = 45
 " let g:plug_url_format = 'https://git::@github.com/%s.git'
@@ -52,11 +52,12 @@ Plug 'liuchengxu/vista.vim'
 "- use coc's LSP
 
 "## Git
-Plug 'lambdalisue/gina.vim'
-" Plug 'airblade/vim-gitgutter'
-"Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-*plug'] } "FIXME:HowToUSE
+Plug 'tpope/vim-fugitive' 
+" Plug 'jreybert/vimagit'
+" Plug 'lambdalisue/gina.vim'
+"Plug 'airblade/vim-gitgutter'
+"Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] } "FIXME:HowToUSE
 "Plug 'fszymanski/fzf-gitignore', { 'do': ':UpdateRemotePlugins' } "FIXME:HowToUSE
-"Plug 'tpope/vim-fugitive' " gv dependency "FIXME:HowToUSE
 "Plug 'junegunn/gv.vim' " gv (normal) to show git log "FIXME:HowToUSE
 
 "## Editor functions enhancement
@@ -77,7 +78,6 @@ Plug 'tpope/vim-surround'
 " Plug 'terryma/vim-multiple-cursors'
 "Plug 'junegunn/vim-easy-align' "FIXME:HowToUSE
 "Plug 'gcmt/wildfire.vim' "FIXME:HowToUSE
-"Plug 'godlygeek/tabular', { 'for' :['markdown', 'vim-*plug'] }
 "Plug 'tpope/vim-abolish' "FIXME:HowToUSE
 
 "### Move
@@ -138,12 +138,12 @@ Plug 'honza/vim-snippets' " coc-snippets deps
 " Plug 'SirVer/ultisnips'
 
 "### Dart/Flutter
-Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-*plug' ] }
+Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
 
 "### Rust
-Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-*plug' ] }
+Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
 if has('nvim')
-Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-*plug' ] }
+Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
 endif
 
 "### Cpp
@@ -155,28 +155,31 @@ endif
 "### HTML, CSS, JavaScript, PHP, JSON, etc.
 "Plug 'elzr/vim-json'
 "Plug 'hail2u/vim-css3-syntax'
-"Plug 'spf13/PIV', { 'for' :['php', 'vim-*plug'] }
-"Plug 'gko/vim-coloresque', { 'for': ['vim-*plug', 'php', 'html', 'javascript', 'css', 'less'] }
-"Plug 'pangloss/vim-javascript' ", { 'for' :['javascript', 'vim-*plug'] }
+"Plug 'spf13/PIV', { 'for' :['php', 'vim-plug'] }
+"Plug 'gko/vim-coloresque', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
+"Plug 'pangloss/vim-javascript' ", { 'for' :['javascript', 'vim-plug'] }
 "Plug 'yuezk/vim-js'
 "Plug 'MaxMEllon/vim-jsx-pretty'
 "Plug 'jelera/vim-javascript-syntax'
 
 "### Go
-" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-*plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
 
 "### Python
-Plug 'tweekmonster/braceless.vim', { 'for': ['python', 'vim-*plug'] }
+Plug 'tweekmonster/braceless.vim', { 'for': ['python', 'vim-plug'] }
 "Plug 'tmhedberg/SimpylFold'
-"Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-*plug'] }
+"Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug'] }
 "Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
-"Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-*plug'] }
-"Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-*plug'] }
+"Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
+"Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-plug'] }
 
 "### Markdown
-Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-*plug'] }
+Plug 'gabrielelana/vim-markdown', { 'for' :['markdown', 'vim-*pug'] }
+Plug 'godlygeek/tabular', { 'for' :['zsh','markdown', 'vim-plug'] }
+Plug 'gpanders/vim-medieval'
+" Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
 "Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
-"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-*plug']  }
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-plug']  }
 "Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
 "## Others Plugins

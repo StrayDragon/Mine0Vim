@@ -6,7 +6,7 @@
   //"suggest.maxPreviewWidth": 80,
   "suggest.asciiCharactersOnly": true,
   "suggest.removeDuplicateItems": true,
-  "suggest.acceptSuggestionOnCommitCharacter": true,
+  //"suggest.acceptSuggestionOnCommitCharacter": true,
   "diagnostic.virtualText": true,
   //"suggest.maxCompleteItemCount": 14,
   //## coc-list
@@ -74,6 +74,10 @@
       "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
     }
   ],
+  //## coc-word
+  "coc.source.word.filetypes": [
+    "md"
+  ],
   //## coc-todolist
   //## coc-yank
   "yank.enableCompletion": false,
@@ -111,10 +115,10 @@
       "\\S.db"
     ]
   },
-  //## coc-git => lambdalisue/gina.vim (-)
+  //## coc-git => lambdalisue/gina.vim (-), tpope/vim-fugitive (-)
   "git.addGBlameToBufferVar": true,
   "git.addGBlameToVirtualText": false,
-  "git.enableGutters": false,
+  "git.enableGutters": true,
   "git.topRemovedSign.text": "‾",
   "git.removedSign.text": "_",
   "git.addedSign.text": "+",
