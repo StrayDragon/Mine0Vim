@@ -1,5 +1,5 @@
 " Plug 'brooth/far.vim'
-let g:far#source = 'rg'
+" let g:far#source = 'rg'
 
 let g:far#window_layout = 'bottom'
 let g:far#window_width = 60

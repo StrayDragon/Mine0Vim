@@ -1,7 +1,9 @@
 " Plug 'skywind3000/vim-quickui'
 let content = [
+            \ ["surround &[]", 'normal ysiw['],
+            \ ["surround &()", 'normal ysiw('],
+            \ ["surround &{}", 'normal ysiw{'],
             \ ["&help Keyword\t\\ch", 'echo 100' ],
-            \ ["&signature\t\\cs", 'echo 101'],
             \ ['-'],
             \ ["find in &file\t\\cx", 'echo 200' ],
             \ ["find in &project\t\\cp", 'echo 300' ],

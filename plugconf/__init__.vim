@@ -87,8 +87,9 @@ Plug 'gryf/dragvisuals'
 
 "## Global Colorschemes/Themes
 Plug 'doums/darcula'
-Plug 'joshdick/onedark.vim'
 Plug 'lifepillar/vim-solarized8'
+Plug 'rakr/vim-one'
+" Plug 'joshdick/onedark.vim'
 " Plug 'drewtempelmeyer/palenight.vim'
 " Plug 'ayu-theme/ayu-vim'
 " Plug 'morhetz/gruvbox'
