@@ -19,3 +19,6 @@
 " ALT + SHIFT + p: move to the previous window.
 " ALT + -: paste register 0 to terminal.
 " ALT + q: switch to terminal normal mode.
+
+" Autoclose popup when exit terminal
+let g:terminal_close = 1
