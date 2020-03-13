@@ -1,14 +1,45 @@
 {
   //# coc.nvim global configurations
   "codeLens.enable": true,
+  //"suggest.snippetIndicator": "🌟", //need google-nord-fonts-icons related fonts
+  "suggest.completionItemKindLabels": {
+    "keyword": "\uf1de",
+    "variable": "\ue79b",
+    "value": "\uf89f",
+    "operator": "\u03a8",
+    "function": "\u2A15",
+    "reference": "\ufa46",
+    "constant": "\uf8fe",
+    "method": "\uf09a",
+    "struct": "\ufb44",
+    "class": "\uf0e8",
+    "interface": "\uf417",
+    "text": "\u2663",
+    "enum": "\uf435",
+    "enumMember": "\uf02b",
+    "module": "\uf530",
+    "color": "\ue22b",
+    "property": "\ue624",
+    "field": "\uf6a6",
+    "unit": "\uf475",
+    "event": "\ufacd",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "snippet": "\ue60b",
+    "typeParameter": "\uf728",
+    "default": "\uf29c"
+  },
   "suggest.enablePreview": true,
   //"suggest.detailMaxLength": 100,
   //"suggest.maxPreviewWidth": 80,
   "suggest.asciiCharactersOnly": true,
   "suggest.removeDuplicateItems": true,
   //"suggest.acceptSuggestionOnCommitCharacter": true,
-  "diagnostic.virtualText": true,
   //"suggest.maxCompleteItemCount": 14,
+  "diagnostic.virtualText": true,
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshOnInsertMode": true,
   //## coc-list
   "list.source.grep.command": "rg",
   "list.insertMappings": {
@@ -19,17 +50,8 @@
   "languageserver": {
     "ccls": {
       "command": "ccls",
-      "filetypes": [
-        "c",
-        "cpp",
-        "cuda",
-        "objc",
-        "objcpp"
-      ],
-      "rootPatterns": [
-        ".ccls-root",
-        "compile_commands.json"
-      ],
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
       "initializationOptions": {
         "cache": {
           "directory": ".ccls-cache"
@@ -39,6 +61,8 @@
   },
   //## coc-flutter
   "flutter.lsp.initialization.closingLabels": true,
+  //## coc-vetur
+  "vetur.dev.vlsPath": "/home/l8ng/.config/yarn/global/node_modules/vls",
   //## coc-python
   "python.poetryPath": "poetry",
   "python.jediEnabled": false,
@@ -56,57 +80,35 @@
   //## coc-go
   "go.goplsPath": "~/LibHateRoot/go/bin/gopls",
   //## coc-snippets
+  "coc.preferences.snippetStatusText": "Ⓢ ",
   "snippets.snipmate.enable": true,
   "snippets.ultisnips.enable": false,
-  "snippets.ultisnips.directories": [
-    "UltiSnips",
-    "gosnippets/UltiSnips"
-  ],
+  "snippets.ultisnips.directories": ["UltiSnips", "gosnippets/UltiSnips"],
   //## coc-json
   "json.schemas": [
     {
-      "fileMatch": [
-        ".vimspector.json"
-      ],
+      "fileMatch": [".vimspector.json"],
       "url": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json"
     },
     {
-      "fileMatch": [
-        ".gadgets.json",
-        ".gadgets.d/*.json"
-      ],
+      "fileMatch": [".gadgets.json", ".gadgets.d/*.json"],
       "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
     }
   ],
   //## coc-word
-  "coc.source.word.filetypes": [
-    "md"
-  ],
+  "coc.source.word.filetypes": ["md"],
   //## coc-todolist
   //## coc-yank
   "yank.enableCompletion": false,
   //## coc-pairs => jiangmiao/auto-pairs (*)
-  "pairs.enableCharacters": [
-    "(",
-    "[",
-    "{",
-    "<",
-    "'",
-    "\"",
-    "`"
-  ],
+  "pairs.enableCharacters": ["(", "[", "{", "<", "'", "\"", "`"],
   //## coc-explorer => preservim/nerdtree (*)
   "explorer.previewAction.onHover": false,
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
   "explorer.activeMode": true,
   "explorer.file.hiddenRules": {
-    "extensions": [
-      "o",
-      "a",
-      "obj",
-      "pyc"
-    ],
+    "extensions": ["o", "a", "obj", "pyc"],
     "filenames": [],
     "patternMatches": [
       "^\\.",
@@ -130,15 +132,9 @@
   "git.changeRemovedSign.text": "≃",
   //## coc-smartf => easymotion/vim-easymotion (-)
   "smartf.timeout": 2500,
-  "smartf.charactersIgnoreByNavigator": [
-    "o",
-    "i",
-    "a",
-    "x",
-    "d",
-    "y"
-  ],
+  "smartf.charactersIgnoreByNavigator": ["o", "i", "a", "x", "d", "y"],
   //# coc-template => aperezdc/vim-template (*)
   "template.username": "straydragon",
   "template.email": "straydragonv@gmail.com"
 }
+//reference: https://github.com/hardcoreplayers/ThinkVim/blob/master/coc-settings.json

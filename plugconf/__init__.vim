@@ -131,6 +131,9 @@ Plug 'KabbAmine/zeavim.vim'
 "#### Edit
 Plug 'kkoomen/vim-doge'
 
+"#### Fold
+Plug 'pseewald/vim-anyfold'
+
 "## Special Language enhancements
 
 "### snippets
@@ -144,7 +147,7 @@ Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
 "### Rust
 Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
 if has('nvim')
-Plug 'mhinz/vim-crates' , { 'for' :[ 'toml', 'vim-plug' ] }
+Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
 endif
 
 "### Cpp
@@ -168,12 +171,11 @@ endif
 
 "### Python
 if has('nvim')
-Plug 'numirias/semshi'            ,  { 'for': ['python' ,  'vim-plug'] , 'do': ':UpdateRemotePlugins' }
+Plug 'numirias/semshi'            ,  { 'do': ':UpdateRemotePlugins' }
 endif
-Plug 'tweekmonster/braceless.vim' ,  { 'for': ['python' ,  'vim-plug'] }
+"Plug 'tweekmonster/braceless.vim'
 "Plug 'tmhedberg/SimpylFold'
 "Plug 'Vimjas/vim-python-pep8-indent' , { 'for' :['python', 'vim-plug'] }
-"Plug 'numirias/semshi'               , { 'do': ':UpdateRemotePlugins' }
 "Plug 'vim-scripts/indentpython.vim'  , { 'for' :['python', 'vim-plug'] }
 "Plug 'plytophogy/vim-virtualenv'     , { 'for' :['python', 'vim-plug'] }
 

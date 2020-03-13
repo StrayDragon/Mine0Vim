@@ -7,5 +7,10 @@
 " endif
 
 
+if get(s:, 'mine0vim_loaded', 0) != 0
+	finish
+else
+	let s:mine0vim_loaded = 1
+endif
 
 exec 'source' fnamemodify(expand('<sfile>'), ':h').'/core/__init__.vim'

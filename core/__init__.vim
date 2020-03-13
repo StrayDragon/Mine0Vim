@@ -52,8 +52,8 @@ endif
 
 "- start time influenced by remote-plugins
 if has('nvim')
-  let g:loaded_python_provider=1
-  let g:python_host_skip_check=0
+  " let g:loaded_python_provider=1
+  let g:python_host_skip_check=1
   let g:python_host_prog='/usr/bin/python2'
   let g:python3_host_skip_check=1
   let g:python3_host_prog='/usr/bin/python3'
@@ -72,6 +72,8 @@ let g:mine0vim_path =
 
 exec 'source' g:mine0vim_path . '/core/settings.vim'
 exec 'source' g:mine0vim_path . '/core/mapping.vim'
+exec 'source' g:mine0vim_path . '/core/filetypes.vim'
+exec 'source' g:mine0vim_path . '/core/commands.vim'
 
 for plugin_config in split(glob(g:mine0vim_path . '/plugconf/*.vim'), '\n')
   exec 'source' plugin_config
