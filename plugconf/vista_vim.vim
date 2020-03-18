@@ -13,10 +13,10 @@ let g:vista_fzf_preview = ['right:50%']
 " If you want to show the nearest function in your statusline automatically,
 " you can add the following line to your vimrc
 "autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+" let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
-" let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'ctags'
 " Set the executive for some filetypes explicitly. Use the explicit executive
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
@@ -44,4 +44,5 @@ let g:vista#renderer#enable_icon = 0
 "\   "variable": "\uf71b",
 "\  }
 " nnoremap <silent> <leader>2 :Vista!!<CR>
+" let g:vista_update_on_text_changed = 1
 nnoremap <silent> <A-7> :Vista!!<CR>

@@ -26,12 +26,13 @@ Plug 'StrayDragon/vim-smartim'
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
 Plug 'brooth/far.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+"Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
 
 "## File Navigation
 "- Use coc-explorer
+Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 
 "## Undo Tree
 Plug 'mbbill/undotree'
@@ -87,8 +88,8 @@ Plug 'gryf/dragvisuals'
 
 "## Global Colorschemes/Themes
 Plug 'doums/darcula'
-Plug 'lifepillar/vim-solarized8'
-Plug 'rakr/vim-one'
+" Plug 'lifepillar/vim-solarized8'
+" Plug 'rakr/vim-one'
 " Plug 'joshdick/onedark.vim'
 " Plug 'drewtempelmeyer/palenight.vim'
 " Plug 'ayu-theme/ayu-vim'
@@ -180,9 +181,11 @@ endif
 "Plug 'plytophogy/vim-virtualenv'     , { 'for' :['python', 'vim-plug'] }
 
 "### Markdown
-Plug 'gabrielelana/vim-markdown', { 'for' :['markdown', 'vim-*pug'] }
-Plug 'godlygeek/tabular', { 'for' :['vim','zsh','markdown', 'vim-plug'] }
-Plug 'gpanders/vim-medieval'
+Plug 'gabrielelana/vim-markdown'    , { 'for' :['markdown', 'vim-plug']  }
+Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
+Plug 'godlygeek/tabular'            , { 'for' :['vim','zsh','markdown', 'vim-plug']}
+Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
+" Plug 'gpanders/vim-medieval'     , { 'for' :['markdown', 'vim-plug'] }
 " Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
 "Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }
 "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for' :['markdown', 'vim-plug']  }

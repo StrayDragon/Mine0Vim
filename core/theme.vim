@@ -43,21 +43,21 @@ colorscheme darcula
 "## Statusline
 "- lightline.vim configuration
 let g:lightline = {
-        \ 'colorscheme': 'jellybeans',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [  'git_branch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
-        \   'right':[
-        \     [ 'fileencoding', 'lineinfo'],
-        \     [ 'blame' ]
-        \   ],
-        \   },
-        \ 'component_function': {
-        \   'cocstatus': 'coc#status',
-        \   'blame': 'LightlineGitBlame',
-        \   'git_branch' : 'LightlineGitBranch'
-        \ },
-        \ }
+     \    'colorscheme': 'jellybeans',
+     \    'active': {
+     \      'left': [ [ 'mode', 'paste' ],
+     \                [  'git_branch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
+     \      'right':[
+     \        [ 'fileencoding', 'lineinfo'],
+     \        [ 'blame' ]
+     \      ],
+     \    },
+     \    'component_function': {
+     \      'cocstatus': 'coc#status',
+     \      'blame': 'LightlineGitBlame',
+     \      'git_branch' : 'LightlineGitBranch'
+     \    },
+     \ }
 
 function LightlineGitBranch() abort
   let git_branch = get(g:, 'coc_git_status', '')
