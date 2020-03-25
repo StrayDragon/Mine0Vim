@@ -37,6 +37,9 @@ Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 "## Undo Tree
 Plug 'mbbill/undotree'
 
+"## Terminal
+Plug 'voldikss/vim-floaterm'
+
 "## Language Server :Auto Complete, Navigate, Snippets...
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -183,7 +186,7 @@ endif
 "### Markdown
 Plug 'gabrielelana/vim-markdown'    , { 'for' :['markdown', 'vim-plug']  }
 Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
-Plug 'godlygeek/tabular'            , { 'for' :['vim','zsh','markdown', 'vim-plug']}
+Plug 'godlygeek/tabular'            , { 'for' :['python', 'vim','zsh','markdown', 'vim-plug']}
 Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
 " Plug 'gpanders/vim-medieval'     , { 'for' :['markdown', 'vim-plug'] }
 " Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }

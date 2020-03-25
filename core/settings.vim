@@ -1,6 +1,7 @@
 syntax on
 filetype plugin indent on
-set autochdir
+" set autochdir
+set noautochdir
 set wildmenu
 if has('gui')
   set guifont=JetbrainsMono NF:h14

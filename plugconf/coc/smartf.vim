@@ -1,8 +1,9 @@
-"coc-smartf <- easymotion
+call coc#add_extension('coc-smartf')
+
 " press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
-nmap ; <Plug>(coc-smartf-repeat)
+nmap <space><space>f <Plug>(coc-smartf-forward)
+nmap <space><space>F <Plug>(coc-smartf-backward)
+" nmap ; <Plug>(coc-smartf-repeat)
 " nmap , <Plug>(coc-smartf-repeat-opposite)
 
 augroup Smartf

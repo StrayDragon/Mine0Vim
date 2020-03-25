@@ -1,5 +1,5 @@
-" coc-translator
 call coc#add_extension('coc-translator')
+
 " popup
 nmap <Leader>tt <Plug>(coc-translator-p)
 vmap <Leader>tt <Plug>(coc-translator-pv)

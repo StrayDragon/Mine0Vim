@@ -20,4 +20,4 @@
 "   \ 'coc-gitignore',
 "   \ 'coc-flutter'
 "   \ ]
-call coc#add_extension( 'coc-yank', 'coc-json', 'coc-pairs', 'coc-smartf', 'coc-snippets', 'coc-marketplace', 'coc-python', 'coc-vimlsp','coc-go','coc-postfix','coc-rls','coc-highlight','coc-lists','coc-git', 'coc-gitignore', 'coc-sql', 'coc-docker')
+call coc#add_extension('coc-pairs', 'coc-python', 'coc-vimlsp','coc-go','coc-postfix','coc-rls','coc-git', 'coc-gitignore', 'coc-sql', 'coc-docker')

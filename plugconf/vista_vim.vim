@@ -21,8 +21,8 @@ let g:vista_default_executive = 'ctags'
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
 let g:vista_executive_for = {
-  \ 'rs': 'coc',
-  \ 'py': 'coc',
+  \ 'rust': 'coc',
+  \ 'python': 'coc',
   \ 'cpp': 'coc',
   \ 'md': 'toc',
   \ }
@@ -45,4 +45,5 @@ let g:vista#renderer#enable_icon = 0
 "\  }
 " nnoremap <silent> <leader>2 :Vista!!<CR>
 " let g:vista_update_on_text_changed = 1
+let g:vista_echo_cursor_strategy = 'floating_win'
 nnoremap <silent> <A-7> :Vista!!<CR>

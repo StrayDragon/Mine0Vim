@@ -1,4 +1,5 @@
 {
+  "http.proxy": "127.0.0.1:8888",
   //# coc.nvim global configurations
   "codeLens.enable": true,
   //"suggest.snippetIndicator": "🌟", //need google-nord-fonts-icons related fonts
@@ -69,6 +70,8 @@
   "python.linting.flake8Enabled": true,
   "python.linting.mypyEnabled": true,
   "python.formatting.provider": "black",
+  //"python.analysis.downloadChannel": "daily",
+  //"python.analysis.memory.keepLibraryAst": true,
   //## coc-pyright
   //"pyright.openFilesOnly": true,
   //"pyright.useLibraryCodeForTypes": true,

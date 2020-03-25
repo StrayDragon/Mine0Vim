@@ -1,4 +1,5 @@
-"Coc plugins configuration
+call coc#add_extension('coc-snippets')
+
 "coc-snippet
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
