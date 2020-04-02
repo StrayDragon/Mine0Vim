@@ -11,8 +11,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 
 "## Session Management
-Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc' " xolox/vim-session deps
+"- use coc-lists (session integrated)
+" Plug 'xolox/vim-session'
+" Plug 'xolox/vim-misc' " xolox/vim-session deps
 
 "## Fix functions
 " Plug 'drmikehenry/vim-fixkey'
@@ -31,7 +32,7 @@ Plug 'brooth/far.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
 
 "## File Navigation
-"- Use coc-explorer
+"- use coc-explorer
 Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 
 "## Undo Tree
