@@ -1,5 +1,5 @@
 {
-  "http.proxy": "127.0.0.1:8888",
+  //"http.proxy": "127.0.0.1:8888",
   //# coc.nvim global configurations
   "codeLens.enable": true,
   //"suggest.snippetIndicator": "🌟", //need google-nord-fonts-icons related fonts
