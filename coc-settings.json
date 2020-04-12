@@ -1,6 +1,15 @@
 {
   //"http.proxy": "127.0.0.1:8888",
   //# coc.nvim global configurations
+  "coc.preferences.formatOnSaveFiletypes": [
+    "vue",
+    "css",
+    "html",
+    "javascript",
+    "typescript",
+    "python",
+    "json"
+  ],
   "codeLens.enable": true,
   //"suggest.snippetIndicator": "🌟", //need google-nord-fonts-icons related fonts
   "suggest.completionItemKindLabels": {
@@ -60,10 +69,13 @@
       }
     }
   },
+  //## coc-tsserver
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
   //## coc-flutter
   "flutter.lsp.initialization.closingLabels": true,
   //## coc-vetur
-  "vetur.dev.vlsPath": "/home/l8ng/.config/yarn/global/node_modules/vls",
+  //"vetur.dev.vlsPath": "/home/l8ng/.config/yarn/global/node_modules/vls",
+  "prettier.disableLanguages": [],
   //## coc-python
   "python.poetryPath": "poetry",
   "python.jediEnabled": false,
@@ -119,9 +131,7 @@
       "node_modules",
       "\\S.egg-info",
       "pip-\\S",
-      "dist",
-      "\\S.sqlite3",
-      "\\S.db"
+      "dist"
     ]
   },
   //## coc-git => lambdalisue/gina.vim (-), tpope/vim-fugitive (-)

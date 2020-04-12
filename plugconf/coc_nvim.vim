@@ -83,7 +83,8 @@ nmap <leader>rl  <Plug>(coc-codelens-action)
 
 " Remap for format selected region
 xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  :w<CR>
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
