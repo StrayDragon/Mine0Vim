@@ -79,9 +79,10 @@
   //## coc-python
   "python.poetryPath": "poetry",
   "python.jediEnabled": false,
-  "python.linting.flake8Enabled": true,
-  "python.linting.mypyEnabled": true,
-  "python.formatting.provider": "black",
+  "python.linting.flake8Enabled": false,
+  "python.linting.mypyEnabled": false,
+  //"python.formatting.provider": "black",
+  "python.formatting.provider": "none",
   //"python.analysis.downloadChannel": "daily",
   //"python.analysis.memory.keepLibraryAst": true,
   //## coc-pyright

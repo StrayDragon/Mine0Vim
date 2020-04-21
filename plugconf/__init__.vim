@@ -19,7 +19,7 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 " Plug 'drmikehenry/vim-fixkey'
 
 "## Time statistics
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 
 "## Auto Switch IM
 Plug 'StrayDragon/vim-smartim'
@@ -78,7 +78,8 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'mhinz/vim-startify'
 
 "### Edit
-Plug 'AndrewRadev/switch.vim'
+" Plug 'AndrewRadev/switch.vim'
+Plug 'bootleq/vim-cycle'
 Plug 'tpope/vim-surround'
 " Plug 'terryma/vim-multiple-cursors'
 "Plug 'junegunn/vim-easy-align' "FIXME:HowToUSE
