@@ -173,7 +173,7 @@ endif
 "Plug 'jelera/vim-javascript-syntax'
 
 "### Go
-" Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
 
 "### Python
 if has('nvim')

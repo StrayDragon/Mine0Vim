@@ -21,6 +21,7 @@ let g:vista_default_executive = 'ctags'
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
 let g:vista_executive_for = {
+  \ 'go': 'coc',
   \ 'rust': 'coc',
   \ 'python': 'coc',
   \ 'cpp': 'coc',
