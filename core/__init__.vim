@@ -54,10 +54,12 @@ endif
 if has('nvim')
   " let g:loaded_python_provider=1
   let g:python_host_skip_check=1
-  let g:python_host_prog='/usr/bin/python2'
+  let g:python_host_prog='~/.pyenv/versions/neovim2/bin/python'
   let g:python3_host_skip_check=1
-  let g:python3_host_prog='/usr/bin/python3'
+  let g:python3_host_prog='~/.pyenv/versions/neovim3/bin/python'
   let g:loaded_ruby_provider=0
+  " let g:loaded_node_provider = 1
+  " let g:node_host_prog = '~/LibHateRoot/node/bin/node'
 endif
 
 let g:mine0vim_path =

@@ -70,6 +70,8 @@ set ignorecase
 set smartcase
 set infercase
 set incsearch
+" Neovim Only
+set inccommand="nosplit" 
 set hlsearch
 execute "nohlsearch"
 set wrap

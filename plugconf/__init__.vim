@@ -22,7 +22,7 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 " Plug 'wakatime/vim-wakatime'
 
 "## Auto Switch IM
-Plug 'StrayDragon/vim-smartim'
+"Plug 'StrayDragon/vim-smartim'
 
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
@@ -45,7 +45,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "## Debug integrated
-Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
+"Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
 "Plug 'cpiger/NeoDebug' , { 'on': ['NeoDebug', 'NeoDebugStop'] }
 "Plug 'strottos/vim-padre', { 'dir': '~/.vim/plugged/vim-padre', 'do':'make' }
 "Plug 'dbgx/lldb.nvim'
@@ -132,7 +132,7 @@ Plug 'tpope/vim-commentary'
 "### Documentation
 
 "#### Find
-Plug 'KabbAmine/zeavim.vim' 
+"Plug 'KabbAmine/zeavim.vim' 
 
 "#### Edit
 Plug 'kkoomen/vim-doge'
@@ -148,13 +148,13 @@ Plug 'honza/vim-snippets' " coc-snippets deps
 " Plug 'SirVer/ultisnips'
 
 "### Dart/Flutter
-Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
+"Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
 
 "### Rust
 Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
-if has('nvim')
-Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
-endif
+"if has('nvim')
+"Plug 'mhinz/vim-crates', { 'for' :[ 'toml', 'vim-plug' ] }
+"endif
 
 "### Cpp
 "Plug 'octol/vim-cpp-enhanced-highlight'
@@ -173,7 +173,7 @@ endif
 "Plug 'jelera/vim-javascript-syntax'
 
 "### Go
-Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
 
 "### Python
 if has('nvim')
@@ -187,8 +187,9 @@ endif
 
 "### Markdown
 Plug 'gabrielelana/vim-markdown'    , { 'for' :['markdown', 'vim-plug']  }
-Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
-Plug 'godlygeek/tabular'            , { 'for' :['python', 'vim','zsh','markdown', 'vim-plug']}
+"Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
+" Plug 'godlygeek/tabular'            , { 'for' :['python', 'vim','zsh','markdown', 'vim-plug']}
+Plug 'godlygeek/tabular'            
 Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
 " Plug 'gpanders/vim-medieval'     , { 'for' :['markdown', 'vim-plug'] }
 " Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
