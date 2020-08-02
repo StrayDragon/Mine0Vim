@@ -22,7 +22,8 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 " Plug 'wakatime/vim-wakatime'
 
 "## Auto Switch IM
-Plug 'StrayDragon/vim-smartim'
+"Plug 'StrayDragon/vim-smartim'
+Plug 'brglng/vim-im-select'
 
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
@@ -33,7 +34,7 @@ Plug 'brooth/far.vim'
 
 "## File Navigation
 "- use coc-explorer
-Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+"Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 
 "## Undo Tree
 Plug 'mbbill/undotree'
@@ -45,7 +46,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "## Debug integrated
-Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
+"Plug 'puremourning/vimspector' , { 'dir': '~/.config/nvim/plugged/vimspector', 'do': './install_gadget.py --all --disable-tcl --disable-bash' }
 "Plug 'cpiger/NeoDebug' , { 'on': ['NeoDebug', 'NeoDebugStop'] }
 "Plug 'strottos/vim-padre', { 'dir': '~/.vim/plugged/vim-padre', 'do':'make' }
 "Plug 'dbgx/lldb.nvim'
@@ -118,7 +119,7 @@ Plug 'Yggdroot/indentLine'
 " Plug 'TaDaa/vimade'
 
 "### Vimer est
-Plug 'takac/vim-hardtime'
+"Plug 'takac/vim-hardtime'
 
 "### Comment shortcuts
 Plug 'tpope/vim-commentary'
@@ -141,6 +142,8 @@ Plug 'kkoomen/vim-doge'
 Plug 'pseewald/vim-anyfold'
 
 "## Special Language enhancements
+"### highlight and treesitter based functions
+" Plug 'nvim-treesitter/nvim-treesitter'
 
 "### snippets
 "- use coc-snippets
@@ -148,7 +151,7 @@ Plug 'honza/vim-snippets' " coc-snippets deps
 " Plug 'SirVer/ultisnips'
 
 "### Dart/Flutter
-Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
+" Plug 'dart-lang/dart-vim-plugin', { 'for' : [ 'dart', 'vim-plug' ] }
 
 "### Rust
 Plug 'cespare/vim-toml' , { 'for' :[ 'toml', 'vim-plug' ] }
@@ -173,12 +176,12 @@ endif
 "Plug 'jelera/vim-javascript-syntax'
 
 "### Go
-Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*', 'do': ':GoUpdateBinaries' }
 
 "### Python
-if has('nvim')
+" if has('nvim')
 Plug 'numirias/semshi'            ,  { 'do': ':UpdateRemotePlugins' }
-endif
+" endif
 "Plug 'tweekmonster/braceless.vim'
 "Plug 'tmhedberg/SimpylFold'
 "Plug 'Vimjas/vim-python-pep8-indent' , { 'for' :['python', 'vim-plug'] }
@@ -187,9 +190,9 @@ endif
 
 "### Markdown
 Plug 'gabrielelana/vim-markdown'    , { 'for' :['markdown', 'vim-plug']  }
-Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
+"Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
 Plug 'godlygeek/tabular'            , { 'for' :['python', 'vim','zsh','markdown', 'vim-plug']}
-Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
+"Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
 " Plug 'gpanders/vim-medieval'     , { 'for' :['markdown', 'vim-plug'] }
 " Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
 "Plug 'tpope/vim-markdown' , { 'for': [ 'md', 'markdown'] }

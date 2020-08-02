@@ -1,5 +1,5 @@
 {
-  "http.proxy": "127.0.0.1:8888",
+  //"http.proxy": "127.0.0.1:7890",
   //# coc.nvim global configurations
   "coc.preferences.formatOnSaveFiletypes": [
     "vue",
@@ -63,8 +63,17 @@
   "languageserver": {
     "ccls": {
       "command": "ccls",
-      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "filetypes": [
+        "c",
+        "cpp",
+        "cuda",
+        "objc",
+        "objcpp"
+      ],
+      "rootPatterns": [
+        ".ccls-root",
+        "compile_commands.json"
+      ],
       "initializationOptions": {
         "cache": {
           "directory": ".ccls-cache"
@@ -102,32 +111,55 @@
   "coc.preferences.snippetStatusText": "Ⓢ ",
   "snippets.snipmate.enable": true,
   "snippets.ultisnips.enable": false,
-  "snippets.ultisnips.directories": ["UltiSnips", "gosnippets/UltiSnips"],
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "gosnippets/UltiSnips"
+  ],
   //## coc-json
   "json.schemas": [
     {
-      "fileMatch": [".vimspector.json"],
+      "fileMatch": [
+        ".vimspector.json"
+      ],
       "url": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json"
     },
     {
-      "fileMatch": [".gadgets.json", ".gadgets.d/*.json"],
+      "fileMatch": [
+        ".gadgets.json",
+        ".gadgets.d/*.json"
+      ],
       "url": "https://puremourning.github.io/vimspector/schema/gadgets.schema.json"
     }
   ],
   //## coc-word
-  "coc.source.word.filetypes": ["md"],
+  "coc.source.word.filetypes": [
+    "md"
+  ],
   //## coc-todolist
   //## coc-yank
   "yank.enableCompletion": false,
   //## coc-pairs => jiangmiao/auto-pairs (*)
-  "pairs.enableCharacters": ["(", "[", "{", "<", "'", "\"", "`"],
+  "pairs.enableCharacters": [
+    "(",
+    "[",
+    "{",
+    "<",
+    "'",
+    "\"",
+    "`"
+  ],
   //## coc-explorer => preservim/nerdtree (*)
   "explorer.previewAction.onHover": false,
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
   "explorer.activeMode": true,
   "explorer.file.hiddenRules": {
-    "extensions": ["o", "a", "obj", "pyc"],
+    "extensions": [
+      "o",
+      "a",
+      "obj",
+      "pyc"
+    ],
     "filenames": [],
     "patternMatches": [
       "^\\.",
@@ -149,7 +181,14 @@
   "git.changeRemovedSign.text": "≃",
   //## coc-smartf => easymotion/vim-easymotion (-)
   "smartf.timeout": 2500,
-  "smartf.charactersIgnoreByNavigator": ["o", "i", "a", "x", "d", "y"],
+  "smartf.charactersIgnoreByNavigator": [
+    "o",
+    "i",
+    "a",
+    "x",
+    "d",
+    "y"
+  ],
   //# coc-template => aperezdc/vim-template (*)
   "template.username": "straydragon",
   "template.email": "straydragonv@gmail.com"
