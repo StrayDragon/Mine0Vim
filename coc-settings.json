@@ -1,4 +1,5 @@
 {
+  "coc.preferences.extensionUpdateCheck": "weekly",
   //"http.proxy": "127.0.0.1:7890",
   //# coc.nvim global configurations
   "coc.preferences.formatOnSaveFiletypes": [

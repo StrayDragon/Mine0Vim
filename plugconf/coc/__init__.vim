@@ -1,23 +1,25 @@
 "# `coc.nvim` Extensions Management
-" let g:coc_global_extensions = 
-"   \ [
-"   \ 'coc-explorer', 
-"   \ 'coc-yank', 
-"   \ 'coc-json', 
-"   \ 'coc-pairs', 
-"   \ 'coc-smartf', 
-"   \ 'coc-snippets', 
-"   \ 'coc-marketplace',
-"   \ 'coc-python',
-"   \ 'coc-ccls',
-"   \ 'coc-vimlsp',
-"   \ 'coc-java',
-"   \ 'coc-go',
-"   \ 'coc-rls',
-"   \ 'coc-highlight',
-"   \ 'coc-lists',
-"   \ 'coc-git',
-"   \ 'coc-gitignore',
-"   \ 'coc-flutter'
-"   \ ]
-call coc#add_extension('coc-pairs', 'coc-python', 'coc-vimlsp','coc-go','coc-postfix','coc-rls','coc-git', 'coc-gitignore', 'coc-docker')
+let g:coc_global_extensions = [
+  \ 'coc-explorer', 
+  \ 'coc-yank', 
+  \ 'coc-pairs', 
+  \ 'coc-smartf', 
+  \ 'coc-marketplace',
+  \ 'coc-highlight',
+  \ 'coc-git',
+  \ 'coc-gitignore',
+  \ 'coc-lists',
+  \ 'coc-json', 
+  \ 'coc-snippets', 
+  \ "coc-template",   
+  \ "coc-bookmark",   
+  \ "coc-floaterm",   
+  \ "coc-translator",   
+  \ ]
+call coc#add_extension(
+  \ 'coc-python',
+  \ 'coc-go',
+  \ "coc-postfix",   
+  \ 'coc-rls',
+  \ 'coc-vimlsp',
+  \ "coc-docker")  

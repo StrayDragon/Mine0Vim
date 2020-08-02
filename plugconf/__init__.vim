@@ -191,7 +191,7 @@ Plug 'numirias/semshi'            ,  { 'do': ':UpdateRemotePlugins' }
 "### Markdown
 Plug 'gabrielelana/vim-markdown'    , { 'for' :['markdown', 'vim-plug']  }
 "Plug 'iamcco/markdown-preview.nvim' , { 'for' :['markdown', 'vim-plug'] , 'do': 'cd app & yarn install' }
-Plug 'godlygeek/tabular'            , { 'for' :['python', 'vim','zsh','markdown', 'vim-plug']}
+Plug 'godlygeek/tabular'            
 "Plug 'dbridges/vim-markdown-runner' , { 'for' :['markdown', 'vim-plug']  }
 " Plug 'gpanders/vim-medieval'     , { 'for' :['markdown', 'vim-plug'] }
 " Plug 'plasticboy/vim-markdown', { 'for' :['markdown', 'vim-plug'] }
