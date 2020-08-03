@@ -28,9 +28,12 @@ Plug 'brglng/vim-im-select'
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
 Plug 'brooth/far.vim'
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-"Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
+
+"## CocList + Fzf enhancement
+" Plug 'antoinemadec/coc-fzf'
 
 "## File Navigation
 "- use coc-explorer
