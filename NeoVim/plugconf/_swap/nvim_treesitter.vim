@@ -1,13 +1,12 @@
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
     highlight = {
-      enable = false,                    -- false will disable the whole extension
-      disable = { "c", "rust" },        -- list of language that will be disabled
+      enable = true,                    -- false will disable the whole extension
+      disable = { "python", "go" },        -- list of language that will be disabled
       custom_captures = {               -- mapping of user defined captures to highlight groups
         -- ["foo.bar"] = "Identifier"   -- highlight own capture @foo.bar with highlight group "Identifier", see :h nvim-treesitter-query-extensions
       },
-    }
-    -- ,
+    },
     -- incremental_selection = {
     --   enable = true,
     --   disable = { "cpp", "lua" },
@@ -67,6 +66,6 @@ require'nvim-treesitter.configs'.setup {
     --     ["im"] = "@call.inner"
     --   }
     -- },
-    -- ensure_installed = "all" -- one of "all", "language", or a list of languages
+    ensure_installed = { "python", "go", "rust" } -- one of "all", "language", or a list of languages
 }
 EOF

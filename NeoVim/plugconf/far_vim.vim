@@ -14,9 +14,9 @@ let g:far#file_mask_favorites = ['%', '**/*.*', '**/*.html', '**/*.js', '**/*.cs
 let g:far#enable_undo = 1
 
 " shortcut for far.vim find
-nnoremap <silent> <M-f>  :Farf<cr>
-vnoremap <silent> <M-f>  :Farf<cr>
+nnoremap <silent> <M-f>  :Farf
+vnoremap <silent> <M-f>  :Farf<CR>
 
 " shortcut for far.vim replace
-nnoremap <silent> <M-r>  :Farr<cr>
-vnoremap <silent> <M-r>  :Farr<cr>
+nnoremap <silent> <M-r>  :Farr
+vnoremap <silent> <M-r>  :Farr<CR>

@@ -1,3 +1,3 @@
 " Plug 'KabbAmine/zeavim.vim' 
-" nnoremap <leader>z <Plug>(Zeavim)
+nnoremap <leader>z <Plug>(Zeavim)
 
