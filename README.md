@@ -7,7 +7,7 @@ My personal experimental Vim-like enviroment configs
 
 # Installation
 ```bash
-git clone git@github.com:StrayDragon/Mine0Vim.git # or your forked repo
+git clone https://github.com/StrayDragon/Mine0Vim.git # or your forked repo
 ```
 
 ## NeoVim
