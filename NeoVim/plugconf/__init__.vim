@@ -85,6 +85,7 @@ Plug 'mhinz/vim-startify'
 " Plug 'AndrewRadev/switch.vim'
 Plug 'bootleq/vim-cycle'
 Plug 'tpope/vim-surround'
+Plug 'tommcdo/vim-exchange'
 " Plug 'terryma/vim-multiple-cursors'
 "Plug 'junegunn/vim-easy-align' "FIXME:HowToUSE
 "Plug 'gcmt/wildfire.vim' "FIXME:HowToUSE
