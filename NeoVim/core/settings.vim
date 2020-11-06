@@ -6,9 +6,9 @@ set wildmenu
 if has('gui')
   set guifont=JetbrainsMono NF:h14
 endif
-if has('termguicolors')
-	set termguicolors
-endif
+" if has('termguicolors')
+" 	set termguicolors
+" endif
 set nobackup
 set nowritebackup
 set noswapfile
@@ -51,8 +51,6 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-autocmd FileType python setlocal et sta sw=4 sts=4
-autocmd FileType rust setlocal et sta sw=2 sts=2
 set smarttab
 set autoindent
 set smartindent

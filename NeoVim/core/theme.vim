@@ -80,3 +80,10 @@ endfunction
 " let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+" hi! Cursor ctermfg=1 ctermbg=1 guifg=#FF0000 guibg=#FF0000
+" set guicursor=a:block-Cursor/Cursor-blinkon0
+" try to fix weird 'ff' charactors
+" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+" \,sm:block-blinkwait175-blinkoff150-blinkon175
