@@ -1,5 +1,8 @@
 "# Plugins (emulated)
 "> https://github.com/JetBrains/ideavim/wiki/emulated-plugins
+"## IM ideavimextension https://plugins.jetbrains.com/plugin/9615-ideavimextension/
+set keep-english-in-normal
+
 "## vim-easymotion
 "> https://github.com/AlexPl292/IdeaVim-EasyMotion#supported-commands
 "   Default Mapping |  <Plug> command       |
