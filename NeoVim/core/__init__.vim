@@ -75,6 +75,8 @@ exec 'source' g:mine0vim_path . '/core/mapping.vim'
 exec 'source' g:mine0vim_path . '/core/filetypes.vim'
 exec 'source' g:mine0vim_path . '/core/commands.vim'
 
+"lua require'bufferline'.setup()
+
 for plugin_config in split(glob(g:mine0vim_path . '/plugconf/*.vim'), '\n')
   exec 'source' plugin_config
 endfor

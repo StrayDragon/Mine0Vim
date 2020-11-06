@@ -63,8 +63,8 @@ function! s:show_documentation()
   endif
 endfunction
 " document up/down and not need jump to document buffer
-nnoremap <expr><C-f> coc#util#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
-nnoremap <expr><C-k> coc#util#has_float() ? coc#util#float_scroll(0) : "\<C-k>"
+nnoremap <expr><C-f> coc#float#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
+nnoremap <expr><C-k> coc#float#has_float() ? coc#util#float_scroll(0) : "\<C-k>"
 
 " Fix autofix problem of current line
 nmap gq <Plug>(coc-fix-current)

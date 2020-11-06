@@ -32,8 +32,15 @@ Plug 'brooth/far.vim'
 " Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
 
+"## DB enhancement
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
 "## CocList + Fzf enhancement
 " Plug 'antoinemadec/coc-fzf'
+
+"## Finder and dispatcher
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 "## File Navigation
 "- use coc-explorer
@@ -115,6 +122,11 @@ Plug 'doums/darcula'
 
 "### Status line and themes
 Plug 'itchyny/lightline.vim'
+
+"### Tab bufferline
+" Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+" " Plug 'ryanoasis/vim-devicons' Icons without colours
+" Plug 'akinsho/nvim-bufferline.lua'
 
 "### Display effect enhance
 Plug 'Yggdroot/indentLine'
