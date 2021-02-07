@@ -10,7 +10,7 @@ let content = [
             \ ["find in &file\t\\cx", 'echo 200' ],
             \ ["find in &project\t\\cp", 'echo 300' ],
             \ ["find in &defintion\t\\cd", 'echo 400' ],
-            \ ["search &references\t\\cr", 'echo 500'],
+            \ ["search &references\t\\cr", 'CocSearch <cword>'],
             \ ['-'],
             \ ["&documentation\t\\cm", 'echo 600'],
             \ ]

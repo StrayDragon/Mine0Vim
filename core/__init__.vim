@@ -79,8 +79,9 @@ for plugin_config in split(glob(g:mine0vim_path . '/plugconf/*.vim'), '\n')
   exec 'source' plugin_config
 endfor
 
-exec 'source' g:mine0vim_path . '/core/theme.vim'
-
 for coc_extension_config in split(glob(g:mine0vim_path . '/plugconf/coc/*.vim'), '\n')
   exec 'source' coc_extension_config
 endfor
+
+exec 'source' g:mine0vim_path . '/core/theme.vim'
+

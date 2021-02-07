@@ -1,4 +1,4 @@
-syntax on
+syntax enable
 filetype plugin indent on
 " set autochdir
 set noautochdir
@@ -6,9 +6,9 @@ set wildmenu
 if has('gui')
   set guifont=JetbrainsMono NF:h14
 endif
-if has('termguicolors')
-	set termguicolors
-endif
+" if has('termguicolors')
+" 	set termguicolors
+" endif
 set nobackup
 set nowritebackup
 set noswapfile
@@ -43,7 +43,7 @@ endif
 set updatetime=100
 set undofile
 set undodir=~/.tmp/undo
-set relativenumber
+" set relativenumber
 set backspace=2
 set backspace=indent,eol,start
 set textwidth=100
@@ -150,3 +150,10 @@ endif
             "\ |   NERDTree
             "\ |   wincmd w
             "\ | endif
+
+"disable all statusline
+" let s:hidden_all = 1
+" set noshowmode
+" set noruler
+" set laststatus=0
+" set noshowcmd

@@ -6,6 +6,7 @@
 " 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 " endif
 
+let g:coc_node_path = '~/LibHateRoot/node/bin/node'
 
 if get(s:, 'mine0vim_loaded', 0) != 0
 	finish
