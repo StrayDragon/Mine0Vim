@@ -43,7 +43,7 @@ endif
 set updatetime=100
 set undofile
 set undodir=~/.tmp/undo
-set relativenumber
+"set relativenumber
 set backspace=2
 set backspace=indent,eol,start
 set textwidth=100
