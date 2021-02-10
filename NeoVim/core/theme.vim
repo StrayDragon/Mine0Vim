@@ -46,7 +46,7 @@ let g:lightline = {
      \    'colorscheme': 'jellybeans',
      \    'active': {
      \      'left': [ [ 'mode', 'paste' ],
-     \                [  'git_branch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
+     \                [  'git_branch', 'cocstatus', 'readonly', 'filename', 'modified', 'method' ] ],
      \      'right':[
      \        [ 'fileencoding', 'lineinfo'],
      \        [ 'blame' ]
@@ -55,7 +55,8 @@ let g:lightline = {
      \    'component_function': {
      \      'cocstatus': 'coc#status',
      \      'blame': 'LightlineGitBlame',
-     \      'git_branch' : 'LightlineGitBranch'
+     \      'git_branch' : 'LightlineGitBranch',
+     \      'method': 'NearestMethodOrFunction'
      \    },
      \ }
 
