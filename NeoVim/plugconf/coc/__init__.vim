@@ -11,8 +11,6 @@ let g:coc_global_extensions = [
   \ 'coc-lists',
   \ 'coc-json', 
   \ 'coc-snippets', 
-  \ "coc-template",   
-  \ "coc-bookmark",   
   \ "coc-floaterm",   
   \ "coc-translator",   
   \ ]

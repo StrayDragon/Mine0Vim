@@ -27,7 +27,7 @@ Plug 'brglng/vim-im-select'
 
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
-Plug 'brooth/far.vim'
+" Plug 'brooth/far.vim'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
@@ -149,7 +149,7 @@ Plug 'tpope/vim-commentary'
 "### Documentation
 
 "#### Find
-Plug 'KabbAmine/zeavim.vim' 
+" Plug 'KabbAmine/zeavim.vim' 
 
 "#### Edit
 Plug 'kkoomen/vim-doge'
@@ -196,7 +196,7 @@ endif
 
 "### Python
 " if has('nvim')
-Plug 'numirias/semshi'            ,  { 'do': ':UpdateRemotePlugins' }
+" Plug 'numirias/semshi'            ,  { 'do': ':UpdateRemotePlugins' }
 " endif
 "Plug 'tweekmonster/braceless.vim'
 "Plug 'tmhedberg/SimpylFold'

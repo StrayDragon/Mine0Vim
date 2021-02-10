@@ -2,6 +2,8 @@
 
 "# Context/Action
 let content = [
+            \ ["surround &''", "normal ysiw'"],
+            \ ['surround &""', 'normal ysiw"'],
             \ ["surround &[]", 'normal ysiw['],
             \ ["surround &()", 'normal ysiw('],
             \ ["surround &{}", 'normal ysiw{'],
