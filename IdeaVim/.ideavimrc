@@ -3,6 +3,9 @@
 "## IM ideavimextension https://plugins.jetbrains.com/plugin/9615-ideavimextension/
 set keep-english-in-normal
 
+"vim-sneak
+set sneak
+
 "## vim-easymotion
 "> https://github.com/AlexPl292/IdeaVim-EasyMotion#supported-commands
 "   Default Mapping |  <Plug> command       |
