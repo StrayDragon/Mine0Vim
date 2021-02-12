@@ -107,6 +107,17 @@ if has('folding')
 	set foldmethod=syntax
 	set foldlevelstart=99
 endif
+if has('mac')
+  set guicursor=
+  " Workaround some broken plugins which set guicursor indiscriminately.
+  autocmd OptionSet guicursor noautocmd set guicursor=
+  " hi Cursor guifg=green guibg=white
+  " hi Cursor2 guifg=red guibg=white
+  " set guicursor=n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50
+  " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  "       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  "       \,sm:block-blinkwait175-blinkoff150-blinkon175
+endif
 " set undofile swapfile nobackup
 " set directory=$DATA_PATH/swap//,$DATA_PATH,~/tmp,/var/tmp,/tmp
 " set undodir=$DATA_PATH/undo//,$DATA_PATH,~/tmp,/var/tmp,/tmp
