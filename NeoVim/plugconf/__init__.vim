@@ -30,7 +30,8 @@ Plug 'brglng/vim-im-select'
 " Plug 'brooth/far.vim'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'junegunn/fzf.vim'
-"Plug 'liuchengxu/vim-clap' "FIXME:HowToUSE
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 "## DB enhancement
 Plug 'tpope/vim-dadbod'
@@ -38,9 +39,6 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 
 "## CocList + Fzf enhancement
 " Plug 'antoinemadec/coc-fzf'
-
-"## Finder and dispatcher
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
 "## File Navigation
 "- use coc-explorer

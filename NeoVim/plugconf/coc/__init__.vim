@@ -5,7 +5,6 @@ let g:coc_global_extensions = [
   \ 'coc-pairs', 
   \ 'coc-smartf', 
   \ 'coc-marketplace',
-  \ 'coc-highlight',
   \ 'coc-git',
   \ 'coc-gitignore',
   \ 'coc-lists',
