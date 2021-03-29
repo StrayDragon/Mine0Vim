@@ -18,6 +18,32 @@ $ ln -n -s <pwd for this repo> ~/.config/nvim
 $ nvim +PlugUpdate
 ```
 
+### Ensure other deps
+#### Python2/3
+> use [pyenv/pyenv-virtualenv](https://github.com/pyenv/pyenv-installer) manage versions
+```bash
+# py2
+pyenv install 2.7.18
+# use Chinese mirror
+# v=2.7.18 ; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/;pyenv install $v
+pyenv virtualenv 2.7.18 pynvim2
+pyenv activate pynvim2
+pip install pynvim
+
+# py3
+pyenv install 3.8.5
+# use Chinese mirror
+# v=3.8.5 ; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/;pyenv install $v
+pyenv virtualenv 3.8.5 pynvim3
+pyenv activate pynvim3
+pip install pynvim
+```
+#### Nodejs 
+> use [n](https://github.com/tj/n)  manage versions
+```bash
+n lts
+```
+
 ## IdeaVim
 ```bash
 $ cd Mine0Vim/IdeaVim; pwd | clipcopy       # if you don't have command clipcopy, just copy the `pwd` of this repo
