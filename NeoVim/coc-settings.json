@@ -96,12 +96,12 @@
   //"vetur.dev.vlsPath": "/home/l8ng/.config/yarn/global/node_modules/vls",
   "prettier.disableLanguages": [],
   //## coc-python
-  "python.poetryPath": "poetry",
-  "python.jediEnabled": false,
-  "python.linting.flake8Enabled": false,
-  "python.linting.mypyEnabled": false,
+  //"python.poetryPath": "poetry",
+  //"python.jediEnabled": false,
+  //"python.linting.flake8Enabled": false,
+  //"python.linting.mypyEnabled": false,
   //"python.formatting.provider": "black",
-  "python.formatting.provider": "none",
+  //"python.formatting.provider": "none",
   //"python.analysis.downloadChannel": "daily",
   //"python.analysis.memory.keepLibraryAst": true,
   //## coc-pyright

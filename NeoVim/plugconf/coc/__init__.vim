@@ -14,7 +14,7 @@ let g:coc_global_extensions = [
   \ "coc-translator",   
   \ ]
 call coc#add_extension(
-  \ 'coc-python',
+  \ 'coc-pyright',
   \ 'coc-go',
   \ "coc-postfix",   
   \ 'coc-rls',

@@ -63,9 +63,15 @@ function! s:show_documentation()
   endif
 endfunction
 " document up/down and not need jump to document buffer
-nnoremap <expr><C-f> coc#float#has_float() ? coc#util#float_scroll(1) : "\<C-f>"
-nnoremap <expr><C-k> coc#float#has_float() ? coc#util#float_scroll(0) : "\<C-k>"
-
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 " Fix autofix problem of current line
 nmap gq <Plug>(coc-fix-current)
 
