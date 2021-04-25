@@ -221,4 +221,9 @@ Plug 'godlygeek/tabular'
 "Plug 'voldikss/vim-floaterm' "FIXME:HowToUSE
 "Plug 'jceb/vim-orgmode' "FIXME:HowToUSE
 "Plug 'tpope/vim-eunuch' " do stuff like :SudoWrite
+
+"## Patch and workaround plugins
+if has('nvim')
+Plug 'antoinemadec/FixCursorHold.nvim'
+endif
 call plug#end()
