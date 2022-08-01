@@ -1,5 +1,5 @@
 {
-  //"http.proxy": "127.0.0.1:7890",
+  //"http.proxy": "http://127.0.0.1:57890",
   //# coc.nvim global configurations
   "coc.preferences.extensionUpdateCheck": "weekly",
   "coc.preferences.formatOnSaveFiletypes": [
@@ -49,7 +49,6 @@
   //"suggest.acceptSuggestionOnCommitCharacter": true,
   //"suggest.maxCompleteItemCount": 14,
   "diagnostic.virtualText": true,
-  "diagnostic.signOffset": 9999999,
   "diagnostic.displayByAle": false,
   "diagnostic.refreshOnInsertMode": true,
   //## coc-list
@@ -89,12 +88,12 @@
   // coc-xml
   "xml.java.home": "~/.sdkman/candidates/java/12.0.2-open",
   //## coc-tsserver
-  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  //"javascript.implicitProjectConfig.experimentalDecorators": true,
   //## coc-flutter
-  "flutter.lsp.initialization.closingLabels": true,
+  //"flutter.lsp.initialization.closingLabels": true,
   //## coc-vetur
   //"vetur.dev.vlsPath": "/home/l8ng/.config/yarn/global/node_modules/vls",
-  "prettier.disableLanguages": [],
+  //"prettier.disableLanguages": [],
   //## coc-python
   //"python.poetryPath": "poetry",
   //"python.jediEnabled": false,
@@ -109,9 +108,9 @@
   //"pyright.useLibraryCodeForTypes": true,
   //"pyright.disableLanguageServices": true,
   //## coc-java
-  "java.trace.server": "verbose",
-  "java.signatureHelp.enabled": true,
-  "java.format.settings.url": "/home/l8ng/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml",
+  //"java.trace.server": "verbose",
+  //"java.signatureHelp.enabled": true,
+  //"java.format.settings.url": "/home/l8ng/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml",
   //## coc-go
   //"go.goplsPath": "~/LibHateRoot/go/bin/gopls",
   //## coc-snippets
@@ -122,6 +121,7 @@
     "UltiSnips",
     "gosnippets/UltiSnips"
   ],
+  //## coc-rust
   //## coc-json
   "json.schemas": [
     {
@@ -139,9 +139,9 @@
     }
   ],
   //## coc-word
-  "coc.source.word.filetypes": [
-    "md"
-  ],
+  //"coc.source.word.filetypes": [
+  //  "md"
+  //],
   //## coc-todolist
   //## coc-yank
   "yank.enableCompletion": false,
@@ -159,7 +159,6 @@
   "explorer.previewAction.onHover": false,
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
-  "explorer.activeMode": true,
   "explorer.file.hiddenRules": {
     "extensions": [
       "o",
@@ -186,6 +185,9 @@
   "git.addedSign.text": "+",
   "git.changedSign.text": "~",
   "git.changeRemovedSign.text": "≃",
+  //# coc-template => aperezdc/vim-template (*)
+  //"template.username": "straydragon",
+  //"template.email": "straydragonv@gmail.com",
   //## coc-smartf => easymotion/vim-easymotion (-)
   "smartf.timeout": 2500,
   "smartf.charactersIgnoreByNavigator": [
@@ -195,9 +197,6 @@
     "x",
     "d",
     "y"
-  ],
-  //# coc-template => aperezdc/vim-template (*)
-  "template.username": "straydragon",
-  "template.email": "straydragonv@gmail.com"
+  ]
 }
 //reference: https://github.com/hardcoreplayers/ThinkVim/blob/master/coc-settings.json

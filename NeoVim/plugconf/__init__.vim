@@ -31,7 +31,7 @@ Plug 'brglng/vim-im-select'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'junegunn/fzf.vim'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+" Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 "## DB enhancement
 Plug 'tpope/vim-dadbod'
@@ -223,7 +223,7 @@ Plug 'godlygeek/tabular'
 "Plug 'tpope/vim-eunuch' " do stuff like :SudoWrite
 
 "## Patch and workaround plugins
-if has('nvim')
-Plug 'antoinemadec/FixCursorHold.nvim'
-endif
+" if has('nvim')
+" Plug 'antoinemadec/FixCursorHold.nvim'
+" endif
 call plug#end()
