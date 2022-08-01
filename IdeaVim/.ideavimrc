@@ -1,7 +1,7 @@
 "# Plugins (emulated)
 "> https://github.com/JetBrains/ideavim/wiki/emulated-plugins
 "## IM ideavimextension https://plugins.jetbrains.com/plugin/9615-ideavimextension/
-set keep-english-in-normal
+set keep-english-in-normal-and-restore-in-insert
 
 "vim-sneak
 set sneak
@@ -127,8 +127,8 @@ set sneak
 let mapleader=","
 set easymotion
 "map , <Plug>(easymotion-prefix)
-map ,f <Plug>(easymotion-s)
-map ,e <Plug>(easymotion-f)
+map ,s <Plug>(easymotion-s)
+map ,f <Plug>(easymotion-f)
 
 "## vim-surround
 "- ys, cs, ds, S
@@ -158,6 +158,10 @@ set exchange
 "## vim-textobj-entire
 "- text object: ae, ie
 set textobj-entire
+
+"## nerdtree
+Plug 'nerdtree'
+set nerdtree
 
 
 "# Settings
@@ -208,3 +212,7 @@ map <space>ma :action Annotate<CR>
 "# Cmd List
 map <space>l :actionlist
 map <space>a :action
+
+"# Copy ref
+map <space>cr :action CopyReference<CR>
+map <space>cR :action CopyReferencePopup<CR>
