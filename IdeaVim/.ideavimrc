@@ -188,9 +188,9 @@ set ideastatusicon=gray
 set idearefactormode=keep
 
 "# Debug
-map <space>dd :action Debug<CR>
-map <space>ds :action Stop<CR>
-map <space>db :action ToggleLineBreakpoint<CR>
+"map <space>dd :action Debug<CR>
+"map <space>ds :action Stop<CR>
+"map <space>db :action ToggleLineBreakpoint<CR>
 "map <leader>z :action ToggleDistractionFreeMode<CR>
 
 "# Refactor
@@ -198,7 +198,9 @@ map <space>rn :action RenameElement<CR>
 
 "# Reformat
 map <space>f :action ReformatCode<CR>
-"map <space>fb :action BlackReformatCode<CR>
+"map <space>f :action me.lensvol.blackconnect.actions.ReformatWholeFileAction<CR>
+"## - Python files
+"au FileType python map <space>f :action me.lensvol.blackconnect.actions.ReformatWholeFileAction<CR>
 
 "# Navigation
 map <A-o> :action FileStructurePopup<CR>
@@ -210,8 +212,8 @@ map <space>ma :action Annotate<CR>
 "map <leader>h :action Vcs.ShowTabbedFileHistory<CR>
 
 "# Cmd List
-map <space>l :actionlist
-map <space>a :action
+map <space>l :actionlist<CR>
+map <space>a :action<space>
 
 "# Copy ref
 map <space>cr :action CopyReference<CR>

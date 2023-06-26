@@ -46,7 +46,7 @@ set undodir=~/.tmp/undo
 "set relativenumber
 set backspace=2
 set backspace=indent,eol,start
-set textwidth=100
+set textwidth=200
 set expandtab
 set tabstop=2
 set softtabstop=2
