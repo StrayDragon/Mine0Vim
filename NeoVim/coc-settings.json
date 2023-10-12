@@ -1,5 +1,6 @@
 {
-  //"http.proxy": "http://127.0.0.1:57890",
+  "npm.binPath": "yarn",
+  "http.proxy": "http://127.0.0.1:20171",
   //# coc.nvim global configurations
   "coc.preferences.extensionUpdateCheck": "weekly",
   "coc.preferences.formatOnSaveFiletypes": [
@@ -87,6 +88,8 @@
   "sql.lintOnChange": false,
   // coc-xml
   "xml.java.home": "~/.sdkman/candidates/java/12.0.2-open",
+  //## coc-rust-analyzer
+  "rust-analyzer.server.path": "/usr/lib/rustup/bin/rust-analyzer",
   //## coc-tsserver
   //"javascript.implicitProjectConfig.experimentalDecorators": true,
   //## coc-flutter

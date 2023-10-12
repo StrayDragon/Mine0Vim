@@ -17,6 +17,6 @@ call coc#add_extension(
   \ 'coc-pyright',
   \ 'coc-go',
   \ "coc-postfix",   
-  \ 'coc-rls',
+  \ 'coc-rust-analyzer',
   \ 'coc-vimlsp',
   \ "coc-docker")  

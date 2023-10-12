@@ -23,7 +23,7 @@ Plug 'tweekmonster/startuptime.vim' , { 'on': ['StartupTime'] }
 
 "## Auto Switch IM
 "Plug 'StrayDragon/vim-smartim'
-Plug 'brglng/vim-im-select'
+"Plug 'brglng/vim-im-select'
 
 "## Finder
 " Plug 'dyng/ctrlsf.vim'
