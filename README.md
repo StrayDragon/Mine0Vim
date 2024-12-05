@@ -50,6 +50,12 @@ $ cd Mine0Vim/IdeaVim; pwd | clipcopy       # if you don't have command clipcopy
 $ ln -s <pwd for this repo> ~/.ideavimrc
 ```
 
+## VSCode
+```bash
+$ cd Mine0Vim/VSCode; cat settings.vim.json| clipcopy       # if you don't have command clipcopy, just copy the `pwd` of this repo
+$ # paste copied content to vscode settings manually!
+```
+
 # License
 
 MIT
