@@ -16,7 +16,6 @@ set autoread
 set autowrite
 set confirm
 set splitbelow
-set bsdir=buffer
 if has('mouse')
   set mouse=a
 endif
