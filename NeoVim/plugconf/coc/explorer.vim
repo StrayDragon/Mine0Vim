@@ -24,7 +24,7 @@ let g:coc_explorer_global_presets = {
 
 " Use preset argument to open it
 " nmap <space>ed :CocCommand explorer --preset nvim<CR>
-nmap <silent> <M-1> :CocCommand explorer --preset simplify<CR>
+nmap <silent> <C-1> :CocCommand explorer --preset simplify<CR>
 
 " List all presets
 " nmap <space>el :CocList explPresets

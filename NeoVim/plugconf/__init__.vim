@@ -60,7 +60,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'dbgx/lldb.nvim'
 
 "## Taglist
-Plug 'liuchengxu/vista.vim'
+" Plug 'liuchengxu/vista.vim'
+Plug 'stevearc/aerial.nvim'
 
 "## linter
 "- use coc's LSP
@@ -103,6 +104,8 @@ Plug 'gryf/dragvisuals'
 
 "## Global Colorschemes/Themes
 Plug 'doums/darcula'
+Plug 'sainnhe/edge'
+Plug 'NLKNguyen/papercolor-theme'
 " Plug 'lifepillar/vim-solarized8'
 " Plug 'rakr/vim-one'
 " Plug 'joshdick/onedark.vim'
@@ -157,7 +160,7 @@ Plug 'pseewald/vim-anyfold'
 
 "## Special Language enhancements
 "### highlight and treesitter based functions
-" Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 "### snippets
 "- use coc-snippets

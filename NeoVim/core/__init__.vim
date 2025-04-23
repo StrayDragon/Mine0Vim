@@ -53,10 +53,10 @@ endif
 "- start time influenced by remote-plugins
 if has('nvim')
   " let g:loaded_python_provider=1
-  let g:python_host_skip_check=1
-  let g:python_host_prog='$HOME/.pyenv/versions/2.7.18/envs/pynvim2/bin/python'
+  " let g:python_host_skip_check=1
+  " let g:python_host_prog='$HOME/.config/nvim/.venv-py2/bin/python'
   let g:python3_host_skip_check=1
-  let g:python3_host_prog='$HOME/.pyenv/versions/3.8.5/envs/pynvim3/bin/python'
+  let g:python3_host_prog='$HOME/.config/nvim/.venv/bin/python'
   let g:loaded_ruby_provider=0
 endif
 

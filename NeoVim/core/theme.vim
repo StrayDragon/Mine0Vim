@@ -25,8 +25,11 @@ if (empty($TMUX))
 endif
 
 syntax enable
-set background=dark
-colorscheme darcula
+" set background=dark
+set background=light
+" colorscheme darcula
+" colorscheme edge
+colorscheme PaperColor
 " colorscheme one
 " colorscheme ayu
 " colorscheme onedark
@@ -41,9 +44,9 @@ colorscheme darcula
 " let ayucolor="dark"
 " highlight Normal guibg=None ctermfg=None
 "## Statusline
-"- lightline.vim configuration
+"- lightline.vim configuration 'jellybeans'
 let g:lightline = {
-     \    'colorscheme': 'jellybeans',
+     \    'colorscheme': 'PaperColor', 
      \    'active': {
      \      'left': [ [ 'mode', 'paste' ],
      \                [  'git_branch', 'cocstatus', 'readonly', 'filename', 'modified', 'method' ] ],
