@@ -1,12 +1,12 @@
--- Mine0Vim NeoVimLua Configuration
--- 作者: straydragon
+-- Bridge entrypoint for Neovim
+-- Neovim loads this file from ~/.config/nvim/init.lua
+-- We delegate to the actual Lua config at lua/init.lua to avoid duplication
 
--- 核心配置加载
-require("core.options")       -- Vim 基本设置
-require("core.keymaps")       -- 按键映射
-require("core.autocmds")      -- 自动命令
-require("plugins")            -- 插件管理和配置
-require("lsp")                -- LSP配置
+local ok, err = pcall(function()
+  local cfg = vim.fn.stdpath("config")
+  dofile(cfg .. "/lua/init.lua")
+end)
 
--- 最后加载颜色主题
-require("core.colorscheme")   -- 颜色主题
+if not ok then
+  vim.api.nvim_echo({ { "Error loading lua/init.lua: " .. tostring(err), "ErrorMsg" } }, true, {})
+end

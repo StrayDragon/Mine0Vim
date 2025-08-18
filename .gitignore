@@ -1,3 +1,5 @@
+**/node_modules/
+**/.venv/
 **/plug.vim.old
 **/.DS_Store
 sessions/
@@ -132,3 +134,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+NeoVimLua/node_modules
