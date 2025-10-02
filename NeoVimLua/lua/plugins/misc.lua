@@ -542,9 +542,18 @@ return {
             -- Debug LSP status
             vim.keymap.set('n', '<leader>rl', function()
               print("LSP Clients active:")
-              local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+              local clients
+              if vim.lsp.get_clients then
+                -- Neovim 0.10+
+                clients = vim.lsp.get_clients({ bufnr = bufnr })
+              else
+                -- Fallback for older versions
+                clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+              end
+
               for _, client in ipairs(clients) do
-                print(string.format("- %s: %s", client.name, table.concat(client.server_capabilities.renameProvider and "✓ rename" or "✗ rename", ", ")))
+                local rename_status = client.server_capabilities.renameProvider and "✓ rename" or "✗ rename"
+                print(string.format("- %s: %s", client.name, rename_status))
               end
               if #clients == 0 then
                 print("No active LSP clients")
