@@ -395,29 +395,10 @@ return {
             vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
             vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
 
-            -- Override hover keymap with proper position encoding handling
+            -- Override hover keymap to use rustaceanvim hover actions
             vim.keymap.set('n', 'K', function()
-              -- Check if we want basic hover or hover actions
-              -- Try hover actions first, fallback to basic hover if that fails
-              local ok, err = pcall(function()
-                vim.cmd.RustLsp { 'hover', 'actions' }
-              end)
-
-              -- If hover actions fail, try basic hover
-              if not ok then
-                -- Use the standard LSP hover with proper encoding
-                local pos_encoding = client.offset_encoding or 'utf-8'
-                local params
-                if vim.fn.has('nvim-0.11') == 1 then
-                  params = vim.lsp.util.make_position_params({ position_encoding = pos_encoding })
-                else
-                  params = vim.lsp.util.make_position_params()
-                  params.position_encoding = pos_encoding
-                end
-
-                vim.lsp.buf_request(0, 'textDocument/hover', params)
-              end
-            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover' }))
+              vim.cmd.RustLsp { 'hover', 'actions' }
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover Actions' }))
 
             -- Rust-specific mappings (enhanced functionality)
 

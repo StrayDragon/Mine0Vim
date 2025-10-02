@@ -168,7 +168,27 @@ return {
         end,
       })
 
-      -- LSP handlers with borders
+      -- Override vim.lsp.util.make_position_params to always include position_encoding
+      local original_make_position_params = vim.lsp.util.make_position_params
+      vim.lsp.util.make_position_params = function(options)
+        local opts = options or {}
+
+        -- Get position encoding from first active client or default to utf-8
+        local clients = vim.lsp.get_active_clients()
+        local encoding = 'utf-8'
+
+        if clients and #clients > 0 then
+          encoding = clients[1].offset_encoding or 'utf-8'
+        end
+
+        -- Merge with provided options
+        opts.position_encoding = opts.position_encoding or encoding
+
+        -- Call original function with merged options
+        return original_make_position_params(opts)
+      end
+
+      -- LSP handlers with borders and proper encoding
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
         max_width = 80,
