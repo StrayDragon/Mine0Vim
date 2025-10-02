@@ -17,7 +17,7 @@ return {
       vim.keymap.set('n', '<C-CR>', function()
         -- Get LSP code actions at cursor
         local bufnr = vim.api.nvim_get_current_buf()
-        -- Determine proper position encoding from the first attached client (fallback utf-16)
+        -- Determine proper position encoding from the first attached client (fallback utf-8)
         local clients = {}
         if vim.lsp.get_clients then
           clients = vim.lsp.get_clients({ bufnr = bufnr })
@@ -25,20 +25,24 @@ return {
           clients = vim.lsp.get_active_clients()
         end
         local first = clients and clients[1] or nil
-        local enc = (first and first.offset_encoding) or 'utf-16'
+        local enc = (first and first.offset_encoding) or 'utf-8'
 
-        -- Build range params with explicit encoding, with compatibility fallbacks
-        local ok, params = pcall(function()
-          return vim.lsp.util.make_range_params(nil, enc)
+        -- Build range params with explicit encoding for Neovim 0.11+
+        local params
+        local ok, err = pcall(function()
+          if vim.fn.has('nvim-0.11') == 1 then
+            -- Neovim 0.11+ requires position_encoding
+            params = vim.lsp.util.make_range_params({ position_encoding = enc })
+          else
+            -- Older Neovim versions
+            params = vim.lsp.util.make_range_params()
+            params.position_encoding = enc
+          end
         end)
-        if not ok then
-          ok, params = pcall(function()
-            return vim.lsp.util.make_range_params({ position_encoding = enc })
-          end)
-        end
-        if not ok then
-          params = vim.lsp.util.make_range_params()
-          params.position_encoding = enc
+
+        if not ok or not params then
+          vim.notify("Failed to create range params: " .. (err or "unknown error"), vim.log.levels.ERROR)
+          return
         end
 
         params.context = { diagnostics = vim.diagnostic.get(bufnr, { lnum = vim.fn.line('.') - 1 }) }
@@ -326,5 +330,389 @@ return {
     end,
   },
 
+  -- Rust specific plugins
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4',
+    ft = { 'rust' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'mfussenegger/nvim-dap', -- Optional, for debugging
+    },
+    config = function()
+      vim.g.rustaceanvim = {
+        -- Plugin configuration following official guidelines
+        tools = {
+          -- Enable hover actions with floating window
+          hover_actions = {
+            border = 'rounded',
+            auto_focus = false, -- Don't auto-focus hover actions window
+          },
+
+          -- Test executor configuration
+          test_executor = 'termopen', -- Use termopen for test execution
+
+          -- Crate graph configuration (requires graphviz)
+          crate_graph = {
+            backend = 'dot', -- Use graphviz dot
+            output = 'svg',  -- Output format
+            enabled_graphviz_backends = { 'dot', 'neato', 'fdp', 'sfdp', 'twopi' },
+          },
+
+          -- Code actions UI fallback
+          code_actions = {
+            ui_select_fallback = true, -- Fall back to vim.ui.select when no grouped actions
+          },
+        },
+
+        -- LSP configuration (rustaceanvim handles rust-analyzer automatically)
+        server = {
+          -- Custom on_attach for Rust-specific keymaps
+          on_attach = function(client, bufnr)
+            local opts = { buffer = bufnr, noremap = true, silent = true, desc = '' }
+
+            -- Override hover keymap to show hover actions (recommended by official docs)
+            vim.keymap.set('n', 'K', function()
+              vim.cmd.RustLsp { 'hover', 'actions' }
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover Actions' }))
+
+            -- Standard LSP mappings are already handled by lsp.lua
+            -- Only add Rust-specific mappings here
+
+            -- Enhanced code actions (grouped) - Rust-specific enhancement
+            vim.keymap.set('n', '<leader>ca', function()
+              vim.cmd.RustLsp('codeAction')
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Code Actions (Grouped)' }))
+
+            -- Debugging commands - following your existing <leader>d pattern
+            vim.keymap.set('n', '<leader>dr', function()
+              vim.cmd.RustLsp('debuggables')
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Debuggables' }))
+
+            vim.keymap.set('n', '<leader>dR', function()
+              vim.cmd.RustLsp { 'debug', bang = true } -- Rerun last debuggable
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Debug Last' }))
+
+            -- Running commands - consolidated under single <leader>rr
+            vim.keymap.set('n', '<leader>rr', function()
+              vim.cmd.RustLsp('runnables')
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Runnables' }))
+
+            vim.keymap.set('n', '<leader>rR', function()
+              vim.cmd.RustLsp { 'runnables', bang = true } -- Rerun last runnable
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Run Last' }))
+
+            -- Testing commands - following vim-test patterns
+            vim.keymap.set('n', '<leader>tn', function()
+              vim.cmd.RustLsp('testables') -- Test nearest function
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Test Nearest' }))
+
+            vim.keymap.set('n', '<leader>tf', function()
+              vim.cmd.RustLsp { 'testables', bang = true } -- Test current file
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Test File' }))
+
+            -- Macro operations - simplified key mapping pattern
+            vim.keymap.set('n', '<leader>rm', function()
+              vim.cmd.RustLsp('expandMacro')
+            end, vim.tbl_extend('force', opts, { desc = 'Expand Macro' }))
+
+            vim.keymap.set('n', '<leader>rM', function()
+              vim.cmd.RustLsp('rebuildProcMacros')
+            end, vim.tbl_extend('force', opts, { desc = 'Rebuild Proc Macros' }))
+
+            -- Code analysis and debugging - using <leader>g for "go/analysis" pattern
+            vim.keymap.set('n', '<leader>gs', function()
+              vim.cmd.RustLsp('ssr')
+            end, vim.tbl_extend('force', opts, { desc = 'Structural Search Replace' }))
+
+            vim.keymap.set('n', '<leader>rd', function()
+              vim.cmd.RustLsp('renderDiagnostic')
+            end, vim.tbl_extend('force', opts, { desc = 'Render Diagnostic' }))
+
+            vim.keymap.set('n', '<leader>re', function()
+              vim.cmd.RustLsp('explainError')
+            end, vim.tbl_extend('force', opts, { desc = 'Explain Error' }))
+
+            vim.keymap.set('n', '<leader>gq', function()
+              vim.cmd.RustLsp('relatedDiagnostics')
+            end, vim.tbl_extend('force', opts, { desc = 'Related Diagnostics' }))
+
+            -- File and project navigation - following your existing patterns
+            vim.keymap.set('n', '<leader>ro', function()
+              vim.cmd.RustLsp('openCargo')
+            end, vim.tbl_extend('force', opts, { desc = 'Open Cargo.toml' }))
+
+            vim.keymap.set('n', '<leader>K', function()
+              vim.cmd.RustLsp('openDocs')
+            end, vim.tbl_extend('force', opts, { desc = 'Open Rust Documentation' }))
+
+            vim.keymap.set('n', '<leader>rp', function()
+              vim.cmd.RustLsp('parentModule')
+            end, vim.tbl_extend('force', opts, { desc = 'Parent Module' }))
+
+            -- Code manipulation - using simpler, more intuitive patterns
+            vim.keymap.set('n', '<leader>gj', function()
+              vim.cmd.RustLsp('joinLines')
+            end, vim.tbl_extend('force', opts, { desc = 'Join Lines' }))
+
+            vim.keymap.set('n', '<leader>gi', function()
+              vim.cmd.RustLsp { 'moveItem', 'up' }
+            end, vim.tbl_extend('force', opts, { desc = 'Move Item Up' }))
+
+            vim.keymap.set('n', '<leader>gk', function()
+              vim.cmd.RustLsp { 'moveItem', 'down' }
+            end, vim.tbl_extend('force', opts, { desc = 'Move Item Down' }))
+
+            -- Advanced features - simplified patterns
+            vim.keymap.set('n', '<leader>cg', function()
+              vim.cmd.RustLsp('crateGraph')
+            end, vim.tbl_extend('force', opts, { desc = 'Crate Graph' }))
+
+            vim.keymap.set('n', '<leader>cs', function()
+              vim.cmd.RustLsp('syntaxTree')
+            end, vim.tbl_extend('force', opts, { desc = 'Syntax Tree' }))
+
+            -- Hover actions - keeping your existing <leader>ra pattern
+            vim.keymap.set('n', '<leader>ra', '<Plug>RustHoverAction',
+              vim.tbl_extend('force', opts, { desc = 'Execute Hover Action' }))
+
+            vim.keymap.set('n', '<leader>rh', function()
+              vim.cmd.RustLsp { 'hover', 'range' }
+            end, vim.tbl_extend('force', opts, { desc = 'Hover Range' }))
+
+            -- Fly check (background cargo check) - simplified pattern
+            vim.keymap.set('n', '<leader>cc', function()
+              vim.cmd.RustLsp { 'flyCheck', 'run' }
+            end, vim.tbl_extend('force', opts, { desc = 'Cargo Check Run' }))
+
+            vim.keymap.set('n', '<leader>cC', function()
+              vim.cmd.RustLsp { 'flyCheck', 'clear' }
+            end, vim.tbl_extend('force', opts, { desc = 'Cargo Check Clear' }))
+
+            vim.keymap.set('n', '<leader>cX', function()
+              vim.cmd.RustLsp { 'flyCheck', 'cancel' }
+            end, vim.tbl_extend('force', opts, { desc = 'Cargo Check Cancel' }))
+
+            -- Workspace symbol search - following telescope patterns
+            vim.keymap.set('n', '<space>s', function()
+              vim.cmd.RustLsp('workspaceSymbol')
+            end, vim.tbl_extend('force', opts, { desc = 'Workspace Symbol' }))
+
+            vim.keymap.set('n', '<space>S', function()
+              vim.cmd.RustLsp { 'workspaceSymbol', 'allSymbols', bang = true }
+            end, vim.tbl_extend('force', opts, { desc = 'Workspace All Symbols' }))
+
+            -- Additional Rustc commands (requires nightly compiler) - optional
+            vim.keymap.set('n', '<leader>rhb', function()
+              vim.cmd.Rustc { 'unpretty', 'hir' }
+            end, vim.tbl_extend('force', opts, { desc = 'Rustc HIR' }))
+
+            vim.keymap.set('n', '<leader>rbm', function()
+              vim.cmd.Rustc { 'unpretty', 'mir' }
+            end, vim.tbl_extend('force', opts, { desc = 'Rustc MIR' }))
+
+            -- Inlay hints (Neovim 0.10+ handles these natively, but we can enable/disable them)
+            vim.keymap.set('n', '<leader>rih', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+            end, vim.tbl_extend('force', opts, { desc = 'Toggle Inlay Hints' }))
+          end,
+
+          -- rust-analyzer server settings (comprehensive configuration)
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ['rust-analyzer'] = {
+              -- Cargo configuration
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                features = "all", -- Enable all features
+              },
+
+              -- Build configuration
+              buildScripts = {
+                enable = true,
+              },
+
+              -- Proc macro support
+              procMacro = {
+                enable = true,
+                attributes = { enable = true },
+              },
+
+              -- Completion configuration
+              completion = {
+                addCallParentheses = true,
+                addCallArgumentSnippets = true,
+                postfix = { enable = true },
+                autoimport = { enable = true },
+              },
+
+              -- Diagnostics configuration
+              diagnostics = {
+                enable = true,
+                experimental = { enable = true },
+                disabled = { 'unresolved-proc-macro' },
+                styleLints = { enable = true },
+              },
+
+              -- Inlay hints (Neovim 0.10+ handles these natively)
+              inlayHints = {
+                bindingModeHints = { enable = true },
+                chainingHints = { enable = true },
+                closingBraceHints = { minLines = 25 },
+                discriminantHints = { enable = true },
+                lifetimeElisionHints = {
+                  enable = 'skip_trivial',
+                  useParameterNames = true,
+                },
+                maxLength = 25,
+                parameterHints = { enable = true },
+                reborrowHints = { enable = 'mutable' },
+                renderColon = false,
+                typeHints = {
+                  hideClosureInitialization = false,
+                  hideNamedConstructor = false,
+                },
+              },
+
+              -- Hover configuration
+              hover = {
+                actions = {
+                  enable = true,
+                  implementations = true,
+                  references = true,
+                  run = true,
+                },
+                documentation = { enable = true },
+                links = { enable = true },
+              },
+
+              -- Lens configuration
+              lens = {
+                enable = true,
+                implementations = { enable = true },
+                references = {
+                  adt = { enable = true },
+                  enumVariant = { enable = true },
+                  method = { enable = true },
+                  trait = { enable = true },
+                },
+                run = { enable = true },
+              },
+
+              -- Check configuration
+              check = {
+                command = 'clippy',
+                extraArgs = { '--all', '--all-features', '--', '-D', 'warnings' },
+                features = 'all',
+              },
+
+              -- Semantic highlighting
+              semanticHighlighting = {
+                strings = { enable = true },
+              },
+
+              -- Workspace symbol search
+              workspace = {
+                symbol = {
+                  search = {
+                    kind = 'all',
+                    limit = 200,
+                  },
+                },
+              },
+            },
+          },
+        },
+
+        -- DAP (Debug Adapter Protocol) configuration
+        dap = {
+          -- Auto-load DAP configurations
+          autoload_configurations = true,
+          -- Try to auto-detect debug adapters
+          adapter = {
+            type = 'executable',
+            command = function()
+              -- Try to find codelldb first (better experience)
+              if vim.fn.executable('codelldb') == 1 then
+                return { 'codelldb' }
+              elseif vim.fn.executable('lldb-vscode') == 1 then
+                return { 'lldb-vscode' }
+              else
+                return { 'lldb-dap' }
+              end
+            end,
+            name = 'rt_lldb',
+          },
+        },
+      }
+    end,
+  },
+
+  -- Cargo.toml management
+  {
+    'saecki/crates.nvim',
+    event = { 'BufRead Cargo.toml' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('crates').setup({
+        src = {
+          cmp = {
+            enabled = true,
+          },
+        },
+      })
+
+      -- Key mappings for cargo operations
+      vim.keymap.set('n', '<leader>ct', function()
+        require('crates').toggle()
+      end, { desc = 'Toggle Crate Versions' })
+
+      vim.keymap.set('n', '<leader>cu', function()
+        require('crates').upgrade_crate()
+      end, { desc = 'Upgrade Crate' })
+
+      vim.keymap.set('n', '<leader>cA', function()
+        require('crates').upgrade_all_crates()
+      end, { desc = 'Upgrade All Crates' })
+
+      vim.keymap.set('n', '<leader>cr', function()
+        require('crates').reload()
+      end, { desc = 'Reload Crates' })
+    end,
+  },
+
+  -- Rust test runner
+  {
+    'vim-test/vim-test',
+    ft = { 'rust' },
+    dependencies = {
+      'preservim/vimux',
+    },
+    config = function()
+      -- Test configuration for Rust
+      vim.g['test#rust#runner'] = 'cargo'
+      vim.g['test#rust#cargo#options'] = '--quiet'
+
+      -- Key mappings for testing
+      vim.keymap.set('n', '<leader>tn', function()
+        vim.cmd('TestNearest')
+      end, { desc = 'Test Nearest' })
+
+      vim.keymap.set('n', '<leader>tf', function()
+        vim.cmd('TestFile')
+      end, { desc = 'Test File' })
+
+      vim.keymap.set('n', '<leader>ts', function()
+        vim.cmd('TestSuite')
+      end, { desc = 'Test Suite' })
+
+      vim.keymap.set('n', '<leader>tl', function()
+        vim.cmd('TestLast')
+      end, { desc = 'Test Last' })
+    end,
+  },
 
 }

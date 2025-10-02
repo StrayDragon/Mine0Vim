@@ -34,7 +34,6 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       -- Unify position encodings across all clients to avoid mixed UTF-8/UTF-16 warnings
       capabilities.general = capabilities.general or {}
@@ -73,7 +72,7 @@ return {
             local ok, err = pcall(function()
               if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
                 vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                
+
                 -- Add autocmd to disable inlay hints during text changes to prevent col out of range
                 local group = vim.api.nvim_create_augroup("InlayHintProtection_" .. bufnr, { clear = true })
                 vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufDelete", "BufWipeout" }, {
@@ -102,55 +101,71 @@ return {
         end
       end
 
-
-      -- Python LSP (primary requirement)
-      lspconfig.basedpyright.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          basedpyright = {
-            analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              diagnosticMode = "workspace",
-              -- Enable inlay hints for type annotations
-              inlayHints = {
-                variableTypes = true,
-                functionReturnTypes = true,
-                callArgumentNames = "partial",
+      -- Use new vim.lsp.config API (Neovim 0.11+)
+      local lsp_configs = {
+        -- Python LSP (primary requirement)
+        basedpyright = {
+          cmd = { "basedpyright-langserver", "--stdio" },
+          filetypes = { "python" },
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = {
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+                -- Enable inlay hints for type annotations
+                inlayHints = {
+                  variableTypes = true,
+                  functionReturnTypes = true,
+                  callArgumentNames = "partial",
+                },
               },
             },
           },
         },
-      })
 
-      -- Lua LSP
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" } },
-            workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
-              checkThirdParty = false,
+        -- Lua LSP
+        lua_ls = {
+          cmd = { "lua-language-server" },
+          filetypes = { "lua" },
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = {
+            Lua = {
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim" } },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              telemetry = { enable = false },
             },
-            telemetry = { enable = false },
           },
         },
-      })
 
-      -- Rust LSP
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = { allFeatures = true },
-            procMacro = { enable = true },
-          },
-        },
+        }
+
+      -- Register LSP configurations using new API
+      for server_name, config in pairs(lsp_configs) do
+        vim.lsp.config(server_name, config)
+      end
+
+      -- Auto-start LSP servers for appropriate filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          local filetype = args.file
+          local lsp_map = {
+            python = "basedpyright",
+            lua = "lua_ls",
+          }
+
+          local server = lsp_map[filetype]
+          if server then
+            vim.lsp.enable(server)
+          end
+        end,
       })
 
       -- LSP handlers with borders
@@ -159,7 +174,7 @@ return {
         max_width = 80,
         max_height = 30,
       })
-      
+
       vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = "rounded",
         max_width = 80,
@@ -187,8 +202,6 @@ return {
           prefix = "",
         },
       })
-
-      -- Removed deprecated sign_define usage in favor of vim.diagnostic.config
     end,
   },
 }
