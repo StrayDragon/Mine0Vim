@@ -340,6 +340,14 @@ return {
       'mfussenegger/nvim-dap', -- Optional, for debugging
     },
     config = function()
+      -- Determine available debug adapter at config time
+      local debug_adapter = 'lldb-dap'  -- fallback
+      if vim.fn.executable('codelldb') == 1 then
+        debug_adapter = 'codelldb'
+      elseif vim.fn.executable('lldb-vscode') == 1 then
+        debug_adapter = 'lldb-vscode'
+      end
+
       vim.g.rustaceanvim = {
         -- Plugin configuration following official guidelines
         tools = {
@@ -661,19 +669,9 @@ return {
         dap = {
           -- Auto-load DAP configurations
           autoload_configurations = true,
-          -- Try to auto-detect debug adapters
           adapter = {
             type = 'executable',
-            command = function()
-              -- Try to find codelldb first (better experience)
-              if vim.fn.executable('codelldb') == 1 then
-                return { 'codelldb' }
-              elseif vim.fn.executable('lldb-vscode') == 1 then
-                return { 'lldb-vscode' }
-              else
-                return { 'lldb-dap' }
-              end
-            end,
+            command = debug_adapter,
             name = 'rt_lldb',
           },
         },
