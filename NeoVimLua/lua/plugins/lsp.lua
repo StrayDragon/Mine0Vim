@@ -168,36 +168,7 @@ return {
         end,
       })
 
-      -- Override vim.lsp.util.make_position_params to always include position_encoding
-      local original_make_position_params = vim.lsp.util.make_position_params
-      vim.lsp.util.make_position_params = function(opts, win_id)
-        opts = opts or {}
-
-        -- Get position encoding from first active client or default to utf-8
-        local clients
-        if vim.lsp.get_clients then
-          -- Neovim 0.10+
-          clients = vim.lsp.get_clients({ bufnr = 0 })
-        else
-          -- Fallback for older versions
-          clients = vim.lsp.get_active_clients({ bufnr = 0 })
-        end
-
-        local encoding = 'utf-8'
-        if clients and #clients > 0 then
-          encoding = clients[1].offset_encoding or 'utf-8'
-        end
-
-        -- Set position encoding if not provided
-        if not opts.position_encoding then
-          opts.position_encoding = encoding
-        end
-
-        -- Call original function with correct parameters
-        return original_make_position_params(opts, win_id)
-      end
-
-      -- LSP handlers with borders and proper encoding
+        -- LSP handlers with borders
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
         max_width = 80,

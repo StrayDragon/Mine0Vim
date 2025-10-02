@@ -395,10 +395,18 @@ return {
             vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
             vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
 
-            -- Override hover keymap to use rustaceanvim hover actions
+            -- Override hover keymap with safe hover actions
             vim.keymap.set('n', 'K', function()
-              vim.cmd.RustLsp { 'hover', 'actions' }
-            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover Actions' }))
+              -- Try rustaceanvim hover actions first
+              local ok, err = pcall(function()
+                vim.cmd.RustLsp { 'hover', 'actions' }
+              end)
+
+              -- If that fails, fallback to standard LSP hover
+              if not ok then
+                vim.lsp.buf.hover()
+              end
+            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover' }))
 
             -- Rust-specific mappings (enhanced functionality)
 
@@ -561,116 +569,21 @@ return {
             end, vim.tbl_extend('force', opts, { desc = 'LSP Status' }))
           end,
 
-          -- rust-analyzer server settings (comprehensive configuration)
+          -- rust-analyzer server settings (simplified for stability)
           default_settings = {
-            -- rust-analyzer language server configuration
             ['rust-analyzer'] = {
-              -- Position encoding for consistency
-              offsetEncoding = 'utf-8',
-              -- Cargo configuration
-              cargo = {
-                allFeatures = true,
-                loadOutDirsFromCheck = true,
-                features = "all", -- Enable all features
+              cargo = { allFeatures = true },
+              checkOnSave = {
+                command = "clippy",
+                extraArgs = { "--all", "--all-features", "--", "-D", "warnings" },
               },
-
-              -- Build configuration
-              buildScripts = {
-                enable = true,
-              },
-
-              -- Proc macro support
-              procMacro = {
-                enable = true,
-                attributes = { enable = true },
-              },
-
-              -- Completion configuration
-              completion = {
-                addCallParentheses = true,
-                addCallArgumentSnippets = true,
-                postfix = { enable = true },
-                autoimport = { enable = true },
-              },
-
-              -- Rename configuration
-              rename = {
-                enable = true,
-              },
-
-              -- Diagnostics configuration
-              diagnostics = {
-                enable = true,
-                experimental = { enable = true },
-                disabled = { 'unresolved-proc-macro' },
-                styleLints = { enable = true },
-              },
-
-              -- Inlay hints (Neovim 0.10+ handles these natively)
+              procMacro = { enable = true },
               inlayHints = {
-                bindingModeHints = { enable = true },
-                chainingHints = { enable = true },
-                closingBraceHints = { minLines = 25 },
-                discriminantHints = { enable = true },
-                lifetimeElisionHints = {
-                  enable = 'skip_trivial',
-                  useParameterNames = true,
-                },
-                maxLength = 25,
-                parameterHints = { enable = true },
-                reborrowHints = { enable = 'mutable' },
-                renderColon = false,
-                typeHints = {
-                  hideClosureInitialization = false,
-                  hideNamedConstructor = false,
-                },
-              },
-
-              -- Hover configuration
-              hover = {
-                actions = {
-                  enable = true,
-                  implementations = true,
-                  references = true,
-                  run = true,
-                },
-                documentation = { enable = true },
-                links = { enable = true },
-              },
-
-              -- Lens configuration
-              lens = {
                 enable = true,
-                implementations = { enable = true },
-                references = {
-                  adt = { enable = true },
-                  enumVariant = { enable = true },
-                  method = { enable = true },
-                  trait = { enable = true },
-                },
-                run = { enable = true },
-              },
-
-              -- Check configuration
-              check = {
-                command = 'clippy',
-                extraArgs = { '--all', '--all-features', '--', '-D', 'warnings' },
-                features = 'all',
-              },
-
-              -- Semantic highlighting
-              semanticHighlighting = {
-                strings = { enable = true },
-              },
-
-              -- Workspace symbol search
-              workspace = {
-                symbol = {
-                  search = {
-                    kind = 'all',
-                    limit = 200,
-                  },
-                },
+                typeHints = { enable = true },
+                parameterHints = { enable = true },
+                chainingHints = { enable = true },
+                lifetimeElisionHints = { enable = "skip_trivial" },
               },
             },
           },
