@@ -371,13 +371,28 @@ return {
           on_attach = function(client, bufnr)
             local opts = { buffer = bufnr, noremap = true, silent = true, desc = '' }
 
+            -- Standard LSP mappings (ensure they work in Rust files)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+            vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+            vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, vim.tbl_extend('force', opts, {
+              desc = 'LSP Rename'
+            }))
+            vim.keymap.set({'n', 'x'}, '<leader>a', vim.lsp.buf.code_action, opts)
+            vim.keymap.set({'n', 'x'}, '<leader>f', function()
+              vim.lsp.buf.format({ async = true })
+            end, opts)
+            vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+            vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
+            vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
+
             -- Override hover keymap to show hover actions (recommended by official docs)
             vim.keymap.set('n', 'K', function()
               vim.cmd.RustLsp { 'hover', 'actions' }
             end, vim.tbl_extend('force', opts, { desc = 'Rust Hover Actions' }))
 
-            -- Standard LSP mappings are already handled by lsp.lua
-            -- Only add Rust-specific mappings here
+            -- Rust-specific mappings (enhanced functionality)
 
             -- Enhanced code actions (grouped) - Rust-specific enhancement
             vim.keymap.set('n', '<leader>ca', function()
@@ -515,6 +530,18 @@ return {
             vim.keymap.set('n', '<leader>rih', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
             end, vim.tbl_extend('force', opts, { desc = 'Toggle Inlay Hints' }))
+
+            -- Debug LSP status
+            vim.keymap.set('n', '<leader>rl', function()
+              print("LSP Clients active:")
+              local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+              for _, client in ipairs(clients) do
+                print(string.format("- %s: %s", client.name, table.concat(client.server_capabilities.renameProvider and "✓ rename" or "✗ rename", ", ")))
+              end
+              if #clients == 0 then
+                print("No active LSP clients")
+              end
+            end, vim.tbl_extend('force', opts, { desc = 'LSP Status' }))
           end,
 
           -- rust-analyzer server settings (comprehensive configuration)
@@ -545,6 +572,11 @@ return {
                 addCallArgumentSnippets = true,
                 postfix = { enable = true },
                 autoimport = { enable = true },
+              },
+
+              -- Rename configuration
+              rename = {
+                enable = true,
               },
 
               -- Diagnostics configuration
