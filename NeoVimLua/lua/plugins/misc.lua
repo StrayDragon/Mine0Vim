@@ -395,18 +395,10 @@ return {
             vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
             vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
 
-            -- Override hover keymap with safe hover actions
-            vim.keymap.set('n', 'K', function()
-              -- Try rustaceanvim hover actions first
-              local ok, err = pcall(function()
-                vim.cmd.RustLsp { 'hover', 'actions' }
-              end)
-
-              -- If that fails, fallback to standard LSP hover
-              if not ok then
-                vim.lsp.buf.hover()
-              end
-            end, vim.tbl_extend('force', opts, { desc = 'Rust Hover' }))
+            -- Use standard LSP hover for reliability
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, vim.tbl_extend('force', opts, {
+              desc = 'LSP Hover'
+            }))
 
             -- Rust-specific mappings (enhanced functionality)
 
@@ -573,7 +565,7 @@ return {
           default_settings = {
             ['rust-analyzer'] = {
               cargo = { allFeatures = true },
-              checkOnSave = {
+              check = {
                 command = "clippy",
                 extraArgs = { "--all", "--all-features", "--", "-D", "warnings" },
               },
