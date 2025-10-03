@@ -10,4 +10,3 @@ require("lazy").setup({
   checker = { enabled = true },
 })
 
--- The aerial keymap is now set in the ui.lua plugin config

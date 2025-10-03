@@ -1,14 +1,14 @@
 return {
   -- quickui for context menu and misc
-  { 'tpope/vim-fugitive', config = function()
+  { 'tpope/vim-fugitive', lazy = false, config = function()  -- 立即加载 Git 功能
       vim.keymap.set('n', '<C-g>', ':Git ', { noremap = true, desc = 'Git command' })
     end
   },
-  { 'mbbill/undotree', config = function()
+  { 'mbbill/undotree', lazy = false, config = function()  -- 立即加载撤销树
       vim.keymap.set('n', '<C-3>', ':UndotreeToggle<CR>', { noremap = true, silent = true, desc = 'Toggle UndoTree' })
     end
   },
-  { 'skywind3000/vim-quickui', config = function()
+  { 'skywind3000/vim-quickui', lazy = false, config = function()  -- 立即加载快速 UI
       vim.keymap.set('n', '<C-Enter>', function()
         vim.fn['quickui#context#open']()
       end, { noremap = true, silent = true, desc = 'QuickUI Context Menu' })
@@ -96,6 +96,7 @@ return {
 
   -- Enhanced refactoring support (replaces many coc.nvim refactoring features)
   { 'ThePrimeagen/refactoring.nvim',
+    lazy = false,  -- 立即加载重构工具
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
@@ -206,21 +207,21 @@ return {
   },
 
   -- Comments (gc/gcc)
-  { 'tpope/vim-commentary' },
+  { 'tpope/vim-commentary', lazy = false },  -- 立即加载注释功能
 
   -- Cycle through predefined substitutions (gs to cycle)
-  { 'bootleq/vim-cycle', config = function() 
-      vim.cmd([[ 
-        nmap <silent> gs <Plug>CycleNext 
-        vmap <silent> gs <Plug>CycleNext 
-      ]]) 
-    end 
+  { 'bootleq/vim-cycle', lazy = false, config = function()  -- 立即加载循环替换
+      vim.cmd([[
+        nmap <silent> gs <Plug>CycleNext
+        vmap <silent> gs <Plug>CycleNext
+      ]])
+    end
   },
 
   -- Surround text objects (modern Lua replacement for vim-surround)
   { 'kylechui/nvim-surround',
+    lazy = false,  -- 立即加载文本包围功能
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
     config = function()
       require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
@@ -231,12 +232,9 @@ return {
   -- Exchange text regions
   { 'tommcdo/vim-exchange' },
 
-  -- Terminal help for better terminal experience
-  { 'skywind3000/vim-terminal-help' },
-
-  -- Async run & tasks
-  { 'skywind3000/asyncrun.vim' },
-  { 'skywind3000/asynctasks.vim' },
+  -- Async run & tasks (replaced by Neovim built-in functionality)
+  -- Removed: asyncrun.vim and asynctasks.vim
+  -- Use vim.fn.jobstart() or vim.system() for async tasks
 
   -- File explorer replacement for coc-explorer
   { 'nvim-neo-tree/neo-tree.nvim',
@@ -280,27 +278,142 @@ return {
     end
   },
 
-  -- Telescope: diagnostics list, command list, symbol search
-  { 'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    cmd = 'Telescope',
-    keys = {
-      { '<space>d', function() require('telescope.builtin').diagnostics({ bufnr = 0 }) end, desc = 'Diagnostics (buffer)' },
-      { '<space>c', function() require('telescope.builtin').commands() end, desc = 'Commands' },
-      { '<space>s', function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Document Symbols' },
-      { '<space>S', function() require('telescope.builtin').lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
-    },
+  -- Enhanced fuzzy finder with fzf-lua - immediate load for responsiveness
+  { 'ibhagwan/fzf-lua',
+    lazy = false,  -- 立即加载，避免首次使用时的延迟
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      local telescope = require('telescope')
-      telescope.setup({
-        defaults = {
-          mappings = {
-            i = { ['<C-c>'] = require('telescope.actions').close },
-            n = { ['<C-c>'] = require('telescope.actions').close },
-          }
-        }
+      -- calling setup is optional
+      require('fzf-lua').setup({
+        -- fzf binary name/path (fzf by default)
+        fzf_bin = "fzf",
+        -- fzf command line options - ensure floating window
+        fzf_opts = {
+          ["--layout"] = "reverse-list",
+          ["--height"] = "40%",
+          ["--border"] = "rounded"
+        },
+        -- fzf action to open selected item
+        fzf_actions = {
+          ['ctrl-s'] = 'split',
+          ['ctrl-v'] = 'vsplit',
+          ['ctrl-t'] = 'tabedit',
+          ['ctrl-q'] = 'close',
+        },
+        -- winopts = { ... } - see fzf-lua docs for more info
+        winopts = {
+          preview = {
+            -- columns = 120,   -- preview width
+            -- rows = 25,       -- preview height
+            border = 'rounded',
+            title = 'Preview',
+            title_pos = 'center',
+          },
+          window = {
+            width = 0.85,
+            height = 0.85,
+            border = 'rounded',
+          },
+        },
+        -- keymaps
+        keymap = {
+          builtin = {
+            ["<F1>"]     = "help",
+            ["<F2>"]     = "toggle-fullscreen",
+            -- Only valid with the 'builtin' previewer
+            ["<F3>"]     = "toggle-preview-wrap",
+            ["<F4>"]     = "toggle-preview",
+            ["<F5>"]     = "toggle-preview-ccw",
+            ["<F6>"]     = "toggle-preview-cw",
+            ["<S-down>"] = "preview-page-down",
+            ["<S-up>"]   = "preview-page-up",
+            ["<S-left>"] = "preview-page-reset",
+          },
+          fzf = {
+            ["ctrl-z"]      = "abort",
+            ["ctrl-u"]      = "unix-line-discard",
+            ["ctrl-f"]      = "half-page-down",
+            ["ctrl-b"]      = "half-page-up",
+            ["ctrl-a"]      = "beginning-of-line",
+            ["ctrl-e"]      = "end-of-line",
+            ["alt-a"]       = "toggle-all",
+            -- Only valid with fzf previewers (bat/cat/git/etc)
+            ["f3"]          = "toggle-preview-wrap",
+            ["f4"]          = "toggle-preview",
+            ["shift-down"]  = "preview-page-down",
+            ["shift-up"]    = "preview-page-up",
+          },
+        },
+        -- LSP settings
+        lsp = {
+          timeout = 5000, -- timeout in ms
+          async_or_timeout = true, -- asynchronously make LSP requests
+          -- use 'ui.select' for code actions when available, fallback to fzf-lua
+          code_actions = {
+            ui_select_fallback = true,
+          },
+          -- 符号显示设置
+          symbols = {
+            async_or_timeout = true,
+            symbol_style = 1, -- 1: icon only, 2: symbol name only, 3: both
+            symbol_icons = {
+              File          = "󰈙",
+              Module        = "",
+              Namespace     = "󰦮",
+              Package       = "",
+              Class         = "󰆧",
+              Method        = "󰊕",
+              Property      = "",
+              Field         = "",
+              Constructor   = "",
+              Enum          = "",
+              Interface     = "",
+              Function      = "󰊕",
+              Variable      = "󰀫",
+              Constant      = "󰏿",
+              String        = "",
+              Number        = "󰎠",
+              Boolean       = "󰨙",
+              Array         = "󱡠",
+              Object        = "",
+              Key           = "󰌋",
+              Null          = "󰟢",
+              EnumMember    = "",
+              Struct        = "󰆼",
+              Event         = "",
+              Operator      = "󰆕",
+              TypeParameter = "󰗴",
+            },
+          },
+        },
       })
-    end
+    end,
+    keys = {
+      { '<space>s', function()
+        require('fzf-lua').lsp_document_symbols({
+          winopts = { preview = { enabled = true } },
+          file_icons = true,
+          color_icons = true,
+        })
+      end, desc = 'Document Symbols (FZF)' },
+      { '<space>S', function()
+        require('fzf-lua').lsp_workspace_symbols({
+          winopts = { preview = { enabled = true } },
+          file_icons = true,
+          color_icons = true,
+        })
+      end, desc = 'Workspace Symbols (FZF)' },
+      { '<space>d', function() require('fzf-lua').diagnostics_document() end, desc = 'Diagnostics (buffer)' },
+      { '<space>D', function() require('fzf-lua').diagnostics_workspace() end, desc = 'Workspace Diagnostics' },
+      { '<space>c', function() require('fzf-lua').commands() end, desc = 'Commands' },
+      { '<space>g', function() require('fzf-lua').live_grep() end, desc = 'Live Grep' },
+      { '<space>f', function() require('fzf-lua').files() end, desc = 'Find Files' },
+      { '<space>b', function() require('fzf-lua').buffers() end, desc = 'Buffers' },
+      { 'gd', function() require('fzf-lua').lsp_definitions() end, desc = 'Go to Definition' },
+      { 'gr', function() require('fzf-lua').lsp_references() end, desc = 'Go to References' },
+      { 'gi', function() require('fzf-lua').lsp_implementations() end, desc = 'Go to Implementation' },
+      { 'gy', function() require('fzf-lua').lsp_typedefs() end, desc = 'Go to Type Definition' },
+    }
   },
 
   -- Multi-cursor support (vim-visual-multi)
@@ -316,19 +429,9 @@ return {
     end,
   },
 
-  -- Drag visuals (Damian Conway) - visual mode only
-  { 'jondkinney/dragvisuals.vim',
-    init = function()
-      -- Trim trailing whitespace introduced by dragging
-      vim.g.DVB_TrimWS = 1
-      -- Only in Visual mode to avoid conflicts with normal-mode quickfix maps
-      vim.keymap.set('x', '<LEFT>',  "DVB_Drag('left')",  { expr = true, silent = true, desc = 'Drag selection left' })
-      vim.keymap.set('x', '<RIGHT>', "DVB_Drag('right')", { expr = true, silent = true, desc = 'Drag selection right' })
-      vim.keymap.set('x', '<DOWN>',  "DVB_Drag('down')",  { expr = true, silent = true, desc = 'Drag selection down' })
-      vim.keymap.set('x', '<UP>',    "DVB_Drag('up')",    { expr = true, silent = true, desc = 'Drag selection up' })
-      vim.keymap.set('x', 'D',       "DVB_Duplicate()",   { expr = true, silent = true, desc = 'Duplicate selection' })
-    end,
-  },
+  -- Drag visuals replaced by Neovim built-in functionality
+  -- Removed: jondkinney/dragvisuals.vim
+  -- Use visual block mode (Ctrl+v) and movement commands instead
 
   -- Rust specific plugins
   {
@@ -353,7 +456,16 @@ return {
         tools = {
           -- Enable hover actions with floating window
           hover_actions = {
-            border = 'rounded',
+            border = {
+              {"┌", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"┐", "FloatBorder"},
+              {"│", "FloatBorder"},
+              {"┘", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"┚", "FloatBorder"},
+              {"│", "FloatBorder"},
+            },
             auto_focus = false, -- Don't auto-focus hover actions window
           },
 
@@ -659,6 +771,49 @@ return {
         vim.cmd('TestLast')
       end, { desc = 'Test Last' })
     end,
+  },
+
+  -- Claude Code integration
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    opts = {
+      -- 基本配置
+      auto_start = false,
+      log_level = "info",
+
+      -- 终端配置
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.35,
+        provider = "snacks", -- 使用 snacks.nvim 终端
+      },
+
+      -- 发送后自动聚焦（可选）
+      focus_after_send = false,
+
+      -- 选择跟踪
+      track_selection = true,
+    },
+    keys = {
+      { "<leader>i", nil, desc = "AI/Claude Code" },
+      { "<leader>ii", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>if", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ir", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>iC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>im", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ib", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>is", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      {
+        "<leader>is",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+      },
+      -- Diff management
+      { "<leader>ia", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>id", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+    },
   },
 
 }

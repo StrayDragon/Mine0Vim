@@ -208,5 +208,8 @@ if vim.fn.has("gui_running") == 1 then
   opt.guifont = "Monaco:h13"
 end
 
--- Disable mouse for consistent terminal behavior
-opt.mouse = ""
+-- Enable mouse support for all modes
+opt.mouse = "a"  -- Enable mouse in all modes (normal, visual, insert, command-line)
+
+-- Floating window appearance
+opt.winborder = "rounded"  -- Set rounded borders for all floating windows (including hover)

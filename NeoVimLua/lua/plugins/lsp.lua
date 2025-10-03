@@ -1,7 +1,8 @@
 return {
-  -- Mason and LSP configuration
+  -- Mason and LSP configuration - immediate load
   {
     "williamboman/mason.nvim",
+    lazy = false,  -- 立即加载 LSP 工具
     build = ":MasonUpdate",
     config = function()
       require("mason").setup({
@@ -17,6 +18,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    lazy = false,  -- 立即加载 LSP 配置
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       -- Only ensure installation, no automatic setup or enabling
@@ -32,6 +34,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    lazy = false,  -- 立即加载 LSP 核心配置
     dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -168,18 +171,9 @@ return {
         end,
       })
 
-        -- LSP handlers with borders
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-        max_width = 80,
-        max_height = 30,
-      })
-
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
-        max_width = 80,
-        max_height = 30,
-      })
+      -- Note: LSP hover and signature help borders are now controlled by
+      -- vim.o.winborder = "rounded" in config/options.lua
+      -- This applies to all floating windows globally in Neovim 0.11+
 
       -- Diagnostics configuration
       vim.diagnostic.config({
@@ -196,7 +190,16 @@ return {
         update_in_insert = false,
         severity_sort = true,
         float = {
-          border = "rounded",
+          border = {
+            {"┌", "FloatBorder"},
+            {"─", "FloatBorder"},
+            {"┐", "FloatBorder"},
+            {"│", "FloatBorder"},
+            {"┘", "FloatBorder"},
+            {"─", "FloatBorder"},
+            {"┚", "FloatBorder"},
+            {"│", "FloatBorder"},
+          },
           source = "always",
           header = "",
           prefix = "",

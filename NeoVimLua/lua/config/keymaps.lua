@@ -85,3 +85,9 @@ vim.keymap.set('n', 'gq', function()
     context = { only = { 'quickfix' } },
   })
 end, { noremap = true, silent = true, desc = 'LSP Quick Fix (Code Action)' })
+
+-- Terminal navigation: Use Esc to exit terminal mode
+vim.cmd([[
+  " Use Esc to exit terminal mode (like Vim)
+  tnoremap <Esc> <C-\><C-N>
+]])

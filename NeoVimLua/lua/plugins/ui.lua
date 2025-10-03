@@ -11,21 +11,133 @@ return {
       vim.keymap.set('t', '<C-F12>', function() term.toggle() end, { desc = 'Toggle Terminal (Ctrl+F12)' })
     end
   },
-  { "itchyny/lightline.vim", config = function()
-      -- Statusline configuration preserving legacy settings
-      vim.g.lightline = {
-        colorscheme = "PaperColor",
-        active = {
-          left = {
-            { "mode", "paste" },
-            { "readonly", "filename", "modified" }
+  { "nvim-lualine/lualine.nvim",
+    lazy = false,  -- 立即加载状态栏
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      -- Custom LSP status component
+      local function lsp_status()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local clients = {}
+
+        if vim.lsp.get_clients then
+          clients = vim.lsp.get_clients({ bufnr = bufnr })
+        elseif vim.lsp.get_active_clients then
+          clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+        end
+
+        if #clients == 0 then
+          return ''
+        end
+
+        local client_names = {}
+        for _, client in ipairs(clients) do
+          if client.name ~= 'null-ls' then
+            table.insert(client_names, client.name)
+          end
+        end
+
+        if #client_names > 0 then
+          return '🔧 ' .. table.concat(client_names, ', ')
+        else
+          return ''
+        end
+      end
+
+      -- Custom inlay hints status component
+      local function inlay_hints_status()
+        local bufnr = vim.api.nvim_get_current_buf()
+        if not vim.lsp.inlay_hint then
+          return ''
+        end
+
+        local enabled = false
+        if vim.lsp.inlay_hint.is_enabled then
+          local ok, val = pcall(vim.lsp.inlay_hint.is_enabled, bufnr)
+          if not ok then
+            ok, val = pcall(vim.lsp.inlay_hint.is_enabled, { bufnr = bufnr })
+          end
+          if ok then enabled = val end
+        end
+
+        return enabled and '💡 Hints' or ''
+      end
+
+      require('lualine').setup({
+        options = {
+          icons_enabled = true,
+          theme = 'PaperColor',
+          component_separators = { left = '', right = ''},
+          section_separators = { left = '', right = ''},
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
           },
-          right = {
-            { "fileencoding", "lineinfo" },
-            { "percent" },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = false,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
           }
-        }
-      }
+        },
+        sections = {
+          lualine_a = {'mode'},
+          lualine_b = {'branch', 'diff',
+            {
+              'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              sections = { 'error', 'warn', 'info', 'hint' },
+              diagnostics_color = {
+                error = 'DiagnosticError',
+                warn  = 'DiagnosticWarn',
+                info  = 'DiagnosticInfo',
+                hint  = 'DiagnosticHint',
+              },
+              symbols = {error = '🔴', warn = '🟡', info = '🔵', hint = '⚪'},
+              colored = true,
+              always_visible = false,
+            }
+          },
+          lualine_c = {
+            {
+              'filename',
+              file_status = true,      -- Displays file status (readonly status, modified status)
+              newfile_status = false,  -- Display new file status (new file means no write after created)
+              path = 0,                -- 0: Just the filename
+              shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
+              symbols = {
+                modified = '[+]',
+                readonly = '[-]',
+                unnamed = '[No Name]',
+                newfile = '[New]'
+              }
+            },
+          },
+          lualine_x = {
+            { lsp_status, color = { fg = '#666666' } },
+            { inlay_hints_status, color = { fg = '#888888' } },
+            'encoding',
+            'fileformat',
+            'filetype'
+          },
+          lualine_y = {'progress'},
+          lualine_z = {'location'}
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {'filename'},
+          lualine_x = {'location'},
+          lualine_y = {},
+          lualine_z = {}
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {}
+      })
     end
   },
   { "Yggdroot/indentLine", config = function()
@@ -54,6 +166,12 @@ return {
             bg = "NONE",
             italic = true,
           })
+
+          -- Set FloatBorder with better contrast
+          vim.api.nvim_set_hl(0, "FloatBorder", {
+            fg = "#666666",
+            bg = "NONE",
+          })
         end,
       })
 
@@ -63,6 +181,12 @@ return {
           fg = "#6c6c6c",
           bg = "NONE",
           italic = true,
+        })
+
+        -- Set FloatBorder with better contrast
+        vim.api.nvim_set_hl(0, "FloatBorder", {
+          fg = "#666666",
+          bg = "NONE",
         })
       end)
     end

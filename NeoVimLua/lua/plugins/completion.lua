@@ -1,6 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
+    lazy = false,  -- 立即加载补全引擎
     version = "v0.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
@@ -64,10 +65,6 @@ return {
       signature = { enabled = true },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
-        -- Add Rust-specific sources for .rs files
-        per_filetype = {
-          rust = { "lsp", "path", "snippets", "buffer", "crates" },
-        },
         providers = {
           lsp = {
             name = "LSP",
@@ -85,11 +82,6 @@ return {
               end
               return unique_items
             end,
-          },
-          crates = {
-            name = "crates",
-            module = "crates.sources.blink",
-            async = true,
           },
         },
       },
