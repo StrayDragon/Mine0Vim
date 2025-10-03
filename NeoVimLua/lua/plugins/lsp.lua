@@ -67,7 +67,7 @@ return {
         end, opts)
 
         -- Show diagnostics in floating window
-        vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 
         -- Fix window parameter issues for code action range in Neovim 0.11.4+
         -- Override make_range_params to ensure valid window parameter
