@@ -5,7 +5,7 @@ return {
     version = "v0.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
-      "rustaceanvim", -- for Rust completions
+      "rustaceanvim", -- Rust 语言补全支持
     },
     opts = {
       keymap = {
@@ -13,63 +13,63 @@ return {
         ["<Tab>"] = {
           function(cmp)
             if cmp.snippet_active({ direction = 1 }) then
-              return cmp.snippet_forward()
+              return cmp.snippet_forward()   -- 代码片段向前跳转
             elseif cmp.is_visible() then
-              return cmp.accept()
+              return cmp.accept()            -- 接受补全项
             else
-              -- mimic coc super-tab: trigger completion when there's a word before cursor
+              -- 模拟 coc 的 super-tab 行为：光标前有单词时触发补全
               local col = vim.api.nvim_win_get_cursor(0)[2]
               if col > 0 then
                 local line = vim.api.nvim_get_current_line()
                 local prev = line:sub(col, col)
                 if prev:match("%s") == nil then
-                  return cmp.show()
+                  return cmp.show()          -- 显示补全菜单
                 end
               end
-              return cmp.fallback()
+              return cmp.fallback()          -- 回退到默认行为
             end
           end
         },
         ["<S-Tab>"] = {
           function(cmp)
             if cmp.snippet_active({ direction = -1 }) then
-              return cmp.snippet_backward()
+              return cmp.snippet_backward()  -- 代码片段向后跳转
             elseif cmp.is_visible() then
-              return cmp.select_prev()
+              return cmp.select_prev()       -- 选择上一项
             else
-              return cmp.fallback()
+              return cmp.fallback()          -- 回退到默认行为
             end
           end
         },
-        ["<C-Space>"] = { "show" },
-        ["<C-e>"] = { "hide" },
-        ["<CR>"] = { "accept", "fallback" },
-        ["<Up>"] = { "select_prev", "fallback" },
-        ["<Down>"] = { "select_next", "fallback" },
-        ["<C-p>"] = { "select_prev", "fallback" },
-        ["<C-n>"] = { "select_next", "fallback" },
-        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-Space>"] = { "show" },                    -- 显示补全
+        ["<C-e>"] = { "hide" },                        -- 隐藏补全
+        ["<CR>"] = { "accept", "fallback" },           -- 确认选择
+        ["<Up>"] = { "select_prev", "fallback" },      -- 向上选择
+        ["<Down>"] = { "select_next", "fallback" },    -- 向下选择
+        ["<C-p>"] = { "select_prev", "fallback" },     -- Ctrl+P 向上选择
+        ["<C-n>"] = { "select_next", "fallback" },     -- Ctrl+N 向下选择
+        ["<C-d>"] = { "scroll_documentation_down", "fallback" }, -- 向下滚动文档
+        ["<C-u>"] = { "scroll_documentation_up", "fallback" },   -- 向上滚动文档
       },
       completion = {
         menu = {
           border = "rounded",
-          auto_show = false,  -- Disable auto-show to match coc.nvim trigger behavior
+          auto_show = false,  -- 禁用自动显示以匹配 coc.nvim 触发行为
         },
         documentation = {
           window = { border = "rounded" },
-          auto_show = false,  -- Don't auto-show to reduce duplicates
+          auto_show = false,  -- 不自动显示以减少重复
         },
-        -- Removed invalid list.selection to avoid type error; using defaults
+        -- 移除无效的 list.selection 配置以避免类型错误；使用默认值
       },
-      signature = { enabled = true },
+      signature = { enabled = true },  -- 启用签名帮助
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer" },  -- 默认补全源
         providers = {
           lsp = {
             name = "LSP",
             module = "blink.cmp.sources.lsp",
-            -- Deduplicate completion items by insertText
+            -- 根据 insertText 去重补全项
             transform_items = function(_, items)
               local seen = {}
               local unique_items = {}

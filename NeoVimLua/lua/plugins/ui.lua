@@ -1,21 +1,21 @@
 return {
   { "stevearc/aerial.nvim", opts = {}, keys = {
-      { "<C-7>", "<cmd>AerialToggle!<CR>", mode = "n", desc = "Toggle Aerial" },
-      { "<space>o", "<cmd>AerialToggle!<CR>", mode = "n", desc = "Toggle Outline View" },
+      { "<C-7>", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
+      { "<space>o", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
     }
   },
   { "ingur/floatty.nvim", config = function()
       local term = require("floatty").setup({})
-      -- Terminal toggle (Ctrl+F12, macOS-friendly)
-      vim.keymap.set('n', '<C-F12>', function() term.toggle() end, { desc = 'Toggle Terminal (Ctrl+F12)' })
-      vim.keymap.set('t', '<C-F12>', function() term.toggle() end, { desc = 'Toggle Terminal (Ctrl+F12)' })
+      -- 终端切换（Ctrl+F12，macOS 兼容）
+      vim.keymap.set('n', '<C-F12>', function() term.toggle() end, { desc = '切换终端 (Ctrl+F12)' })
+      vim.keymap.set('t', '<C-F12>', function() term.toggle() end, { desc = '切换终端 (Ctrl+F12)' })
     end
   },
   { "nvim-lualine/lualine.nvim",
     lazy = false,  -- 立即加载状态栏
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      -- Custom LSP status component
+      -- 自定义 LSP 状态组件
       local function lsp_status()
         local bufnr = vim.api.nvim_get_current_buf()
         local clients = {}
@@ -44,7 +44,7 @@ return {
         end
       end
 
-      -- Custom inlay hints status component
+      -- 自定义内联提示状态组件
       local function inlay_hints_status()
         local bufnr = vim.api.nvim_get_current_buf()
         if not vim.lsp.inlay_hint then
@@ -60,7 +60,7 @@ return {
           if ok then enabled = val end
         end
 
-        return enabled and '💡 Hints' or ''
+        return enabled and '💡 提示' or ''
       end
 
       require('lualine').setup({
@@ -71,32 +71,11 @@ return {
           section_separators = { left = '', right = ''},
           disabled_filetypes = {
             statusline = {
-              'NvimTree',
-              'neo-tree',
-              'neo-tree-popup',
-              'aerial',
-              'aerial-nav',
-              'toggleterm',
-              'fzf',
-              'FzfLua',
-              'TelescopePrompt',
-              'TelescopeResults',
-              'undotree',
-              'git',
-              'diff',
-              'help',
-              'lazy',
-              'mason',
-              'mason.nvim',
-              'qf',
-              'quickfix',
-              'starter',
-              'alpha',
-              'dashboard',
-              'oil',
-              'minifiles',
-              'netrw',
-              'Trouble'
+              'NvimTree', 'neo-tree', 'neo-tree-popup', 'aerial', 'aerial-nav',
+              'toggleterm', 'fzf', 'FzfLua', 'TelescopePrompt', 'TelescopeResults',
+              'undotree', 'git', 'diff', 'help', 'lazy', 'mason', 'mason.nvim',
+              'qf', 'quickfix', 'starter', 'alpha', 'dashboard', 'oil', 'minifiles',
+              'netrw', 'Trouble', 'terminal', 'claude', 'claudecode'
             },
             winbar = {},
           },
@@ -110,8 +89,8 @@ return {
           }
         },
         sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch', 'diff',
+          lualine_a = {'mode'},  -- 模式
+          lualine_b = {'branch', 'diff',  -- 分支和差异
             {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
@@ -130,27 +109,27 @@ return {
           lualine_c = {
             {
               'filename',
-              file_status = true,      -- Displays file status (readonly status, modified status)
-              newfile_status = false,  -- Display new file status (new file means no write after created)
-              path = 0,                -- 0: Just the filename
-              shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
+              file_status = true,      -- 显示文件状态（只读、修改状态）
+              newfile_status = false,  -- 显示新文件状态
+              path = 0,                -- 0: 仅文件名
+              shorting_target = 40,    -- 缩短路径以保留 40 个空格
               symbols = {
                 modified = '[+]',
                 readonly = '[-]',
-                unnamed = '[No Name]',
-                newfile = '[New]'
+                unnamed = '[无名称]',
+                newfile = '[新]'
               }
             },
           },
           lualine_x = {
-            { lsp_status, color = { fg = '#666666' } },
-            { inlay_hints_status, color = { fg = '#888888' } },
-            'encoding',
-            'fileformat',
-            'filetype'
+            { lsp_status, color = { fg = '#666666' } },           -- LSP 状态
+            { inlay_hints_status, color = { fg = '#888888' } },   -- 内联提示状态
+            'encoding',           -- 编码
+            'fileformat',         -- 文件格式
+            'filetype'            -- 文件类型
           },
-          lualine_y = {'progress'},
-          lualine_z = {'location'}
+          lualine_y = {'progress'},  -- 进度
+          lualine_z = {'location'}   -- 位置
         },
         inactive_sections = {
           lualine_a = {},
@@ -168,14 +147,14 @@ return {
     end
   },
   { "Yggdroot/indentLine", config = function()
-      -- Configure indentLine only for Python files as per legacy config
+      -- 按照旧配置仅为 Python 文件配置缩进线
       vim.g.indentLine_fileType = { "python" }
     end
   },
-  { "doums/darcula" },
-  { "sainnhe/edge" },
+  { "doums/darcula" },                    -- Darcula 主题
+  { "sainnhe/edge" },                     -- Edge 主题
   { "NLKNguyen/papercolor-theme", config = function()
-      -- Try to use PaperColor by default; if not, fall back to edge or habamax
+      -- 尝试默认使用 PaperColor；如果失败则回退到 edge 或 habamax
       local ok = pcall(vim.cmd.colorscheme, "PaperColor")
       if not ok then
         local ok2 = pcall(vim.cmd.colorscheme, "edge")
@@ -184,17 +163,17 @@ return {
         end
       end
 
-      -- Ensure LspInlayHint has proper highlighting to avoid error decorators
+      -- 确保 LspInlayHint 有适当的高亮以避免错误装饰器
       vim.api.nvim_create_autocmd("ColorScheme", {
         callback = function()
-          -- Set subtle inlay hint styling
+          -- 设置微妙的内联提示样式
           vim.api.nvim_set_hl(0, "LspInlayHint", {
             fg = "#6c6c6c",
             bg = "NONE",
             italic = true,
           })
 
-          -- Set FloatBorder with better contrast
+          -- 设置具有更好对比度的 FloatBorder
           vim.api.nvim_set_hl(0, "FloatBorder", {
             fg = "#666666",
             bg = "NONE",
@@ -202,7 +181,7 @@ return {
         end,
       })
 
-      -- Apply immediately for the current colorscheme
+      -- 立即应用于当前配色方案
       pcall(function()
         vim.api.nvim_set_hl(0, "LspInlayHint", {
           fg = "#6c6c6c",
@@ -210,7 +189,7 @@ return {
           italic = true,
         })
 
-        -- Set FloatBorder with better contrast
+        -- 设置具有更好对比度的 FloatBorder
         vim.api.nvim_set_hl(0, "FloatBorder", {
           fg = "#666666",
           bg = "NONE",

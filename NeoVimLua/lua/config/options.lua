@@ -1,100 +1,101 @@
--- Neovim options configuration - Migrated from core/settings.vim
+-- Neovim 基础配置
 local opt = vim.opt
 local g = vim.g
 
--- Leader keys
+-- 主键位设置
 g.mapleader = " "
 g.maplocalleader = "\\"
 
--- File and Encoding
+-- 文件编码设置
 opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 opt.fileencodings = "utf-8,gbk,gb18030,gb2312,cp936,ucs-bom,cp936"
 opt.fileformats = "unix,dos,mac"
 
--- Interface
-opt.number = true
-opt.relativenumber = false
-opt.cursorline = true
-opt.signcolumn = "yes:1"
-opt.cmdheight = 1
-opt.laststatus = 2
-opt.showmode = false
-opt.showcmd = true
-opt.ruler = true
-opt.wildmenu = true
-opt.wildmode = "longest:full,full"
-opt.pumheight = 10
+-- 界面显示设置
+opt.number = true          -- 显示行号
+opt.relativenumber = false -- 不显示相对行号
+opt.cursorline = true      -- 高亮当前行
+opt.signcolumn = "yes:1"   -- 显示符号列
+opt.cmdheight = 1          -- 命令行高度
+opt.laststatus = 2         -- 始终显示状态栏
+opt.showmode = false       -- 不显示模式（由插件替代）
+opt.showcmd = true         -- 显示命令
+opt.ruler = true           -- 显示位置信息
+opt.wildmenu = true        -- 命令行补全菜单
+opt.wildmode = "longest:full,full" -- 补全模式
+opt.pumheight = 10         -- 补全菜单最大高度
 
--- Window behavior
-opt.splitbelow = true
-opt.splitright = true
+-- 窗口分割行为
+opt.splitbelow = true  -- 水平分割时在下方打开新窗口
+opt.splitright = true  -- 垂直分割时在右侧打开新窗口
 
--- Tabs and Indentation
-opt.tabstop = 4
-opt.softtabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
-opt.autoindent = true
-opt.smartindent = true
+-- 制表符和缩进
+opt.tabstop = 4         -- 制表符宽度
+opt.softtabstop = 4     -- 软制表符宽度
+opt.shiftwidth = 4      -- 自动缩进宽度
+opt.expandtab = true    -- 使用空格替代制表符
+opt.autoindent = true   -- 自动缩进
+opt.smartindent = true  -- 智能缩进
 
--- Search
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = true
-opt.incsearch = true
+-- 搜索设置
+opt.ignorecase = true   -- 忽略大小写搜索
+opt.smartcase = true    -- 智能大小写（有大写字母时区分大小写）
+opt.hlsearch = true     -- 高亮搜索结果
+opt.incsearch = true    -- 增量搜索
 
--- Performance
-opt.updatetime = 300
-opt.timeoutlen = 500
-opt.redrawtime = 10000
-opt.ttimeoutlen = 50
+-- 性能和超时设置
+opt.updatetime = 300    -- 更新时间（毫秒）
+opt.timeoutlen = 500    -- 键映射超时时间
+opt.redrawtime = 10000  -- 重绘时间限制
+opt.ttimeoutlen = 50    -- 键码超时时间
 
--- Editor behavior
-opt.backspace = "indent,eol,start"
-opt.completeopt = "menu,menuone,noselect"
-opt.shortmess:append("c")
-opt.whichwrap:append("<,>,[,],h,l")
+-- 编辑器行为
+opt.backspace = "indent,eol,start"      -- 退格键行为
+opt.completeopt = "menu,menuone,noselect" -- 补全选项
+opt.shortmess:append("c")                -- 简化补全消息
+opt.whichwrap:append("<,>,[,],h,l")      -- 允许跨行移动
 
--- File handling
-opt.hidden = true
-opt.backup = false
-opt.writebackup = false
-opt.swapfile = false
-opt.autoread = true
+-- 文件处理
+opt.hidden = true          -- 隐藏缓冲区而不保存
+opt.backup = false         -- 不创建备份文件
+opt.writebackup = false    -- 不创建写入备份
+opt.swapfile = false       -- 不创建交换文件
+opt.autoread = true        -- 自动读取文件变化
 
--- Visual
-opt.wrap = false
-opt.scrolloff = 8
-opt.sidescrolloff = 8
-opt.list = false
-opt.listchars = "tab:▸ ,trail:·,eol:¬,nbsp:_"
+-- 视觉效果
+opt.wrap = false           -- 不自动换行
+opt.scrolloff = 8          -- 垂直滚动时保持的行数
+opt.sidescrolloff = 8      -- 水平滚动时保持的列数
+opt.list = false           -- 不显示隐藏字符
+opt.listchars = "tab:▸ ,trail:·,eol:¬,nbsp:_" -- 隐藏字符样式
+opt.selection = "exclusive" -- 选择模式
 
--- Folding
-opt.foldenable = true
-opt.foldmethod = "indent"
-opt.foldlevel = 99
+-- 折叠设置
+opt.foldenable = true      -- 启用折叠
+opt.foldmethod = "indent"  -- 按缩进折叠
+opt.foldlevel = 99         -- 默认折叠层级
 
--- Wildignore patterns
+-- 忽略文件类型（通配符模式）
 opt.wildignore = {
-  "*.o,*.obj,*~,*.exe,*.a,*.pdb,*.lib",
-  "*.so,*.dll,*.swp,*.egg,*.jar,*.class,*.pyc,*.pyo,*.bin,*.dex",
-  "*.log,*.pyc,*.sqlite,*.sqlite3,*.min.js,*.min.css,*.tags",
-  "*.zip,*.7z,*.rar,*.gz,*.tar,*.gzip,*.bz2,*.tgz,*.xz",
-  "*.png,*.jpg,*.gif,*.bmp,*.tga,*.pcx,*.ppm,*.img,*.iso",
-  "*.pdf,*.dmg,*.app,*.ipa,*.apk,*.mobi,*.epub",
-  "*.mp4,*.avi,*.flv,*.mov,*.mkv,*.swf,*.swc",
-  "*.ppt,*.pptx,*.doc,*.docx,*.xlt,*.xls,*.xlsx,*.odt,*.wps",
-  "*/.git/*,*/.svn/*,*/.DS_Store",
-  "*/node_modules/*,*/bower_components/*,*/tmp/*"
+  "*.o,*.obj,*~,*.exe,*.a,*.pdb,*.lib",                    -- 编译产物
+  "*.so,*.dll,*.swp,*.egg,*.jar,*.class,*.pyc,*.pyo,*.bin,*.dex", -- 动态库和字节码
+  "*.log,*.pyc,*.sqlite,*.sqlite3,*.min.js,*.min.css,*.tags", -- 日志和压缩文件
+  "*.zip,*.7z,*.rar,*.gz,*.tar,*.gzip,*.bz2,*.tgz,*.xz",   -- 压缩文件
+  "*.png,*.jpg,*.gif,*.bmp,*.tga,*.pcx,*.ppm,*.img,*.iso", -- 图像文件
+  "*.pdf,*.dmg,*.app,*.ipa,*.apk,*.mobi,*.epub",           -- 文档和应用
+  "*.mp4,*.avi,*.flv,*.mov,*.mkv,*.swf,*.swc",             -- 视频文件
+  "*.ppt,*.pptx,*.doc,*.docx,*.xlt,*.xls,*.xlsx,*.odt,*.wps", -- 办公文档
+  "*/.git/*,*/.svn/*,*/.DS_Store",                         -- 版本控制文件
+  "*/node_modules/*,*/bower_components/*,*/tmp/*"           -- 依赖和临时目录
 }
 
--- Python providers (avoid loading if not needed)
+-- Python 提供者配置
 -- 仅使用配置目录下的 .venv；不回退到系统 Python
 vim.g.python_host_prog = ""
 vim.g.python3_host_prog = ""
 
--- Only search from config home (~/.config/nvim/.venv); no env or project fallback
+-- 从配置目录搜索 Python（仅限 ~/.config/nvim/.venv）
  do
   local function is_exe(p)
     return p and p ~= "" and vim.fn.executable(p) == 1
@@ -124,18 +125,18 @@ vim.g.python3_host_prog = ""
   end
 end
 
--- Node.js provider host detection (neovim-node-host)
+-- Node.js 提供者检测 (neovim-node-host)
 -- 仅使用配置目录下的 node_modules；不回退到 PATH
  do
   local cfg = vim.fn.stdpath("config")
   local candidate = nil
   
-  -- Try to find neovim package dynamically
+  -- 动态查找 neovim 包
   local function find_neovim_cli()
-    -- Method 1: Use node to resolve the neovim package path
+    -- 方法1：使用 node 解析 neovim 包路径
     local cmd = string.format('cd "%s" && node -p "require.resolve(\\"neovim/package.json\\")" 2>/dev/null', cfg)
     local package_json_path = vim.fn.system(cmd):gsub("%s+$", "")
-    
+
     if vim.v.shell_error == 0 and package_json_path ~= "" then
       local neovim_dir = vim.fn.fnamemodify(package_json_path, ":h")
       local cli_path = neovim_dir .. "/bin/cli.js"
@@ -143,13 +144,13 @@ end
         return cli_path
       end
     end
-    
-    -- Method 2: Fallback to the .bin shim
+
+    -- 方法2：回退到 .bin 命令
     local bin_shim = cfg .. "/node_modules/.bin/neovim-node-host"
     if vim.fn.executable(bin_shim) == 1 then
       return bin_shim
     end
-    
+
     return nil
   end
   
@@ -172,7 +173,7 @@ end
   end
 end
 
--- Disable some built-in plugins for startup performance
+-- 禁用部分内置插件以提升启动性能
 g.loaded_gzip = 1
 g.loaded_tar = 1
 g.loaded_tarPlugin = 1
@@ -189,27 +190,27 @@ g.loaded_netrwPlugin = 1
 g.loaded_netrwSettings = 1
 g.loaded_netrwFileHandlers = 1
 
--- Terminal colors (migrated from theme.vim)
--- Enable true color support
+-- 终端颜色配置
+-- 启用真彩色支持
 if vim.fn.empty(vim.env.TMUX) == 1 then
   if vim.fn.has("termguicolors") == 1 then
     opt.termguicolors = true
   end
 end
 
--- Syntax highlighting
+-- 语法高亮
 vim.cmd.syntax("enable")
 
--- Set default background
+-- 设置默认背景
 opt.background = "light"
 
--- GUI specific
+-- GUI 特定设置
 if vim.fn.has("gui_running") == 1 then
   opt.guifont = "Monaco:h13"
 end
 
--- Enable mouse support for all modes
-opt.mouse = "a"  -- Enable mouse in all modes (normal, visual, insert, command-line)
+-- 启用鼠标支持（所有模式）
+opt.mouse = "a"  -- 在普通、可视、插入、命令行模式下启用鼠标
 
--- Floating window appearance
-opt.winborder = "rounded"  -- Set rounded borders for all floating windows (including hover)
+-- 浮动窗口外观
+opt.winborder = "rounded"  -- 为所有浮动窗口设置圆角边框

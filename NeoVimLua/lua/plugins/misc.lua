@@ -1,15 +1,15 @@
 return {
-  -- quickui for context menu and misc
-  { 'tpope/vim-fugitive', lazy = false, config = function()  -- 立即加载 Git 功能
-      vim.keymap.set('n', '<C-g>', ':Git ', { noremap = true, desc = 'Git command' })
-    end
-  },
+  -- 快速 UI 和其他杂项功能
+  -- { 'tpope/vim-fugitive', lazy = false, config = function()  -- 立即加载 Git 功能
+  --     vim.keymap.set('n', '<C-g>', ':Git ', { noremap = true, desc = 'Git command' })
+  --   end
+  -- },
   { 'mbbill/undotree', lazy = false, config = function()  -- 立即加载撤销树
-      vim.keymap.set('n', '<C-3>', ':UndotreeToggle<CR>', { noremap = true, silent = true, desc = 'Toggle UndoTree' })
+      vim.keymap.set('n', '<C-3>', ':UndotreeToggle<CR>', { noremap = true, silent = true, desc = '切换撤销树' })
     end
   },
   { 'skywind3000/vim-quickui', lazy = false, config = function()  -- 立即加载快速 UI
-      -- Protect hjkl keys for navigation in quickui menus
+      -- 在 quickui 菜单中保护 hjkl 键用于导航
       vim.g.quickui_protect_hjkl = 1
 
       vim.keymap.set('n', '<C-Enter>', function()
@@ -26,7 +26,7 @@ return {
         if has_lsp then
           table.insert(content, {"📍 Go to &Definition\t\\gd", 'lua vim.lsp.buf.definition()'})
           table.insert(content, {"🔗 Go to &Type Definition\t\\gy", 'lua vim.lsp.buf.type_definition()'})
-          table.insert(content, {"⚙️  Go to &Implementation\t\\gi", 'lua vim.lsp.buf.implementation()'})
+          table.insert(content, {"⚙️ Go to &Implementation\t\\gi", 'lua vim.lsp.buf.implementation()'})
           table.insert(content, {"🔍 Find &References\t\\gr", 'lua vim.lsp.buf.references()'})
           table.insert(content, {"-"})
         end
@@ -41,7 +41,7 @@ return {
         -- Code Actions (if LSP is available)
         if has_lsp then
           table.insert(content, {"💡 Code &Actions\t\\ca", 'lua vim.lsp.buf.code_action()'})
-          table.insert(content, {"✏️  &Rename Symbol\t\\cr", 'lua vim.lsp.buf.rename()'})
+          table.insert(content, {"✏️ &Rename Symbol\t\\cr", 'lua vim.lsp.buf.rename()'})
           table.insert(content, {"🎯 &Format Code\t\\cf", 'lua vim.lsp.buf.format({async = true})'})
           table.insert(content, {"-"})
         end
@@ -65,9 +65,9 @@ return {
         end
 
         -- Diagnostics
-        table.insert(content, {"⚠️  Show &Diagnostics\t\\ce", 'lua vim.diagnostic.open_float()'})
-        table.insert(content, {"⬅️  Previous &Diagnostic\t\\g[", 'lua vim.diagnostic.goto_prev()'})
-        table.insert(content, {"➡️  Next &Diagnostic\t\\g]", 'lua vim.diagnostic.goto_next()'})
+        table.insert(content, {"⚠️ Show &Diagnostics\t\\ce", 'lua vim.diagnostic.open_float()'})
+        table.insert(content, {"⬅️ Previous &Diagnostic\t\\g[", 'lua vim.diagnostic.goto_prev()'})
+        table.insert(content, {"➡️ Next &Diagnostic\t\\g]", 'lua vim.diagnostic.goto_next()'})
         table.insert(content, {"🔧 Workspace &Diagnostics\t\\cD", 'lua require("fzf-lua").diagnostics_workspace()'})
         table.insert(content, {"-"})
 
@@ -88,7 +88,7 @@ return {
         -- Help and Info
         table.insert(content, {"❓ &Help\t\\ch", 'lua vim.cmd("help")'})
         table.insert(content, {"📖 LSP &Info\t\\cl", 'lua vim.cmd("LspInfo")'})
-        table.insert(content, {"⌨️  Key&maps\t\\cm", 'lua vim.cmd("verbose map")'})
+        table.insert(content, {"⌨️ Key&maps\t\\cm", 'lua vim.cmd("verbose map")'})
         table.insert(content, {"📋 Show &Messages\t\\cM", 'lua vim.cmd("messages")'})
 
         -- Position menu near cursor
@@ -183,7 +183,7 @@ return {
     end
   },
 
-  -- Enhanced refactoring support (replaces many coc.nvim refactoring features)
+  -- 增强重构支持（替代 coc.nvim 的许多重构功能）
   { 'ThePrimeagen/refactoring.nvim',
     lazy = false,  -- 立即加载重构工具
     dependencies = {
@@ -254,44 +254,6 @@ return {
           vim.cmd(cmds[idx])
         end
       end, { desc = 'Refactoring menu' })
-
-      -- JetBrains style "Refactor This" menu (Ctrl+T on macOS, following IntelliJ standards)
-      vim.keymap.set({'n', 'x'}, '<C-t>', function()
-        local items = {
-          '🔧 Extract Function',
-          '🔧 Extract Variable', 
-          '🔧 Extract to File',
-          '🔧 Inline Variable',
-          '🔧 Inline Function',
-          '🔧 Extract Block',
-          '🔧 Extract Block to File',
-          '🔧 Rename Symbol',
-        }
-        local cmds = {
-          'Refactor extract',
-          'Refactor extract_var',
-          'Refactor extract_to_file',
-          'Refactor inline_var',
-          'Refactor inline_func',
-          'Refactor extract_block',
-          'Refactor extract_block_to_file',
-          function() vim.lsp.buf.rename() end,
-        }
-
-        local idx = vim.fn['quickui#listbox#inputlist'](items, {
-          title = 'Refactor This',
-          border = 1,
-          index = 1,
-          syntax = 'cpp',
-        })
-        if idx and idx > 0 and cmds[idx] then
-          if type(cmds[idx]) == 'function' then
-            cmds[idx]()
-          else
-            vim.cmd(cmds[idx])
-          end
-        end
-      end, { desc = 'Refactor This (JetBrains Ctrl+T)' })
     end
   },
 
@@ -319,7 +281,7 @@ return {
   },
 
   -- Exchange text regions
-  { 'tommcdo/vim-exchange' },
+  -- { 'tommcdo/vim-exchange' },
 
   -- Async run & tasks (replaced by Neovim built-in functionality)
   -- Removed: asyncrun.vim and asynctasks.vim
@@ -598,7 +560,7 @@ return {
             vim.keymap.set({'n', 'x'}, '<leader>f', function()
               vim.lsp.buf.format({ async = true })
             end, opts)
-            vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+            vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
             vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
             vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
 
@@ -746,7 +708,7 @@ return {
                 -- Neovim 0.10+
                 clients = vim.lsp.get_clients({ bufnr = bufnr })
               else
-                -- Fallback for older versions
+                -- Fallbalk for older versions
                 clients = vim.lsp.get_active_clients({ bufnr = bufnr })
               end
 
@@ -852,70 +814,92 @@ return {
     end,
   },
 
-  -- Rust test runner
-  {
-    'vim-test/vim-test',
-    ft = { 'rust' },
-    dependencies = {
-      'preservim/vimux',
-    },
-    config = function()
-      -- Test configuration for Rust
-      vim.g['test#rust#runner'] = 'cargo'
-      vim.g['test#rust#cargo#options'] = '--quiet'
+  -- -- Rust test runner
+  -- {
+  --   'vim-test/vim-test',
+  --   ft = { 'rust' },
+  --   dependencies = {
+  --     'preservim/vimux',
+  --   },
+  --   config = function()
+  --     -- Test configuration for Rust
+  --     vim.g['test#rust#runner'] = 'cargo'
+  --     vim.g['test#rust#cargo#options'] = '--quiet'
 
-      -- Key mappings for testing
-      vim.keymap.set('n', '<leader>tn', function()
-        vim.cmd('TestNearest')
-      end, { desc = 'Test Nearest' })
+  --     -- Key mappings for testing
+  --     vim.keymap.set('n', '<leader>tn', function()
+  --       vim.cmd('TestNearest')
+  --     end, { desc = 'Test Nearest' })
 
-      vim.keymap.set('n', '<leader>tf', function()
-        vim.cmd('TestFile')
-      end, { desc = 'Test File' })
+  --     vim.keymap.set('n', '<leader>tf', function()
+  --       vim.cmd('TestFile')
+  --     end, { desc = 'Test File' })
 
-      vim.keymap.set('n', '<leader>ts', function()
-        vim.cmd('TestSuite')
-      end, { desc = 'Test Suite' })
+  --     vim.keymap.set('n', '<leader>ts', function()
+  --       vim.cmd('TestSuite')
+  --     end, { desc = 'Test Suite' })
 
-      vim.keymap.set('n', '<leader>tl', function()
-        vim.cmd('TestLast')
-      end, { desc = 'Test Last' })
-    end,
-  },
+  --     vim.keymap.set('n', '<leader>tl', function()
+  --       vim.cmd('TestLast')
+  --     end, { desc = 'Test Last' })
+  --   end,
+  -- },
 
   -- Claude Code integration
   {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
+    version="^0.3",
+    config = true,
     opts = {
-      -- 基本配置
-      auto_start = false,
-      log_level = "info",
-
-      -- 终端配置
-      terminal = {
-        split_side = "right",
-        split_width_percentage = 0.35,
-        provider = "snacks", -- 使用 snacks.nvim 终端
-      },
-
-      -- 发送后自动聚焦（可选）
+      -- Server Configuration
+      port_range = { min = 54590, max = 54666 },
+      auto_start = true,
+      log_level = "info", -- "trace", "debug", "info", "warn", "error"
+      -- terminal_cmd = nil, -- Custom terminal command (default: "claude")
+      --                     -- For local installations: "~/.claude/local/claude"
+      --                     -- For native binary: use output from 'which claude'
+    
+      -- Send/Focus Behavior
+      -- When true, successful sends will focus the Claude terminal if already connected
       focus_after_send = false,
-
-      -- 选择跟踪
+    
+      -- Selection Tracking
       track_selection = true,
+      visual_demotion_delay_ms = 50,
+    
+      -- Terminal Configuration
+      terminal = {
+        split_side = "right", -- "left" or "right"
+        split_width_percentage = 0.30,
+        provider = "auto", -- "auto", "snacks", "native", "external", "none", or custom provider table
+        auto_close = true,
+        snacks_win_opts = {}, -- Opts to pass to `Snacks.terminal.open()` - see Floating Window section below
+    
+        -- Provider-specific options
+        provider_opts = {
+          -- Command for external terminal provider. Can be:
+          -- 1. String with %s placeholder: "alacritty -e %s" (backward compatible)
+          -- 2. String with two %s placeholders: "alacritty --working-directory %s -e %s" (cwd, command)
+          -- 3. Function returning command: function(cmd, env) return "alacritty -e " .. cmd end
+          external_terminal_cmd = nil,
+        },
+      },
+    
+      -- Diff Integration
+      diff_opts = {
+        auto_close_on_accept = true,
+        vertical_split = true,
+        open_in_current_tab = true,
+        keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
+      },
     },
     keys = {
       { "<leader>i", nil, desc = "AI/Claude Code" },
       { "<leader>ii", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>if", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>ir", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
-      { "<leader>iC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
-      { "<leader>im", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-      { "<leader>ib", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
       { "<leader>is", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
       {
-        "<leader>is",
+        "<leader>it",
         "<cmd>ClaudeCodeTreeAdd<cr>",
         desc = "Add file",
         ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
