@@ -69,6 +69,18 @@ return {
         -- Show diagnostics in floating window
         vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 
+        -- Fix window parameter issues for code action range in Neovim 0.11.4+
+        -- Override make_range_params to ensure valid window parameter
+        local orig_make_range_params = vim.lsp.util.make_range_params
+        vim.lsp.util.make_range_params = function(opts)
+          opts = opts or {}
+          -- Use current window to avoid "Expected Lua number" error
+          opts.window = vim.api.nvim_get_current_win()
+          -- Set position encoding to avoid mixed encoding warnings
+          opts.position_encoding = opts.position_encoding or "utf-8"
+          return orig_make_range_params(opts)
+        end
+
         -- Safely enable inlay hints with robust error handling for Neovim 0.11+
         if client.server_capabilities.inlayHintProvider then
           vim.schedule(function()

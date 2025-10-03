@@ -9,12 +9,101 @@ return {
     end
   },
   { 'skywind3000/vim-quickui', lazy = false, config = function()  -- 立即加载快速 UI
+      -- Protect hjkl keys for navigation in quickui menus
+      vim.g.quickui_protect_hjkl = 1
+
       vim.keymap.set('n', '<C-Enter>', function()
-        vim.fn['quickui#context#open']()
+        -- Get current file information for context-sensitive menu
+        local bufnr = vim.api.nvim_get_current_buf()
+        local filetype = vim.bo.filetype
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        local has_lsp = #clients > 0
+
+        -- Build context menu based on file type and available features
+        local content = {}
+
+        -- LSP Navigation section (if LSP is available)
+        if has_lsp then
+          table.insert(content, {"📍 Go to &Definition\t\\gd", 'lua vim.lsp.buf.definition()'})
+          table.insert(content, {"🔗 Go to &Type Definition\t\\gy", 'lua vim.lsp.buf.type_definition()'})
+          table.insert(content, {"⚙️  Go to &Implementation\t\\gi", 'lua vim.lsp.buf.implementation()'})
+          table.insert(content, {"🔍 Find &References\t\\gr", 'lua vim.lsp.buf.references()'})
+          table.insert(content, {"-"})
+        end
+
+        -- File Operations
+        table.insert(content, {"📁 File &Explorer\t\\c1", 'lua vim.cmd("Neotree toggle")'})
+        table.insert(content, {"🔍 &Find Files\t\\cf", 'lua require("fzf-lua").files()'})
+        table.insert(content, {"🔎 Live &Grep\t\\cg", 'lua require("fzf-lua").live_grep()'})
+        table.insert(content, {"📋 Document &Symbols\t\\cs", 'lua require("fzf-lua").lsp_document_symbols()'})
+        table.insert(content, {"-"})
+
+        -- Code Actions (if LSP is available)
+        if has_lsp then
+          table.insert(content, {"💡 Code &Actions\t\\ca", 'lua vim.lsp.buf.code_action()'})
+          table.insert(content, {"✏️  &Rename Symbol\t\\cr", 'lua vim.lsp.buf.rename()'})
+          table.insert(content, {"🎯 &Format Code\t\\cf", 'lua vim.lsp.buf.format({async = true})'})
+          table.insert(content, {"-"})
+        end
+
+        -- Language-specific features
+        if filetype == "rust" then
+          table.insert(content, {"🦀 Rust &Runnables\t\\rr", 'lua vim.cmd("RustLsp runnables")'})
+          table.insert(content, {"🧪 Rust &Testables\t\\rt", 'lua vim.cmd("RustLsp testables")'})
+          table.insert(content, {"🔧 Rust &Debuggables\t\\rd", 'lua vim.cmd("RustLsp debuggables")'})
+          table.insert(content, {"📦 Open &Cargo.toml\t\\ro", 'lua vim.cmd("RustLsp openCargo")'})
+          table.insert(content, {"-"})
+        elseif filetype == "python" then
+          table.insert(content, {"🐍 Python &Run\t\\pr", 'lua vim.cmd("!python %")'})
+          table.insert(content, {"🧪 Python &Test\t\\pt", 'lua vim.cmd("TestFile")'})
+          table.insert(content, {"📦 &Pip Install\t\\pi", 'lua vim.cmd("!pip install -r requirements.txt")'})
+          table.insert(content, {"-"})
+        elseif filetype == "lua" then
+          table.insert(content, {"🌙 Lua &Run\t\\lr", 'lua vim.cmd("!lua %")'})
+          table.insert(content, {"🔧 Lua &Config Check\t\\lc", 'lua vim.cmd("luafile %")'})
+          table.insert(content, {"-"})
+        end
+
+        -- Diagnostics
+        table.insert(content, {"⚠️  Show &Diagnostics\t\\ce", 'lua vim.diagnostic.open_float()'})
+        table.insert(content, {"⬅️  Previous &Diagnostic\t\\g[", 'lua vim.diagnostic.goto_prev()'})
+        table.insert(content, {"➡️  Next &Diagnostic\t\\g]", 'lua vim.diagnostic.goto_next()'})
+        table.insert(content, {"🔧 Workspace &Diagnostics\t\\cD", 'lua require("fzf-lua").diagnostics_workspace()'})
+        table.insert(content, {"-"})
+
+        -- Git Operations
+        table.insert(content, {"🔀 Git &Status\t\\gs", 'lua vim.cmd("Git status")'})
+        table.insert(content, {"📝 Git &Commit\t\\gc", 'lua vim.cmd("Git commit")'})
+        table.insert(content, {"📤 Git &Push\t\\gp", 'lua vim.cmd("Git push")'})
+        table.insert(content, {"📥 Git &Pull\t\\gP", 'lua vim.cmd("Git pull")'})
+        table.insert(content, {"-"})
+
+        -- Utility Tools
+        table.insert(content, {"🔄 &Undo Tree\t\\c3", 'lua vim.cmd("UndotreeToggle")'})
+        table.insert(content, {"🔧 &Refactoring Menu\t\\rr", 'lua vim.cmd([[lua require("refactoring").refactor()]])'})
+        table.insert(content, {"💬 &Comment\t\\cc", 'lua vim.cmd("Commentary")'})
+        table.insert(content, {"🔄 &Cycle\t\\cyc", 'lua vim.cmd("CycleNext")'})
+        table.insert(content, {"-"})
+
+        -- Help and Info
+        table.insert(content, {"❓ &Help\t\\ch", 'lua vim.cmd("help")'})
+        table.insert(content, {"📖 LSP &Info\t\\cl", 'lua vim.cmd("LspInfo")'})
+        table.insert(content, {"⌨️  Key&maps\t\\cm", 'lua vim.cmd("verbose map")'})
+        table.insert(content, {"📋 Show &Messages\t\\cM", 'lua vim.cmd("messages")'})
+
+        -- Position menu near cursor
+        local cursor_pos = vim.api.nvim_win_get_cursor(0)
+        local opts = {
+          index = 1,
+          line = cursor_pos[1] + 1,  -- Position below current line
+          col = cursor_pos[2] + 1   -- Position at cursor column
+        }
+
+        vim.fn['quickui#context#open'](content, opts)
       end, { noremap = true, silent = true, desc = 'QuickUI Context Menu' })
-      
-      -- Ctrl-based Quick Fix / Intention Actions (compatible with macOS)
-      vim.keymap.set('n', '<C-CR>', function()
+
+      -- Use Alt+Enter for LSP code actions to avoid conflict with vim-quickui
+      vim.keymap.set('n', '<A-Enter>', function()
         -- Get LSP code actions at cursor
         local bufnr = vim.api.nvim_get_current_buf()
         -- Determine proper position encoding from the first attached client (fallback utf-8)
@@ -90,7 +179,7 @@ return {
             vim.lsp.buf.execute_command(chosen.command)
           end
         end)
-      end, { noremap = true, silent = true, desc = 'Show Intention Actions (Ctrl+Enter)' })
+      end, { noremap = true, silent = true, desc = 'Show Intention Actions (Alt+Enter)' })
     end
   },
 
@@ -389,26 +478,26 @@ return {
       })
     end,
     keys = {
-      { '<space>s', function()
+      { '<leader>s', function()
         require('fzf-lua').lsp_document_symbols({
           winopts = { preview = { enabled = true } },
           file_icons = true,
           color_icons = true,
         })
       end, desc = 'Document Symbols (FZF)' },
-      { '<space>S', function()
+      { '<leader>S', function()
         require('fzf-lua').lsp_workspace_symbols({
           winopts = { preview = { enabled = true } },
           file_icons = true,
           color_icons = true,
         })
       end, desc = 'Workspace Symbols (FZF)' },
-      { '<space>d', function() require('fzf-lua').diagnostics_document() end, desc = 'Diagnostics (buffer)' },
-      { '<space>D', function() require('fzf-lua').diagnostics_workspace() end, desc = 'Workspace Diagnostics' },
-      { '<space>c', function() require('fzf-lua').commands() end, desc = 'Commands' },
-      { '<space>g', function() require('fzf-lua').live_grep() end, desc = 'Live Grep' },
-      { '<space>f', function() require('fzf-lua').files() end, desc = 'Find Files' },
-      { '<space>b', function() require('fzf-lua').buffers() end, desc = 'Buffers' },
+      { '<leader>d', function() require('fzf-lua').diagnostics_document() end, desc = 'Diagnostics (buffer)' },
+      { '<leader>D', function() require('fzf-lua').diagnostics_workspace() end, desc = 'Workspace Diagnostics' },
+      { '<leader>c', function() require('fzf-lua').commands() end, desc = 'Commands' },
+      { '<leader>g', function() require('fzf-lua').live_grep() end, desc = 'Live Grep' },
+      { '<leader>f', function() require('fzf-lua').files() end, desc = 'Find Files' },
+      { '<leader>b', function() require('fzf-lua').buffers() end, desc = 'Buffers' },
       { 'gd', function() require('fzf-lua').lsp_definitions() end, desc = 'Go to Definition' },
       { 'gr', function() require('fzf-lua').lsp_references() end, desc = 'Go to References' },
       { 'gi', function() require('fzf-lua').lsp_implementations() end, desc = 'Go to Implementation' },
@@ -487,6 +576,12 @@ return {
 
         -- LSP configuration (rustaceanvim handles rust-analyzer automatically)
         server = {
+          -- Performance optimizations
+          standalone = false, -- Disable standalone file support for faster startup
+          ra_multiplex = {
+            enable = true, -- Connect to running ra-multiplex server for better performance
+          },
+
           -- Custom on_attach for Rust-specific keymaps
           on_attach = function(client, bufnr)
             local opts = { buffer = bufnr, noremap = true, silent = true, desc = '' }
@@ -628,15 +723,7 @@ return {
               vim.cmd.RustLsp { 'flyCheck', 'cancel' }
             end, vim.tbl_extend('force', opts, { desc = 'Cargo Check Cancel' }))
 
-            -- Workspace symbol search - following telescope patterns
-            vim.keymap.set('n', '<space>s', function()
-              vim.cmd.RustLsp('workspaceSymbol')
-            end, vim.tbl_extend('force', opts, { desc = 'Workspace Symbol' }))
-
-            vim.keymap.set('n', '<space>S', function()
-              vim.cmd.RustLsp { 'workspaceSymbol', 'allSymbols', bang = true }
-            end, vim.tbl_extend('force', opts, { desc = 'Workspace All Symbols' }))
-
+    
             -- Additional Rustc commands (requires nightly compiler) - optional
             vim.keymap.set('n', '<leader>rhb', function()
               vim.cmd.Rustc { 'unpretty', 'hir' }
@@ -673,13 +760,17 @@ return {
             end, vim.tbl_extend('force', opts, { desc = 'LSP Status' }))
           end,
 
-          -- rust-analyzer server settings (simplified for stability)
+          -- rust-analyzer server settings (optimized for performance)
           default_settings = {
             ['rust-analyzer'] = {
-              cargo = { allFeatures = true },
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true, -- Load output directories from check command for better performance
+              },
               check = {
                 command = "clippy",
                 extraArgs = { "--all", "--all-features", "--", "-D", "warnings" },
+                onSave = "file", -- Only check current file on save for faster response
               },
               procMacro = { enable = true },
               inlayHints = {
@@ -688,6 +779,25 @@ return {
                 parameterHints = { enable = true },
                 chainingHints = { enable = true },
                 lifetimeElisionHints = { enable = "skip_trivial" },
+              },
+              -- Performance optimizations
+              files = {
+                watcher = "server", -- Use server-side file watcher for better performance
+                excludeDirs = { "target", ".git" }, -- Exclude unnecessary directories
+              },
+              imports = {
+                granularity = { group = "module" }, -- Group imports by module for better organization
+                prefix = "crate", -- Use crate prefix for imports
+              },
+              completion = {
+                addCallParentheses = true,
+                addCallArgumentSnippets = true,
+                postfix = { enable = true },
+              },
+              -- Disable some expensive features if not needed
+              diagnostics = {
+                enable = true,
+                experimental = { enable = false }, -- Disable experimental diagnostics for better performance
               },
             },
           },

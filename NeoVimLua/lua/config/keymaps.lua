@@ -2,8 +2,9 @@
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- cancel s mapping
+-- cancel s and S mappings to avoid conflicts with leader+s and leader+S
 map({"n","x","o"}, "s", "<nop>")
+map({"n","x","o"}, "S", "<nop>")
 
 -- command-line navigation
 vim.cmd([[
