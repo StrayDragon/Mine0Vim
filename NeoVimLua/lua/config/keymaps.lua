@@ -92,3 +92,4 @@ vim.cmd([[
   " 使用 Esc 退出终端模式（类似 Vim）
   tnoremap <Esc> <C-\><C-N>
 ]])
+

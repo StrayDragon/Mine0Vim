@@ -75,7 +75,8 @@ return {
               'toggleterm', 'fzf', 'FzfLua', 'TelescopePrompt', 'TelescopeResults',
               'undotree', 'git', 'diff', 'help', 'lazy', 'mason', 'mason.nvim',
               'qf', 'quickfix', 'starter', 'alpha', 'dashboard', 'oil', 'minifiles',
-              'netrw', 'Trouble', 'terminal', 'claude', 'claudecode'
+              'netrw', 'Trouble', 'terminal', 'claude', 'claudecode', 'snacks_terminal',
+              'ClaudeTerminal', 'claude-terminal', 'Claude', 'claude_code_terminal'
             },
             winbar = {},
           },
