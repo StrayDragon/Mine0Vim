@@ -5,7 +5,19 @@ return {
     version = "v0.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
-      "echasnovski/mini.snippets",  -- 现代化 snippet 引擎
+      {
+        "echasnovski/mini.snippets",
+        config = function()
+          require('mini.snippets').setup({
+            -- 基本配置
+            mappings = {
+              insert = '<C-l>',  -- 展开片段
+              stop = '<C-c>',     -- 停止片段
+              cut = '<C-x>',      -- 剪切片段
+            }
+          })
+        end
+      },
       "rustaceanvim",  -- Rust 语言补全支持
     },
     opts = {
