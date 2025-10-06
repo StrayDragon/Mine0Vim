@@ -1,3 +1,9 @@
 return {
-  -- Split plugin specs by domain; keep root minimal
+  -- 按域分离插件规范；保持根最小化
+
+  -- 加载专用 Rust 配置
+  require('plugins.rust'),
+
+  -- 加载调试配置
+  require('config.dap'),
 }
