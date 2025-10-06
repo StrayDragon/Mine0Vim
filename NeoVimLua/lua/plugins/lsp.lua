@@ -36,6 +36,24 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,  -- 立即加载 LSP 核心配置
     dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
+    -- 优化LSP启动性能
+    init = function()
+      -- 预设置诊断配置以提高性能
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "●",
+          spacing = 2,
+        },
+        float = {
+          source = "always",
+          border = "rounded",
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,  -- 插入模式不更新诊断
+        severity_sort = true,
+      })
+    end,
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       -- 统一所有客户端的位置编码以避免混合 UTF-8/UTF-16 警告
@@ -62,24 +80,13 @@ return {
         -- 操作
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)       -- 重命名符号
         vim.keymap.set({'n', 'x'}, '<leader>a', vim.lsp.buf.code_action, opts) -- 代码动作
-        vim.keymap.set({'n', 'x'}, '<leader>f', function()               -- 格式化代码
+        -- 格式化功能已移至 conform.nvim，保留 LSP 格式化作为后备
+        vim.keymap.set({'n', 'x'}, '<leader>F', function()               -- LSP 格式化代码（后备）
           vim.lsp.buf.format({ async = true })
         end, opts)
 
         -- 在浮动窗口中显示诊断
         vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-
-        -- 修复 Neovim 0.11.4+ 中代码动作范围的窗口参数问题
-        -- 覆盖 make_range_params 以确保有效的窗口参数
-        local orig_make_range_params = vim.lsp.util.make_range_params
-        vim.lsp.util.make_range_params = function(opts)
-          opts = opts or {}
-          -- 使用当前窗口避免"Expected Lua number"错误
-          opts.window = vim.api.nvim_get_current_win()
-          -- 设置位置编码以避免混合编码警告
-          opts.position_encoding = opts.position_encoding or "utf-8"
-          return orig_make_range_params(opts)
-        end
 
         -- 为 Neovim 0.11+ 安全启用内联提示，具有强大的错误处理
         if client.server_capabilities.inlayHintProvider then

@@ -1,6 +1,6 @@
 return {
   { "stevearc/aerial.nvim", opts = {}, keys = {
-      { "<C-7>", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
+      { "<A-7>", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
       { "<space>o", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
     }
   },
@@ -15,35 +15,6 @@ return {
     lazy = false,  -- 立即加载状态栏
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      -- 自定义 LSP 状态组件
-      local function lsp_status()
-        local bufnr = vim.api.nvim_get_current_buf()
-        local clients = {}
-
-        if vim.lsp.get_clients then
-          clients = vim.lsp.get_clients({ bufnr = bufnr })
-        elseif vim.lsp.get_active_clients then
-          clients = vim.lsp.get_active_clients({ bufnr = bufnr })
-        end
-
-        if #clients == 0 then
-          return ''
-        end
-
-        local client_names = {}
-        for _, client in ipairs(clients) do
-          if client.name ~= 'null-ls' then
-            table.insert(client_names, client.name)
-          end
-        end
-
-        if #client_names > 0 then
-          return '🔧 ' .. table.concat(client_names, ', ')
-        else
-          return ''
-        end
-      end
-
       -- 自定义内联提示状态组件
       local function inlay_hints_status()
         local bufnr = vim.api.nvim_get_current_buf()
@@ -63,6 +34,7 @@ return {
         return enabled and '💡 提示' or ''
       end
 
+  
       require('lualine').setup({
         options = {
           icons_enabled = true,
@@ -84,9 +56,20 @@ return {
           always_divide_middle = true,
           globalstatus = false,
           refresh = {
-            statusline = 1000,
+            statusline = 200,    -- 更频繁的刷新以显示LSP状态变化
             tabline = 1000,
             winbar = 1000,
+            refresh_time = 16,  -- ~60fps刷新率
+            events = {
+              'WinEnter',
+              'BufEnter',
+              'BufWritePost',
+              'LspAttach',
+              'LspDetach',
+              'CursorMoved',
+              'CursorMovedI',
+              'ModeChanged',
+            },
           }
         },
         sections = {
@@ -123,7 +106,16 @@ return {
             },
           },
           lualine_x = {
-            { lsp_status, color = { fg = '#666666' } },           -- LSP 状态
+            { 'lsp_status',
+              icon = '🔧',
+              symbols = {
+                spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
+                done = '✓',
+                separator = ' ',
+              },
+              ignore_lsp = { 'null-ls', 'copilot' },
+              color = { fg = '#666666' }
+            },
             { inlay_hints_status, color = { fg = '#888888' } },   -- 内联提示状态
             'encoding',           -- 编码
             'fileformat',         -- 文件格式
@@ -150,52 +142,15 @@ return {
   { "Yggdroot/indentLine", config = function()
       -- 按照旧配置仅为 Python 文件配置缩进线
       vim.g.indentLine_fileType = { "python" }
-    end
-  },
-  { "doums/darcula" },                    -- Darcula 主题
-  { "sainnhe/edge" },                     -- Edge 主题
-  { "NLKNguyen/papercolor-theme", config = function()
-      -- 尝试默认使用 PaperColor；如果失败则回退到 edge 或 habamax
-      local ok = pcall(vim.cmd.colorscheme, "PaperColor")
-      if not ok then
-        local ok2 = pcall(vim.cmd.colorscheme, "edge")
-        if not ok2 then
-          pcall(vim.cmd.colorscheme, "habamax")
-        end
-      end
 
-      -- 确保 LspInlayHint 有适当的高亮以避免错误装饰器
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        callback = function()
-          -- 设置微妙的内联提示样式
-          vim.api.nvim_set_hl(0, "LspInlayHint", {
-            fg = "#6c6c6c",
-            bg = "NONE",
-            italic = true,
-          })
+      -- 设置缩进线颜色
+      vim.g.indentLine_color_term = 239      -- 终端下的颜色
+      vim.g.indentLine_color_gui = '#504945' -- GUI下的颜色
 
-          -- 设置具有更好对比度的 FloatBorder
-          vim.api.nvim_set_hl(0, "FloatBorder", {
-            fg = "#666666",
-            bg = "NONE",
-          })
-        end,
-      })
-
-      -- 立即应用于当前配色方案
-      pcall(function()
-        vim.api.nvim_set_hl(0, "LspInlayHint", {
-          fg = "#6c6c6c",
-          bg = "NONE",
-          italic = true,
-        })
-
-        -- 设置具有更好对比度的 FloatBorder
-        vim.api.nvim_set_hl(0, "FloatBorder", {
-          fg = "#666666",
-          bg = "NONE",
-        })
-      end)
+      -- 禁用某些字符的缩进线显示
+      vim.g.indentLine_concealcursor = 'nc'   -- 在普通和可视模式下隐藏
+      vim.g.indentLine_conceallevel = 2       -- 隐藏级别
+      vim.g.indentLine_char = '│'              -- 使用 │ 字符
     end
   },
 }

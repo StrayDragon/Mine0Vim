@@ -142,7 +142,7 @@ g[ (previous), g] (next)
 ### UI Configuration
 - **Theme**: PaperColor (light) / edge (dark)
 - **Status Line**: lightline.vim
-- **File Explorer**: neo-tree.nvim (toggle with `<C-1>`)
+- **File Explorer**: neo-tree.nvim (toggle with `<A-1>`)
 - **Undo Tree**: undotree (toggle with `<A-3>`)
 
 ### Rust Development Tools
@@ -191,9 +191,34 @@ g[ (previous), g] (next)
 ## File Management
 
 ### Navigation Shortcuts
-- `<C-1>` - Toggle neo-tree file explorer
+- `<A-1>` - Toggle neo-tree file explorer
 - `<A-3>` - Toggle undotree
+- `<A-7>` - Toggle aerial outline view
 - `<A-g>` - Git commands (fugitive)
+
+### Tab Management (IntelliJ Style)
+**Note: In Neovim, tabs are different from buffers. Tabs are layout containers.**
+- `<C-1>` - Go to first tab
+- `<C-2~9>` - Go to tab 2-9
+- `<C-Tab>` - Next tab
+- `<C-Shift-Tab>` - Previous tab
+
+### Buffer Management (barbar.nvim)
+**Note: Buffers are individual file instances, managed by barbar.nvim.**
+- `<Leader>b1~9` - Goto buffer 1-9 (primary method)
+- `<Leader>b0` - Goto last buffer
+- `<A-2~6>, <A-8~9>` - Goto buffer 2-6, 8-9 (alternative, excludes 1 & 7 for panels)
+- `<A-,>` - Previous buffer
+- `<A-.>` - Next buffer
+- `<A-c>` - Close buffer
+- `<C-p>` - Buffer pick mode
+- `<A-p>` - Pin/unpin buffer
+
+### Key Differences
+- **Tabs**: Layout containers (like IntelliJ tabs) - use `:tabnew`, `:tabclose`
+- **Buffers**: Individual files (like IntelliJ editor tabs) - managed by barbar.nvim
+- **One tab can contain multiple buffers** (via splits)
+- **Barbar.nvim shows buffers in the tabline**, not Neovim tabs
 
 ### Window Management
 - `<Leader>S<direction>` - Resize splits

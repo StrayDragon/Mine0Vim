@@ -45,15 +45,10 @@ map('n', '<Leader>S<left>', ':vertical resize -4<CR>', { noremap = true }) -- �
 map('n', '<Leader>S<right>', ':vertical resize +4<CR>', { noremap = true }) -- 增加宽度
 
 -- 标签页操作
-map('n', '<Leader>TE', ':tabe<CR>', { noremap = true })       -- 新建标签页
+map('n', '<Leader>TE', ':tabedit<CR>', { noremap = true })       -- 新建标签页
 map('n', '<Leader>TH', ':tabprevious<CR>', { noremap = true }) -- 上一个标签页
 map('n', '<Leader>TL', ':tabnext<CR>', { noremap = true })    -- 下一个标签页
 
--- 使用方向键导航 quickfix 列表
-map('n', '<RIGHT>', ':cnext<CR>', { silent = true })          -- 下一个 quickfix 项目
-map('n', '<RIGHT><RIGHT>', ':cnfile<CR><C-G>', { silent = true }) -- 下一个文件
-map('n', '<LEFT>', ':cprev<CR>', { silent = true })           -- 上一个 quickfix 项目
-map('n', '<LEFT><LEFT>', ':cpfile<CR><C-G>', { silent = true })   -- 上一个文件
 
 -- 切换内联提示
 vim.keymap.set('n', '<leader>ui', function()
