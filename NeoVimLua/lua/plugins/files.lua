@@ -14,25 +14,50 @@ return {
       update_focused_file = {
         enable = true,
         update_root = false,
+        ignore_list = {},
       },
 
-      -- 简化视图设置
+      -- 性能优化配置
+      filesystem_watchers = {
+        enable = true,
+        debounce_delay = 50,
+        ignore_dirs = { ".git", "node_modules", "__pycache__", ".venv", "target", "dist", "build" },
+      },
+
+      -- 优化的视图设置
       view = {
-        width = 30,
+        width = { min = 30, max = 45 },
         side = "left",
         number = false,
         relativenumber = false,
         signcolumn = "yes",
+        float = {
+          enable = false,
+          quit_on_focus_loss = true,
+          open_win_config = {
+            relative = "editor",
+            border = "rounded",
+            width = 50,
+            height = 30,
+            row = 1,
+            col = 1,
+          },
+        },
+        preserve_window_proportions = true,
+        cursorline = true,
       },
 
-      -- 简化渲染器 - 禁用图标和Git状态
+      -- 增强的渲染器配置
       renderer = {
-        group_empty = false,
+        group_empty = true,
         full_name = false,
-        root_folder_label = ":~:s?$",
+        root_folder_label = function(path)
+          return vim.fn.fnamemodify(path, ":~:t")
+        end,
         indent_width = 2,
         indent_markers = {
           enable = true,
+          inline_arrows = true,
           icons = {
             corner = "└",
             edge = "│",
@@ -42,59 +67,157 @@ return {
           },
         },
         icons = {
+          webdev_colors = true,
+          git_placement = "signcolumn",
+          modified_placement = "after",
+          padding = " ",
+          symlink_arrow = " ➛ ",
           show = {
-            file = false,
-            folder = false,
-            folder_arrow = false,
-            git = false,
-            modified = false,
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
+            modified = true,
           },
           glyphs = {
-            default = "",
-            symlink = "",
+            default = "󰈚",
+            symlink = "",
+            bookmark = "󰆃",
+            modified = "●",
             folder = {
               arrow_closed = "▶",
               arrow_open = "▼",
-              default = "",
-              open = "",
-              empty = "",
-              empty_open = "",
-              symlink = "",
-              symlink_open = "",
+              default = "󰉋",
+              open = "󰝰",
+              empty = "󰜌",
+              empty_open = "󰝏",
+              symlink = "󰉌",
+              symlink_open = "󰝏",
+            },
+            git = {
+              unstaged = "✗",
+              staged = "✓",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "★",
+              deleted = "",
+              ignored = "◌",
             },
           },
         },
+        special_files = {
+          "Cargo.toml", "README.md", "package.json", "requirements.txt",
+          "Makefile", "CMakeLists.txt", "setup.py", "init.lua"
+        },
+        highlight_git = true,
+        highlight_diagnostics = true,
+        highlight_opened_files = "name",
+        highlight_modified = "icon",
       },
 
-      -- 禁用Git集成
+      -- 优化的Git集成（异步）
       git = {
-        enable = false,
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        disable_for_dirs = { "node_modules", ".git", "target", "dist" },
+        timeout = 400,
+        ignore = {
+          ".git", ".svn", ".hg", ".DS_Store", "node_modules", "__pycache__",
+          ".venv", "target", "dist", "build", ".pytest_cache"
+        },
       },
 
-      -- 禁用诊断
+      -- 启用诊断（异步）
       diagnostics = {
-        enable = false,
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        debounce_delay = 50,
+        severity = {
+          min = vim.diagnostic.severity.HINT,
+          max = vim.diagnostic.severity.ERROR,
+        },
+        icons = {
+          hint = "󰌵",
+          info = "󰋼",
+          warning = "󰀪",
+          error = "󰅙",
+        },
       },
 
-      -- 简化过滤器
+      -- 增强的过滤器
       filters = {
+        git_ignored = true,
         dotfiles = false,
-        custom = {},
+        git_clean = false,
+        no_buffer = false,
+        no_bookmark = false,
+        custom = {
+          ".git",
+          "node_modules",
+          "__pycache__",
+          ".pytest_cache",
+          ".mypy_cache",
+          ".coverage",
+          "target",
+          "dist",
+          "build",
+          ".DS_Store",
+          "*.pyc",
+          "*.pyo",
+          ".venv",
+          "venv",
+          "env",
+          ".env",
+          "*.log",
+          "*.tmp"
+        },
       },
 
-      -- 简化文件操作
+      -- 修改的配置
+      modified = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+      },
+
+      -- 增强的文件操作
       actions = {
         use_system_clipboard = true,
         change_dir = {
           enable = true,
           global = false,
+          restrict_above_cwd = false,
+        },
+        expand_all = {
+          max_folder_discovery = 300,
+          exclude = { ".git", "target", "node_modules", ".cache" },
+        },
+        file_popup = {
+          open_win_config = {
+            col = 1,
+            row = 1,
+            border = "single",
+            relative = "cursor",
+            width = "30%",
+            height = "40%",
+          },
         },
         open_file = {
           quit_on_open = false,
           resize_window = true,
           window_picker = {
-            enable = false,
+            enable = true,
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            exclude = {
+              filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+              buftype = { "nofile", "terminal", "help" },
+            },
           },
+        },
+        remove_file = {
+          close_window = true,
         },
       },
     },
@@ -113,6 +236,20 @@ return {
         -- 添加 l 和 h 键映射用于文件夹导航
         vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
         vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+
+        -- 添加基本键位映射（使用安全的API调用）
+        vim.keymap.set('n', 'E', api.tree.expand_all, opts('Expand All'))
+        vim.keymap.set('n', 'W', api.tree.collapse_all, opts('Collapse All'))
+        vim.keymap.set('n', 'y', api.fs.copy.node, opts('Copy'))
+        vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+        vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
+        vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+        vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
+        vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open: New Tab'))
+        vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
+        vim.keymap.set('n', '<C-s>', api.node.open.horizontal, opts('Open: Horizontal Split'))
+        vim.keymap.set('n', '<Tab>', api.node.open.preview, opts('Open Preview'))
+        vim.keymap.set('n', '<C-q>', api.tree.close, opts('Close'))
       end
 
       -- 添加 on_attach 到配置
@@ -193,151 +330,5 @@ Nvim-tree.lua 快捷键：
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
     end,
-  },
-
-  -- mini.files 文件管理器（作为 Nvim-tree 的补充）
-  {
-    "echasnovski/mini.files",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      windows = {
-        preview = true,
-        width_focus = 30,
-        width_nofocus = 20,
-        width_preview = 100,
-      },
-      mappings = {
-        close = "q",
-        go_in = "l",
-        go_in_plus = "<CR>",
-        go_out = "h",
-        go_out_plus = "H",
-        mark_goto = "'",
-        mark_set = "m",
-        reset = "<BS>",
-        reveal_cwd = "@",
-        show_help = "g?",
-        synchronize = "=",
-        trim_left = "<LocalLeader>l",
-        trim_right = "<LocalLeader>r",
-      },
-      options = {
-        use_as_default_explorer = false,  -- 不作为默认浏览器
-        permanent_delete = false,
-        windows_focus_preview = true,
-      },
-    },
-    config = function(_, opts)
-      require("mini.files").setup(opts)
-
-      -- 创建迷你文件浏览器
-      local MiniFiles = require("mini.files")
-
-      -- 自定义文件过滤器
-      local filter_hidden = function(entry)
-        return not vim.startswith(entry.name, ".")
-      end
-
-      -- 添加用户命令
-      vim.api.nvim_create_user_command("MiniFiles", function()
-        MiniFiles.open()
-      end, { desc = "Mini files explorer" })
-
-      vim.api.nvim_create_user_command("MiniFilesCurrent", function()
-        MiniFiles.open(vim.api.nvim_buf_get_name(0))
-      end, { desc = "Mini files explorer at current file" })
-
-      vim.api.nvim_create_user_command("MiniFilesCwd", function()
-        MiniFiles.open(vim.fn.getcwd())
-      end, { desc = "Mini files explorer at cwd" })
-
-      -- 键位映射
-      local map = vim.keymap.set
-      local opts_desc = { noremap = true, silent = true, desc = "MiniFiles" }
-
-      map("n", "<leader>mf", function() MiniFiles.open() end,
-        vim.tbl_extend("force", opts_desc, { desc = "Mini files explorer" }))
-      map("n", "<leader>mF", function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end,
-        vim.tbl_extend("force", opts_desc, { desc = "Mini files at current file" }))
-      map("n", "<leader>mc", function() MiniFiles.open(vim.fn.getcwd()) end,
-        vim.tbl_extend("force", opts_desc, { desc = "Mini files at cwd" }))
-
-      -- 自定义文件操作
-      local map_split = function(buf_id, lhs, direction)
-        local rhs = function()
-          local new_target_window
-          vim.api.nvim_win_call(MiniFiles.get_target_window(), function()
-            vim.cmd(direction .. " split")
-            new_target_window = vim.api.nvim_get_current_win()
-          end)
-          MiniFiles.set_target_window(new_target_window)
-          MiniFiles.go_in({ close_on_file = true })
-        end
-
-        local desc = "Open in " .. direction .. " split"
-        vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
-      end
-
-      -- 在 MiniFiles 窗口中设置映射
-      local augroup = vim.api.nvim_create_augroup("mini_files_mapping", { clear = true })
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesBufferCreate",
-        callback = function(args)
-          local buf_id = args.data.buf_id
-          -- 在垂直/水平分割中打开文件
-          map_split(buf_id, "<C-s>", "belowright horizontal")
-          map_split(buf_id, "<C-v>", "belowright vertical")
-          map_split(buf_id, "<C-t>", "tabnew")
-        end,
-      })
-
-      -- 文件操作增强
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesActionRename",
-        callback = function(args)
-          local new_name = args.data.action.new_name
-          local old_name = args.data.action.old_name
-
-          -- 如果重命名的是当前缓冲区，更新缓冲区名称
-          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.api.nvim_buf_get_name(buf) == old_name then
-              vim.api.nvim_buf_set_name(buf, new_name)
-              vim.api.nvim_buf_call(buf, function()
-                vim.cmd("edit!")
-              end)
-            end
-          end
-        end,
-      })
-
-      -- 文件创建后自动打开
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesActionCreate",
-        callback = function(args)
-          local file_path = args.data.action.path
-          local stat = vim.loop.fs_stat(file_path)
-          if stat and stat.type == "file" then
-            vim.schedule(function()
-              vim.cmd("edit " .. file_path)
-            end)
-          end
-        end,
-      })
-    end,
-  },
-
-  -- 文件操作增强（可选）
-  {
-    "echasnovski/mini.operators",
-    optional = true,
-    opts = {
-      evaluate = { prefix = "g=" },
-      exchange = { prefix = "gx" },
-      multiply = { prefix = "gm" },
-      replace = { prefix = "gr" },
-      sort = { prefix = "gs" },
-    },
   },
 }
