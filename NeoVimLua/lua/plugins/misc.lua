@@ -4,6 +4,66 @@ return {
   --     vim.keymap.set('n', '<C-g>', ':Git ', { noremap = true, desc = 'Git command' })
   --   end
   -- },
+
+  -- Git 变更显示 - 高性能浅色边栏标记
+  {
+    'lewis6991/gitsigns.nvim',
+    lazy = false,  -- 立即加载，确保Git标记始终显示
+    config = function()
+      require('gitsigns').setup({
+        signs = {
+          add          = { hl = 'GitSignsAdd'   , text = '+', numhl = 'GitSignsAddNr'   , linehl = 'GitSignsAddLn'    },
+          change       = { hl = 'GitSignsChange', text = '+', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+          delete       = { hl = 'GitSignsDelete', text = '-', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+          topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
+          changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+        },
+        signcolumn = true,  -- 在左侧显示标记
+        numhl      = false, -- 不在行号上显示标记
+        linehl     = false, -- 不在整行显示高亮
+        word_diff  = false, -- 不启用单词级别的diff
+        watch_gitdir = {
+          interval = 1000,
+          follow_files = true
+        },
+        attach_to_untracked = true,
+        current_line_blame = false,  -- 不显示当前行blame信息
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol',
+          delay = 1000,
+        },
+        sign_priority = 6,
+        update_debounce = 100,
+        status_formatter = nil, -- 使用默认状态格式
+        max_file_length = 40000, -- 大文件性能优化
+        preview_config = {
+          border = 'single',
+          style = 'minimal',
+          relative = 'cursor',
+          row = 0,
+          col = 1
+        },
+      })
+
+      -- Git 操作快捷键
+      vim.keymap.set('n', '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage hunk' })
+      vim.keymap.set('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>', { desc = 'Reset hunk' })
+      vim.keymap.set('v', '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage hunk (visual)' })
+      vim.keymap.set('v', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>', { desc = 'Reset hunk (visual)' })
+      vim.keymap.set('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>', { desc = 'Stage buffer' })
+      vim.keymap.set('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>', { desc = 'Undo stage hunk' })
+      vim.keymap.set('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>', { desc = 'Reset buffer' })
+      vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>', { desc = 'Preview hunk' })
+      vim.keymap.set('n', '<leader>hb', '<cmd>Gitsigns blame_line<CR>', { desc = 'Blame line' })
+      vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>', { desc = 'Diff this' })
+      vim.keymap.set('n', '<leader>hD', '<cmd>Gitsigns diffthis ~<CR>', { desc = 'Diff this ~' })
+      vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>', { desc = 'Toggle deleted' })
+
+      -- 文本对象支持
+      vim.keymap.set({'o', 'x'}, 'ih', '<cmd>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
+    end,
+  },
   { 'mbbill/undotree', lazy = false, config = function()  -- 立即加载撤销树
       vim.keymap.set('n', '<A-3>', ':UndotreeToggle<CR>', { noremap = true, silent = true, desc = '切换撤销树' })
     end
