@@ -8,7 +8,15 @@ return {
       {
         "<leader>f",
         function()
-          require("conform").format({
+          local conform = require("conform")
+          local formatters = conform.list_formatters(0)
+
+          if #formatters == 0 then
+            vim.notify("No formatters available for this file type", vim.log.levels.WARN)
+            return
+          end
+
+          conform.format({
             async = true,
             lsp_fallback = true,
             timeout_ms = 1000,
@@ -59,6 +67,7 @@ return {
 
         -- JSON/YAML/TOML formatters
         json = { "prettierd", "prettier" },
+        jsonc = { "prettierd", "prettier" },  -- JSON with Comments
         yaml = { "prettierd", "prettier" },
         toml = { "taplo" },
 
@@ -74,6 +83,9 @@ return {
 
         -- Other formatters
         proto = { "buf" },
+
+        -- Fallback for any filetype not explicitly defined
+        ["_*"] = { "prettierd", "prettier" },  -- Use prettier as fallback
       },
 
       -- Formatter options

@@ -21,33 +21,33 @@ vim.cmd([[
 ]])
 
 -- 窗口切换
-map('n', 'gw', '<C-w>w', opts)
+map('n', 'gw', '<C-w>w', vim.tbl_extend('force', opts, { desc = "切换窗口" }))
 
 -- 替换当前单词
-map('n', '<Leader>y', [[:%s/<C-r><C-w>/]], { noremap = true })
+map('n', '<Leader>y', [[:%s/<C-r><C-w>/]], { noremap = true, desc = "替换当前单词" })
 -- 复制所有内容到系统剪贴板
-map('n', '<Leader>Y', [[ggVG"+y<CR><C-o><C-o>]], { noremap = true, silent = true })
+map('n', '<Leader>Y', [[ggVG"+y<CR><C-o><C-o>]], { noremap = true, silent = true, desc = "复制所有内容到系统剪贴板" })
 
 -- 窗口分割
-map('n', '<Leader>SL', ':set splitright<CR>:vsplit<CR>', { noremap = true })  -- 右侧垂直分割
-map('n', '<Leader>SH', ':set nosplitright<CR>:vsplit<CR>', { noremap = true }) -- 左侧垂直分割
-map('n', '<Leader>SK', ':set nosplitbelow<CR>:split<CR>', { noremap = true }) -- 上方水平分割
-map('n', '<Leader>SJ', ':set splitbelow<CR>:split<CR>', { noremap = true })   -- 下方水平分割
+map('n', '<Leader>SL', ':set splitright<CR>:vsplit<CR>', { noremap = true, desc = "右侧垂直分割" })
+map('n', '<Leader>SH', ':set nosplitright<CR>:vsplit<CR>', { noremap = true, desc = "左侧垂直分割" })
+map('n', '<Leader>SK', ':set nosplitbelow<CR>:split<CR>', { noremap = true, desc = "上方水平分割" })
+map('n', '<Leader>SJ', ':set splitbelow<CR>:split<CR>', { noremap = true, desc = "下方水平分割" })
 
 -- 移动分割布局
-map('n', '<Leader>Sr', '<C-w>t<C-w>H<Esc>', { noremap = true })  -- 水平转垂直
-map('n', '<Leader>SR', '<C-w>t<C-w>K<Esc>', { noremap = true })  -- 垂直转水平
+map('n', '<Leader>Sr', '<C-w>t<C-w>H<Esc>', { noremap = true, desc = "水平转垂直" })
+map('n', '<Leader>SR', '<C-w>t<C-w>K<Esc>', { noremap = true, desc = "垂直转水平" })
 
 -- 调整窗口大小
-map('n', '<Leader>S<up>', ':resize +4<CR>', { noremap = true })      -- 增加高度
-map('n', '<Leader>S<down>', ':resize -4<CR>', { noremap = true })    -- 减少高度
-map('n', '<Leader>S<left>', ':vertical resize -4<CR>', { noremap = true }) -- 减少宽度
-map('n', '<Leader>S<right>', ':vertical resize +4<CR>', { noremap = true }) -- 增加宽度
+map('n', '<Leader>S<up>', ':resize +4<CR>', { noremap = true, desc = "增加高度" })
+map('n', '<Leader>S<down>', ':resize -4<CR>', { noremap = true, desc = "减少高度" })
+map('n', '<Leader>S<left>', ':vertical resize -4<CR>', { noremap = true, desc = "减少宽度" })
+map('n', '<Leader>S<right>', ':vertical resize +4<CR>', { noremap = true, desc = "增加宽度" })
 
 -- 标签页操作
-map('n', '<Leader>TE', ':tabedit<CR>', { noremap = true })       -- 新建标签页
-map('n', '<Leader>TH', ':tabprevious<CR>', { noremap = true }) -- 上一个标签页
-map('n', '<Leader>TL', ':tabnext<CR>', { noremap = true })    -- 下一个标签页
+map('n', '<Leader>TE', ':tabedit<CR>', { noremap = true, desc = "新建标签页" })
+map('n', '<Leader>TH', ':tabprevious<CR>', { noremap = true, desc = "上一个标签页" })
+map('n', '<Leader>TL', ':tabnext<CR>', { noremap = true, desc = "下一个标签页" })
 
 
 -- 切换内联提示

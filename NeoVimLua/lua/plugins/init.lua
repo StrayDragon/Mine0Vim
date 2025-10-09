@@ -6,4 +6,7 @@ return {
 
   -- 加载调试配置
   require('config.dap'),
+
+  -- 加载 Which-Key 快捷键提示配置
+  require('plugins.which-key'),
 }
