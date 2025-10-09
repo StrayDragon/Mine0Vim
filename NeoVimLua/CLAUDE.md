@@ -58,15 +58,54 @@ Uses **lazy.nvim** with:
 :Telescope diagnostics # Show diagnostics
 ```
 
-### Common Key Bindings
+### Language Tools Status
 ```bash
-<leader>f        # Format code
-<leader>a        # Code actions
-gq               # Quick fix
-gd               # Go to definition
-gr               # Find references
-K                # Hover documentation
-<leader>         # Show all keybindings (Which-Key)
+:LangTools       # Show available language-specific tools
+```
+
+### Key Binding System
+
+#### 基础LSP键位（跨编辑器通用）
+这些键位在所有支持LSP的编辑器中保持一致，减少学习成本：
+
+```bash
+gd               # 跳转到定义
+gr               # 查找引用
+gi               # 跳转到实现
+gy               # 跳转到类型定义
+K                # 悬停帮助
+gq               # 快速修复
+<leader>ca       # 代码动作
+<leader>rn       # 重命名
+<leader>f        # 格式化
+<leader>ws       # 工作区符号
+```
+
+#### 语言特定前缀系统
+```bash
+<leader>xr       # Rust 工具
+<leader>xp       # Python 工具
+<leader>xg       # Go 工具
+<leader>xl       # Lua 工具
+<leader>xc       # C/C++ 工具
+<leader>xa       # 通用工具
+```
+
+#### Rust 示例（使用新前缀系统）
+```bash
+<leader>xra      # Rust 代码动作
+<leader>xrb      # Cargo 构建
+<leader>xrt      # Cargo 测试
+<leader>xre      # Cargo 运行
+<leader>xrd      # Rust 调试
+<leader>xrm      # 宏展开
+```
+
+#### 常用键位
+```bash
+<leader>f        # 格式化代码（所有语言）
+<leader>ca       # 代码动作（所有语言）
+<leader>         # 显示所有键绑定（Which-Key）
 ```
 
 ## Language Support
@@ -86,22 +125,24 @@ K                # Hover documentation
 
 ## Key Features
 
-### Which-Key Integration
-- Intelligent key mapping discovery system
-- Auto-detects existing keybindings without manual maintenance
-- Categorized display with filtering
-- Statistics and refresh capabilities
+### Simplified Key Binding System
+- **基础LSP键位**：跨编辑器通用的标准键位 (gd, gr, gi, K, gq, <leader>ca, <leader>rn, <leader>f)
+- **语言分层前缀**：`<leader>x{lang}` 系统避免冲突，支持发现式学习
+- **Which-Key集成**：自动发现和展示键位映射，无需手动维护
+- **清晰分组**：按功能和语言分组，降低记忆负担
 
 ### Performance Optimizations
 - Lazy loading for non-essential plugins
 - Debounced inlay hints and diagnostics
 - Optimized completion system
 - Buffer-based limits for large files
+- 移除了过度复杂的智能路由系统，提升启动性能
 
 ### Debug Support
 - Multi-debugger support (codelldb, lldb-vscode)
 - Integrated with rustaceanvim for Rust
 - Debug adapter protocol configuration
+- 使用 `<leader>D` 前缀避免与诊断键位冲突
 
 ## Important Implementation Details
 

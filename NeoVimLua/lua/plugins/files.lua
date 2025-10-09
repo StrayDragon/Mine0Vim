@@ -292,40 +292,11 @@ return {
       end
 
       map("n", "<A-1>", nvim_tree_open_smart, vim.tbl_extend("force", opts_noremap, { desc = "Nvim-tree file browser (smart toggle)" }))
-      map("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", vim.tbl_extend("force", opts_noremap, { desc = "Nvim-tree toggle" }))
+      -- 移除 <leader>e 文件浏览器功能，避免与 <space>e (LSP 查找器) 冲突
+      -- 用户可以使用 <A-1> 作为文件浏览器替代
       map("n", "<leader>nf", "<Cmd>NvimTreeFindFile<CR>", vim.tbl_extend("force", opts_noremap, { desc = "Nvim-tree find current file" }))
 
-      -- 添加用户命令
-      vim.api.nvim_create_user_command("NvimTreeHelp", function()
-        print([[
-Nvim-tree.lua 快捷键：
-  Enter     - 打开文件/进入目录
-  o         - 打开文件
-  <C-e>     - 编辑文件名
-  <C-t>     - 新标签页打开
-  <C-v>     - 垂直分割打开
-  <C-x>     - 水平分割打开
-  Tab       - 预览文件
-  <C-]>     - 切换根目录
-  <BS>      - 上级目录
-  .         - 显示/隐藏文件
-  R         - 刷新
-  a         - 添加文件
-  A         - 添加目录
-  d         - 删除
-  r         - 重命名
-  y         - 复制
-  x         - 剪切
-  p         - 粘贴
-  c         - 复制到
-  m         - 移动到
-  q         - 关闭 Nvim-tree
-  W         - 折叠所有
-  E         - 展开所有
-  C         - 折叠子节点
-  ]])
-      end, { desc = "Show Nvim-tree keymaps help" })
-
+      
       -- 禁用 netrw 以避免冲突
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1

@@ -78,9 +78,9 @@ return {
         vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)        -- 下一个诊断
 
         -- 操作
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)       -- 重命名符号
+        -- 重命名符号已移至 keymaps.lua，避免重复
 
-        -- 智能代码动作路由 - 根据文件类型选择最佳实现
+        -- 智能代码动作路由 - 根据文件类型选择最佳实现（保留，优先于 keymaps.lua）
         vim.keymap.set({'n', 'x'}, '<leader>a', function()
           local filetype = vim.bo.filetype
           local bufnr = vim.api.nvim_get_current_buf()
@@ -114,8 +114,8 @@ return {
           vim.lsp.buf.format({ async = true })
         end, opts)
 
-        -- 在浮动窗口中显示诊断
-        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+        -- 在浮动窗口中显示诊断（使用 <leader>de 避免与文件浏览器冲突）
+        vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, opts)
 
         -- 为 Neovim 0.11+ 安全启用内联提示，具有强大的错误处理
         if client.server_capabilities.inlayHintProvider then

@@ -126,7 +126,7 @@ return {
       vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file", { desc = "Extract block to file" })
       
       -- QuickUI integration for refactoring menu
-      vim.keymap.set({'n', 'x'}, '<leader>rr', function()
+      vim.keymap.set({'n', 'x'}, '<leader>xar', function()
         local items = {
           '🔄 Extract Function',
           '🔄 Extract Variable',
@@ -301,30 +301,12 @@ return {
       })
     end,
     keys = {
-      { '<leader>s', function()
-        require('fzf-lua').lsp_document_symbols({
-          winopts = { preview = { enabled = true } },
-          file_icons = true,
-          color_icons = true,
-        })
-      end, desc = 'Document Symbols (FZF)' },
-      { '<leader>S', function()
-        require('fzf-lua').lsp_workspace_symbols({
-          winopts = { preview = { enabled = true } },
-          file_icons = true,
-          color_icons = true,
-        })
-      end, desc = 'Workspace Symbols (FZF)' },
-      { '<leader>d', function() require('fzf-lua').diagnostics_document() end, desc = 'Diagnostics (buffer) (FZF)' },
-      { '<leader>D', function() require('fzf-lua').diagnostics_workspace() end, desc = 'Workspace Diagnostics (FZF)' },
-      { '<leader>c', function() require('fzf-lua').commands() end, desc = 'Commands (FZF)' },
-      { '<leader>sg', function() require('fzf-lua').live_grep() end, desc = 'Live Grep (FZF)' },
-      { '<leader>h', function() require('fzf-lua').files() end, desc = 'Find Files (FZF)' },
-      { '<leader>b', function() require('fzf-lua').buffers() end, desc = 'Buffers (FZF)' },
-      { 'gd', function() require('fzf-lua').lsp_definitions() end, desc = 'Go to Definition' },
-      { 'gr', function() require('fzf-lua').lsp_references() end, desc = 'Go to References' },
-      { 'gi', function() require('fzf-lua').lsp_implementations() end, desc = 'Go to Implementation' },
-      { 'gy', function() require('fzf-lua').lsp_typedefs() end, desc = 'Go to Type Definition' },
+      -- fzf-lua 增强版LSP导航键位（不覆盖基础LSP键位）
+      { 'gD', function() require('fzf-lua').lsp_declarations() end, desc = 'FZF: Go to Declarations' },
+      { 'gR', function() require('fzf-lua').lsp_references() end, desc = 'FZF: Go to References' },
+      { 'gI', function() require('fzf-lua').lsp_implementations() end, desc = 'FZF: Go to Implementation' },
+      { 'gY', function() require('fzf-lua').lsp_typedefs() end, desc = 'FZF: Go to Type Definition' },
+      { '<leader>w', function() require('fzf-lua').lsp_workspace_symbols() end, desc = 'Workspace Symbols' },
     }
   },
 

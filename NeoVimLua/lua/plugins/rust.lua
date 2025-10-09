@@ -77,7 +77,7 @@ return {
         -- 增强的服务器配置
         server = {
           cmd = { 'rust-analyzer' },
-          standalone = false,
+          standalone = true,
           ra_multiplex = {
             enable = vim.fn.executable('ra-multiplex') == 1,
           },
@@ -90,22 +90,25 @@ return {
             -- 仅基本 LSP 映射（其他在 ftplugin/rust.lua 中）
             vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = '跳转到声明' }))
             vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, vim.tbl_extend('force', opts, { desc = '跳转到实现' }))
-            vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, vim.tbl_extend('force', opts, { desc = '跳转到类型定义' }))
+            -- 移除 <leader>D 冲突，使用 <leader>Dt 替代类型定义（与调试区分）
 
-            -- 增强的悬停操作
-            vim.keymap.set('n', 'K', function()
+            -- 增强的悬停操作（使用不同的键位避免冲突）
+            vim.keymap.set('n', 'gK', function()
               vim.cmd.RustLsp { 'hover', 'actions' }
-            end, vim.tbl_extend('force', opts, { desc = '悬停并显示操作' }))
+            end, vim.tbl_extend('force', opts, { desc = 'Rust 增强悬停' }))
 
-            -- 增强的代码操作
-            vim.keymap.set({ 'n', 'v' }, '<leader>ca', function()
+            -- 注意：基础的LSP键位已在 keymaps.lua 中定义
+            -- 这里只保留Rust特定的增强功能，避免重复定义
+
+            -- Rust特定的代码动作 - 使用新的分层前缀
+            vim.keymap.set({ 'n', 'v' }, '<leader>xra', function()
               vim.cmd.RustLsp('codeAction')
-            end, vim.tbl_extend('force', opts, { desc = 'Rust 代码操作' }))
+            end, vim.tbl_extend('force', opts, { desc = 'Rust 代码动作 (直接)' }))
 
-            -- 增强的重命名 (与 lsp.lua 协作，提供Rust优化版本)
-            vim.keymap.set('n', '<leader>rn', function()
+            -- 增强的重命名 - 保留作为基础重命名的增强版本
+            vim.keymap.set('n', '<leader>xrn', function()
               return ':IncRename ' .. vim.fn.expand('<cword>')
-            end, vim.tbl_extend('force', opts, { desc = '智能重命名', expr = true }))
+            end, vim.tbl_extend('force', opts, { desc = 'Rust 智能重命名', expr = true }))
 
             -- 保存时格式化（仅对 Rust）
             if client.supports_method('textDocument/formatting') then
@@ -169,15 +172,13 @@ return {
                 targetDir = true,
               },
 
-              -- 增强的检查配置
+              -- 简化的检查配置
               check = {
                 command = "clippy",
-                extraArgs = { "--all", "--all-features", "--", "-D", "warnings", "-W", "clippy::all" },
                 features = "all",
-                onSave = "file", -- 更快的反馈
               },
 
-              -- 增强的过程宏
+              -- 过程宏支持
               procMacro = {
                 enable = true,
               },
@@ -433,35 +434,36 @@ return {
       })
 
       -- Cargo.toml 专用键位映射 (仅在 Cargo.toml 文件中生效)
-      vim.keymap.set('n', '<leader>ct', function()
+      -- 使用新的分层前缀系统避免冲突
+      vim.keymap.set('n', '<leader>xrct', function()
         require('crates').toggle()
       end, { desc = '切换 Crate 版本', buffer = true })
 
-      vim.keymap.set('n', '<leader>cu', function()
+      vim.keymap.set('n', '<leader>xrcu', function()
         require('crates').upgrade_crate()
       end, { desc = '升级 Crate', buffer = true })
 
-      vim.keymap.set('n', '<leader>cU', function()
+      vim.keymap.set('n', '<leader>xrcU', function()
         require('crates').upgrade_all_crates()
       end, { desc = '升级所有 Crate', buffer = true })
 
-      vim.keymap.set('n', '<leader>ca', function()
+      vim.keymap.set('n', '<leader>xrca', function()
         require('crates').update_crate()
       end, { desc = '更新 Crate', buffer = true })
 
-      vim.keymap.set('n', '<leader>cA', function()
+      vim.keymap.set('n', '<leader>xrcA', function()
         require('crates').update_all_crates()
       end, { desc = '更新所有 Crate', buffer = true })
 
-      vim.keymap.set('n', '<leader>ch', function()
+      vim.keymap.set('n', '<leader>xrch', function()
         require('crates').show_homepage()
       end, { desc = '显示 Crate 主页', buffer = true })
 
-      vim.keymap.set('n', '<leader>cd', function()
+      vim.keymap.set('n', '<leader>xrcd', function()
         require('crates').show_documentation()
       end, { desc = '显示 Crate 文档', buffer = true })
 
-      vim.keymap.set('n', '<leader>cr', function()
+      vim.keymap.set('n', '<leader>xrcr', function()
         require('crates').reload()
       end, { desc = '重新加载 Crate', buffer = true })
 
@@ -512,18 +514,8 @@ return {
         },
       })
 
-      -- 增强的测试键位映射
-      vim.keymap.set('n', '<leader>tt', function()
-        require('neotest').run.run()
-      end, { desc = '运行最近测试' })
-
-      vim.keymap.set('n', '<leader>tf', function()
-        require('neotest').run.run(vim.fn.expand('%'))
-      end, { desc = '运行文件测试' })
-
-      vim.keymap.set('n', '<leader>ts', function()
-        require('neotest').run.run({ suite = true })
-      end, { desc = '运行测试套件' })
+      -- 注意：通用测试键位已移至 lang-keymaps.lua
+      -- 这里只保留 Rust 特定的 neotest 配置，不重复定义键位
 
       vim.keymap.set('n', '<leader>tl', function()
         require('neotest').run.run_last()

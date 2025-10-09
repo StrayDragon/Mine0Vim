@@ -23,12 +23,24 @@ return {
       -- 检查可用的调试适配器
       local debug_adapters = {}
 
+      -- 首先检查系统 PATH 中的 codelldb
+      local codelldb_path = nil
       if vim.fn.executable('codelldb') == 1 then
+        codelldb_path = 'codelldb'
+      else
+        -- 检查 Mason 安装的 codelldb
+        local mason_codelldb = vim.fn.stdpath('data') .. '/mason/bin/codelldb'
+        if vim.fn.filereadable(mason_codelldb) == 1 then
+          codelldb_path = mason_codelldb
+        end
+      end
+
+      if codelldb_path then
         debug_adapters.codelldb = {
           type = 'server',
           port = '${port}',
           executable = {
-            command = 'codelldb',
+            command = codelldb_path,
             args = { '--port', '${port}' },
           },
           name = 'codelldb',
@@ -61,11 +73,23 @@ return {
       dap.adapters[name] = config
     end
 
+    -- 辅助函数：检查可用的调试适配器类型
+    local function get_dap_adapter_type()
+      local mason_codelldb = vim.fn.stdpath('data') .. '/mason/bin/codelldb'
+      if vim.fn.executable('codelldb') == 1 or vim.fn.filereadable(mason_codelldb) == 1 then
+        return 'codelldb'
+      elseif vim.fn.executable('lldb-vscode') == 1 or vim.fn.executable('lldb-dap') == 1 then
+        return 'lldb'
+      else
+        return 'lldb' -- 默认，虽然可能不可用
+      end
+    end
+
     -- 为 Rust 配置调试配置
     dap.configurations.rust = {
       {
         name = '启动程序',
-        type = vim.fn.executable('codelldb') == 1 and 'codelldb' or 'lldb',
+        type = get_dap_adapter_type(),
         request = 'launch',
         program = function()
           -- 尝试从 Cargo.toml 获取目标可执行文件
@@ -88,7 +112,7 @@ return {
       },
       {
         name = '附加到进程',
-        type = vim.fn.executable('codelldb') == 1 and 'codelldb' or 'lldb',
+        type = get_dap_adapter_type(),
         request = 'attach',
         processId = function()
           return require('dap.utils').pick_process()
@@ -99,7 +123,7 @@ return {
       },
       {
         name = '运行测试',
-        type = vim.fn.executable('codelldb') == 1 and 'codelldb' or 'lldb',
+        type = get_dap_adapter_type(),
         request = 'launch',
         program = function()
           -- 使用 cargo test 获取测试可执行文件

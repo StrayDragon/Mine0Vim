@@ -1,7 +1,49 @@
 return {
+  -- OneNord 主题 - 结合 Nord 和 Atom One Dark 调色板
+  {
+    "rmehri01/onenord.nvim",
+    lazy = false, -- 立即加载主题
+    priority = 1000, -- 高优先级确保主题在其他插件之前加载
+    config = function()
+      require('onenord').setup({
+        theme = "dark", -- 或 "light"，也可以通过 vim.o.background 设置
+        borders = true, -- 分割窗口边框
+        fade_nc = false, -- 淡化非当前窗口
+        styles = {
+          comments = "NONE",
+          strings = "NONE",
+          keywords = "NONE",
+          functions = "NONE",
+          variables = "NONE",
+          diagnostics = "underline",
+        },
+        disable = {
+          background = false, -- 不禁用背景色
+          float_background = false, -- 不禁用浮动窗口背景色
+          cursorline = false, -- 不禁用光标行
+          eob_lines = true, -- 隐藏 end-of-buffer 行
+        },
+        inverse = {
+          match_paren = false,
+        },
+        custom_highlights = {}, -- 自定义高亮组
+        custom_colors = {}, -- 自定义颜色
+      })
+    end,
+  },
+
+  -- 图标插件（解决 which-key 警告）
+  {
+    "echasnovski/mini.icons",
+    lazy = true,
+    config = function()
+      require('mini.icons').setup()
+    end,
+  },
+
   { "stevearc/aerial.nvim", opts = {}, keys = {
       { "<A-7>", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
-      { "<space>o", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
+      { "<space>ao", "<cmd>AerialToggle!<CR>", mode = "n", desc = "切换大纲视图" },
     }
   },
   { "ingur/floatty.nvim", config = function()
@@ -38,7 +80,7 @@ return {
       require('lualine').setup({
         options = {
           icons_enabled = true,
-          theme = 'PaperColor',
+          theme = 'onenord',
           component_separators = { left = '', right = ''},
           section_separators = { left = '', right = ''},
           disabled_filetypes = {

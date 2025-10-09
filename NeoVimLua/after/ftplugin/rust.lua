@@ -1,179 +1,104 @@
--- Rust 文件类型插件，用于增强 rustaceanvim 集成
--- 此文件提供与 rustaceanvim 配合使用的 Rust 专用键位映射和命令
+-- Rust 文件类型插件 - 遵循公共优先原则
+-- 基础 LSP 键位在 keymaps.lua 中定义，这里只添加 Rust 特定增强功能
 
 local bufnr = vim.api.nvim_get_current_buf()
 local opts = { buffer = bufnr, noremap = true, silent = true, desc = '' }
 
--- 增强的 LSP 导航（保留现有模式但增加 Rust 增强）
-vim.keymap.set('n', 'gd', function()
-  -- 优先使用 rustaceanvim 的增强跳转定义，失败则回退到标准 LSP
-  local ok, result = pcall(function()
-    vim.cmd.RustLsp('gotoLocation')
-  end)
-  if not ok then
-    vim.lsp.buf.definition()
-  end
-end, vim.tbl_extend('force', opts, { desc = '跳转到定义（增强版）' }))
+-- === Rust 特定增强功能（不与公共键位冲突）===
 
--- 增强的悬停操作
+-- Rust 增强悬停（覆盖基础 K 键位）
 vim.keymap.set('n', 'K', function()
-  -- 在 Rust 文件中使用 rustaceanvim 悬停操作
   vim.cmd.RustLsp { 'hover', 'actions' }
-end, vim.tbl_extend('force', opts, { desc = '悬停并显示操作' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 增强悬停' }))
 
--- rust-analyzer 诊断的快速修复
-vim.keymap.set('n', 'gq', function()
-  vim.lsp.buf.code_action({
-    context = {
-      only = { 'quickfix' },
-      diagnostics = vim.lsp.diagnostic.get_line_diagnostics()
-    },
-    apply = true
-  })
-end, vim.tbl_extend('force', opts, { desc = '快速修复 Rust 问题' }))
+-- === Rust 语言工具前缀系统 (<leader>xr) ===
+-- 这些键位在全局配置中预留，专门用于 Rust 特定功能
 
--- 增强的重命名，支持 rust-analyzer 智能功能
-vim.keymap.set('n', '<leader>rn', function()
-  local current_word = vim.fn.expand('<cword>')
-  local new_name = vim.fn.input('新名称: ', current_word)
-  if new_name and new_name ~= '' and new_name ~= current_word then
-    vim.lsp.buf.rename(new_name)
-  end
-end, vim.tbl_extend('force', opts, { desc = '智能重命名' }))
-
--- 全面的代码操作 - 现在由 lsp.lua 中的智能路由系统处理
--- 保留特定于 Rust 的代码动作备用键位
-vim.keymap.set({ 'n', 'x' }, '<leader>ra', function()
-  -- 使用 rustaceanvim 的分组代码操作 (Rust 专用)
+-- Rust 分组代码动作（支持 rust-analyzer 分组功能）
+vim.keymap.set({ 'n', 'x' }, '<leader>xra', function()
   vim.cmd.RustLsp('codeAction')
-end, vim.tbl_extend('force', opts, { desc = 'Rust 代码操作 (直接)' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 代码动作（分组）' }))
 
--- Cargo 专用操作 (在 .rs 文件中生效，避免与 Cargo.toml 中的 crates.nvim 冲突)
-if vim.bo.filetype == 'rust' and not vim.fn.expand('%:t'):match('Cargo%.toml$') then
-  vim.keymap.set('n', '<leader>cb', function()
-    vim.cmd('!cargo build')
-  end, vim.tbl_extend('force', opts, { desc = 'Cargo 构建' }))
+-- 运行和调试
+vim.keymap.set('n', '<leader>xrr', function()
+  vim.cmd.RustLsp('runnables')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 运行/测试' }))
 
-  vim.keymap.set('n', '<leader>cr', function()
-    vim.cmd('!cargo run')
-  end, vim.tbl_extend('force', opts, { desc = 'Cargo 运行' }))
-
-  vim.keymap.set('n', '<leader>ct', function()
-    vim.cmd('!cargo test')
-  end, vim.tbl_extend('force', opts, { desc = 'Cargo 测试' }))
-
-  vim.keymap.set('n', '<leader>cc', function()
-    vim.cmd('!cargo check')
-  end, vim.tbl_extend('force', opts, { desc = 'Cargo 检查' }))
-
-  vim.keymap.set('n', '<leader>cq', function()
-    vim.cmd('!cargo clippy -- -D warnings')
-  end, vim.tbl_extend('force', opts, { desc = 'Cargo Clippy 检查' }))
-end
-
--- 统一的测试系统 - 与 rust.lua 协作避免冲突
--- 这里使用 cargo 命令作为 rustaceanvim 的补充，提供不同测试方式
-
-vim.keymap.set('n', '<leader>tT', function()
-  -- 使用 rustaceanvim 测试最近的函数
-  vim.cmd.RustLsp('testables')
-end, vim.tbl_extend('force', opts, { desc = '测试最近函数 (rust-analyzer)' }))
-
-vim.keymap.set('n', '<leader>tC', function()
-  -- 使用 cargo 测试当前文件
-  vim.cmd('!cargo test -- %')
-end, vim.tbl_extend('force', opts, { desc = '测试当前文件 (cargo)' }))
-
-vim.keymap.set('n', '<leader>tA', function()
-  -- 使用 cargo 测试整个工作区
-  vim.cmd('!cargo test')
-end, vim.tbl_extend('force', opts, { desc = '测试套件 (cargo)' }))
-
--- 移除重复的 <leader>tf 和 <leader>ts 映射，使用 rust.lua 中的 neotest 实现
-
--- 增强调试快捷键 - 与 DAP 系统协作
-vim.keymap.set('n', '<leader>Dt', function()
-  -- 调试当前目标
+vim.keymap.set('n', '<leader>xrd', function()
   vim.cmd.RustLsp('debuggables')
-end, vim.tbl_extend('force', opts, { desc = '调试目标 (rust-analyzer)' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 调试' }))
 
--- 文档和帮助
-vim.keymap.set('n', '<leader>hd', function()
-  -- 打开光标下项目的 docs.rs 文档
-  vim.cmd.RustLsp('openDocs')
-end, vim.tbl_extend('force', opts, { desc = '打开文档' }))
-
-vim.keymap.set('n', '<leader>hp', function()
-  -- 打开父模块
-  vim.cmd.RustLsp('parentModule')
-end, vim.tbl_extend('force', opts, { desc = '父模块' }))
-
--- 宏展开
-vim.keymap.set('n', '<leader>me', function()
+-- 宏相关
+vim.keymap.set('n', '<leader>xrm', function()
   vim.cmd.RustLsp('expandMacro')
-end, vim.tbl_extend('force', opts, { desc = '展开宏' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 展开宏' }))
 
-vim.keymap.set('n', '<leader>mr', function()
+vim.keymap.set('n', '<leader>xrR', function()
   vim.cmd.RustLsp('rebuildProcMacros')
-end, vim.tbl_extend('force', opts, { desc = '重新构建过程宏' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 重建过程宏' }))
+
+-- 错误处理
+vim.keymap.set('n', '<leader>xre', function()
+  vim.cmd.RustLsp('explainError')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 解释错误' }))
+
+vim.keymap.set('n', '<leader>xrE', function()
+  vim.cmd.RustLsp('renderDiagnostic')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 渲染诊断' }))
+
+-- 文档和导航
+vim.keymap.set('n', '<leader>xrh', function()
+  vim.cmd.RustLsp('openDocs')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 打开文档' }))
+
+vim.keymap.set('n', '<leader>xrp', function()
+  vim.cmd.RustLsp('parentModule')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 父模块' }))
 
 -- 结构化搜索替换 (SSR)
-vim.keymap.set('n', '<leader>ss', function()
+vim.keymap.set('n', '<leader>xrs', function()
   local pattern = vim.fn.input('SSR 模式: ')
   if pattern and pattern ~= '' then
     vim.cmd.RustLsp { 'ssr', pattern }
   end
-end, vim.tbl_extend('force', opts, { desc = '结构化搜索替换' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 结构化搜索替换' }))
 
--- 错误诊断
-vim.keymap.set('n', '<leader>ee', function()
-  vim.cmd.RustLsp('explainError')
-end, vim.tbl_extend('force', opts, { desc = '解释错误' }))
-
-vim.keymap.set('n', '<leader>er', function()
-  vim.cmd.RustLsp('renderDiagnostic')
-end, vim.tbl_extend('force', opts, { desc = '渲染诊断' }))
-
--- 增强的工作区符号搜索
-vim.keymap.set('n', '<leader>ws', function()
-  vim.lsp.buf.workspace_symbol()
-end, vim.tbl_extend('force', opts, { desc = '工作区符号' }))
-
--- Cargo 工作区操作
-vim.keymap.set('n', '<leader>wo', function()
-  vim.cmd.RustLsp('openCargo')
-end, vim.tbl_extend('force', opts, { desc = '打开 Cargo.toml' }))
-
--- 项目操作
-vim.keymap.set('n', '<leader>ju', function()
-  vim.cmd.RustLsp { 'moveItem', 'up' }
-end, vim.tbl_extend('force', opts, { desc = '向上移动项目' }))
-
-vim.keymap.set('n', '<leader>jd', function()
-  vim.cmd.RustLsp { 'moveItem', 'down' }
-end, vim.tbl_extend('force', opts, { desc = '向下移动项目' }))
-
--- 智能连接行
-vim.keymap.set('n', '<leader>jl', function()
-  vim.cmd.RustLsp('joinLines')
-end, vim.tbl_extend('force', opts, { desc = '连接行' }))
-
--- 可视模式增强
-vim.keymap.set('x', '<leader>ss', function()
+vim.keymap.set('x', '<leader>xrs', function()
   local pattern = vim.fn.input('SSR 模式（选择）: ')
   if pattern and pattern ~= '' then
     vim.cmd.RustLsp { 'ssr', pattern }
   end
-end, vim.tbl_extend('force', opts, { desc = '在选区上应用 SSR' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 选区SSR' }))
 
--- 切换内联提示
-vim.keymap.set('n', '<leader>ih', function()
-  local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-  vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
-end, vim.tbl_extend('force', opts, { desc = '切换内联提示' }))
+-- Cargo 操作
+vim.keymap.set('n', '<leader>xrc', function()
+  vim.cmd.RustLsp('openCargo')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 打开 Cargo.toml' }))
 
--- 快速状态信息
-vim.keymap.set('n', '<leader>st', function()
+-- 代码重构
+vim.keymap.set('n', '<leader>xru', function()
+  vim.cmd.RustLsp { 'moveItem', 'up' }
+end, vim.tbl_extend('force', opts, { desc = 'Rust 向上移动项目' }))
+
+vim.keymap.set('n', '<leader>xrD', function()
+  vim.cmd.RustLsp { 'moveItem', 'down' }
+end, vim.tbl_extend('force', opts, { desc = 'Rust 向下移动项目' }))
+
+vim.keymap.set('n', '<leader>xrj', function()
+  vim.cmd.RustLsp('joinLines')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 连接行' }))
+
+-- 高级功能
+vim.keymap.set('n', '<leader>xrg', function()
+  vim.cmd.RustLsp('crateGraph')
+end, vim.tbl_extend('force', opts, { desc = 'Rust Crate 图' }))
+
+vim.keymap.set('n', '<leader>xrt', function()
+  vim.cmd.RustLsp('syntaxTree')
+end, vim.tbl_extend('force', opts, { desc = 'Rust 语法树' }))
+
+-- === 状态检查 ===
+vim.keymap.set('n', '<leader>xr?', function()
   local clients = vim.lsp.get_clients({ bufnr = bufnr })
   local rustacean_found = false
   for _, client in ipairs(clients) do
@@ -188,42 +113,6 @@ vim.keymap.set('n', '<leader>st', function()
   else
     print("✗ rust-analyzer 未运行")
   end
-end, vim.tbl_extend('force', opts, { desc = '显示 Rust LSP 状态' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 状态检查' }))
 
--- 增强的诊断导航
-vim.keymap.set('n', '[d', function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, vim.tbl_extend('force', opts, { desc = '上一个错误' }))
-
-vim.keymap.set('n', ']d', function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, vim.tbl_extend('force', opts, { desc = '下一个错误' }))
-
-vim.keymap.set('n', '[w', function()
-  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
-end, vim.tbl_extend('force', opts, { desc = '上一个警告' }))
-
-vim.keymap.set('n', ']w', function()
-  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
-end, vim.tbl_extend('force', opts, { desc = '下一个警告' }))
-
--- Crate 图（需要 graphviz）
-vim.keymap.set('n', '<leader>cg', function()
-  vim.cmd.RustLsp('crateGraph')
-end, vim.tbl_extend('force', opts, { desc = '显示 Crate 图' }))
-
--- 语法树视图
-vim.keymap.set('n', '<leader>sy', function()
-  vim.cmd.RustLsp('syntaxTree')
-end, vim.tbl_extend('force', opts, { desc = '显示语法树' }))
-
--- Rustc unpretty 命令（需要 nightly 工具链）
-vim.keymap.set('n', '<leader>rh', function()
-  vim.cmd.Rustc { 'unpretty', 'hir' }
-end, vim.tbl_extend('force', opts, { desc = '显示 HIR' }))
-
-vim.keymap.set('n', '<leader>rm', function()
-  vim.cmd.Rustc { 'unpretty', 'mir' }
-end, vim.tbl_extend('force', opts, { desc = '显示 MIR' }))
-
-print("Rust 文件类型配置已加载")
+print("Rust 文件类型配置已加载（公共优先原则）")
