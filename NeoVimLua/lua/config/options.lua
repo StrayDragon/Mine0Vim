@@ -163,7 +163,7 @@ end
       vim.g._provider_node_warned = true
       vim.schedule(function()
         vim.notify(
-          string.format("[nvim] 未找到 Node provider。请在 %s 下安装: npm i -D neovim 或 pnpm add -D neovim", cfg),
+          string.format("[nvim] 未找到 Node provider。请在 %s 下安装: npm i neovim 或 pnpm add neovim", cfg),
           vim.log.levels.WARN
         )
       end)
@@ -202,7 +202,7 @@ end
 vim.cmd.syntax("enable")
 
 -- 设置默认背景
-opt.background = "light"
+opt.background = "dark"
 
 -- GUI 特定设置
 if vim.fn.has("gui_running") == 1 then

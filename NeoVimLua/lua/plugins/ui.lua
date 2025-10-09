@@ -117,9 +117,9 @@ return {
                 separator = ' ',
               },
               ignore_lsp = { 'null-ls', 'copilot' },
-              color = { fg = '#666666' }
+              color = { fg = '#999999' }
             },
-            { inlay_hints_status, color = { fg = '#888888' } },   -- 内联提示状态
+            { inlay_hints_status, color = { fg = '#aaaaaa' } },   -- 内联提示状态
             'encoding',           -- 编码
             'fileformat',         -- 文件格式
             'filetype'            -- 文件类型
@@ -148,7 +148,7 @@ return {
 
       -- 设置缩进线颜色
       vim.g.indentLine_color_term = 239      -- 终端下的颜色
-      vim.g.indentLine_color_gui = '#504945' -- GUI下的颜色
+      vim.g.indentLine_color_gui = '#3a3a3a' -- GUI下的颜色
 
       -- 禁用某些字符的缩进线显示
       vim.g.indentLine_concealcursor = 'nc'   -- 在普通和可视模式下隐藏
