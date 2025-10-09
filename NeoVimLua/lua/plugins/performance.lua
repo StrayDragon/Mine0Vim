@@ -248,64 +248,7 @@ return {
       -- Performance note: snacks.performance module is not available
       -- Remove performance monitoring to avoid errors
 
-      -- Memory usage monitoring
-      vim.api.nvim_create_user_command("MemoryUsage", function()
-        local memory_kb = collectgarbage("count")
-        local memory_mb = memory_kb / 1024
-        local buffers = #vim.api.nvim_list_bufs()
-        local windows = #vim.api.nvim_list_wins()
-
-        print(string.format("Memory Usage:\n  Total: %.2f MB\n  Buffers: %d\n  Windows: %d",
-          memory_mb, buffers, windows))
-
-        -- Show large buffers
-        local large_buffers = {}
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_name(buf) ~= "" then
-            local lines = vim.api.nvim_buf_line_count(buf)
-            if lines > 10000 then
-              table.insert(large_buffers, {
-                name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t"),
-                lines = lines
-              })
-            end
-          end
-        end
-
-        if #large_buffers > 0 then
-          print("\nLarge buffers:")
-          for _, buf_info in ipairs(large_buffers) do
-            print(string.format("  %s: %d lines", buf_info.name, buf_info.lines))
-          end
-        end
-
-        -- Memory cleanup suggestion
-        if memory_mb > 100 then
-          print("\nSuggestion: Consider running :lua collectgarbage('collect') to free memory")
-        end
-      end, { desc = "Show memory usage information" })
-
-      -- Auto-cleanup memory periodically
-      local cleanup_timer = vim.loop.new_timer()
-      cleanup_timer:start(5 * 60 * 1000, 5 * 60 * 1000, vim.schedule_wrap(function()  -- Every 5 minutes
-        local memory_kb = collectgarbage("count")
-        if memory_kb > 50 * 1024 then  -- If memory usage > 50MB
-          collectgarbage("collect")
-          vim.schedule(function()
-            vim.notify("Memory cleanup completed", vim.log.levels.INFO, { title = "Performance" })
-          end)
-        end
-      end))
-
-      -- Cleanup on exit
-      vim.api.nvim_create_autocmd("VimLeave", {
-        callback = function()
-          if cleanup_timer then
-            cleanup_timer:close()
-          end
-        end,
-      })
-
+  
       -- Key mappings for performance features
       local map = vim.keymap.set
       local opts = { noremap = true, silent = true, desc = "Performance" }
@@ -322,39 +265,7 @@ return {
       map("n", "<leader>qf", function() snacks.quickfile() end,
         vim.tbl_extend("force", opts, { desc = "Quick file navigation" }))
 
-      -- Status line enhancement (if lualine is available)
-      vim.defer_fn(function()
-        if package.loaded["lualine"] then
-          local lualine = require("lualine")
-
-          -- Add performance component to lualine
-          local performance_indicator = function()
-            local memory_kb = collectgarbage("count")
-            local memory_mb = memory_kb / 1024
-
-            if memory_mb > 100 then
-              return "🔴 " .. string.format("%.1fMB", memory_mb)
-            elseif memory_mb > 50 then
-              return "🟡 " .. string.format("%.1fMB", memory_mb)
-            else
-              return "🟢 " .. string.format("%.1fMB", memory_mb)
-            end
-          end
-
-          -- Update lualine configuration to include performance indicator
-          vim.defer_fn(function()
-            if lualine.get_config then
-              local config = lualine.get_config()
-              if config and config.sections and config.sections.lualine_x then
-                -- Add performance indicator to the section
-                table.insert(config.sections.lualine_x, 1, { performance_indicator })
-                lualine.setup(config)
-              end
-            end
-          end, 100)
-        end
-      end, 2000)
-    end,
+      end,
   },
 
   -- Optional: Add startup time monitoring
