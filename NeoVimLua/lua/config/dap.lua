@@ -135,6 +135,15 @@ return {
           terminate = ""
         }
       },
+      -- 设置窗口文件类型以便状态栏识别
+      mappings = {
+        expand = { "<CR>", "<2-LeftMouse>" },
+        open = "o",
+        remove = "d",
+        edit = "e",
+        repl = "r",
+        toggle = "t",
+      },
       element_mappings = {},
       expand_lines = true,
       floating = {
@@ -223,52 +232,74 @@ return {
       dapui.close()
     end
 
-    -- 调试键位映射
-    vim.keymap.set('n', '<leader>db', function()
+    -- 为 DAP UI 窗口设置文件类型
+    local function setup_dap_filetypes()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "dap-repl",
+        callback = function()
+          vim.opt_local.buflisted = false
+          vim.opt_local.buftype = "nofile"
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "dap-ui_scopes", "dap-ui_watches", "dap-ui_stacks", "dap-ui_breakpoints", "dap-ui_console" },
+        callback = function()
+          vim.opt_local.buflisted = false
+          vim.opt_local.buftype = "nofile"
+          vim.opt_local.winbar = ""
+        end,
+      })
+    end
+
+    setup_dap_filetypes()
+
+    -- 调试键位映射 - 使用大写D避免与诊断冲突
+    vim.keymap.set('n', '<leader>Db', function()
       require('dap').toggle_breakpoint()
     end, { desc = '切换断点' })
 
-    vim.keymap.set('n', '<leader>dB', function()
+    vim.keymap.set('n', '<leader>DB', function()
       require('dap').set_breakpoint(vim.fn.input('断点条件: '))
     end, { desc = '条件断点' })
 
-    vim.keymap.set('n', '<leader>dc', function()
+    vim.keymap.set('n', '<leader>Dc', function()
       require('dap').continue()
     end, { desc = '继续/开始调试' })
 
-    vim.keymap.set('n', '<leader>dC', function()
+    vim.keymap.set('n', '<leader>DC', function()
       require('dap').run_to_cursor()
     end, { desc = '运行到光标处' })
 
-    vim.keymap.set('n', '<leader>do', function()
+    vim.keymap.set('n', '<leader>Do', function()
       require('dap').step_over()
     end, { desc = '跳过' })
 
-    vim.keymap.set('n', '<leader>di', function()
+    vim.keymap.set('n', '<leader>Di', function()
       require('dap').step_into()
     end, { desc = '步入' })
 
-    vim.keymap.set('n', '<leader>dO', function()
+    vim.keymap.set('n', '<leader>DO', function()
       require('dap').step_out()
     end, { desc = '步出' })
 
-    vim.keymap.set('n', '<leader>dq', function()
+    vim.keymap.set('n', '<leader>Dq', function()
       require('dap').terminate()
     end, { desc = '终止调试' })
 
-    vim.keymap.set('n', '<leader>dr', function()
+    vim.keymap.set('n', '<leader>Dr', function()
       require('dap').restart()
     end, { desc = '重新调试' })
 
-    vim.keymap.set('n', '<leader>du', function()
+    vim.keymap.set('n', '<leader>Du', function()
       require('dapui').toggle()
     end, { desc = '切换调试 UI' })
 
-    vim.keymap.set('n', '<leader>de', function()
+    vim.keymap.set('n', '<leader>De', function()
       require('dapui').eval()
     end, { desc = '求值表达式' })
 
-    vim.keymap.set('v', '<leader>de', function()
+    vim.keymap.set('v', '<leader>De', function()
       require('dapui').eval()
     end, { desc = '求值选中内容' })
 
@@ -276,7 +307,7 @@ return {
     vim.api.nvim_create_autocmd('FileType', {
       pattern = 'rust',
       callback = function()
-        vim.keymap.set('n', '<leader>dt', function()
+        vim.keymap.set('n', '<leader>Dt', function()
           -- 调试当前测试
           local test_name = vim.fn.expand('<cword>')
           if test_name:match('^test_') or test_name:match('#test') then
@@ -286,12 +317,12 @@ return {
           end
         end, { buffer = true, desc = '调试当前测试' })
 
-        vim.keymap.set('n', '<leader>dm', function()
+        vim.keymap.set('n', '<leader>Dm', function()
           -- 调试 main 函数
           require('dap').continue({ args = { 'main' } })
         end, { buffer = true, desc = '调试主函数' })
 
-        vim.keymap.set('n', '<leader>dbp', function()
+        vim.keymap.set('n', '<leader>Dbp', function()
           -- 切换带日志的断点
           require('dap').set_breakpoint(nil, nil, vim.fn.input('日志消息: '))
         end, { buffer = true, desc = '带日志的断点' })
@@ -308,7 +339,7 @@ return {
     })
 
     -- 增强的调试状态
-    vim.keymap.set('n', '<leader>ds', function()
+    vim.keymap.set('n', '<leader>Ds', function()
       local session = require('dap').session()
       if session then
         print("调试会话活跃: " .. session.config.name)

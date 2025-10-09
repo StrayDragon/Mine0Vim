@@ -79,7 +79,36 @@ return {
 
         -- 操作
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)       -- 重命名符号
-        vim.keymap.set({'n', 'x'}, '<leader>a', vim.lsp.buf.code_action, opts) -- 代码动作
+
+        -- 智能代码动作路由 - 根据文件类型选择最佳实现
+        vim.keymap.set({'n', 'x'}, '<leader>a', function()
+          local filetype = vim.bo.filetype
+          local bufnr = vim.api.nvim_get_current_buf()
+
+          -- 检查是否有 rust-analyzer 客户端
+          local has_rust_analyzer = false
+          if filetype == 'rust' then
+            local clients = vim.lsp.get_clients({ bufnr = bufnr })
+            for _, client in ipairs(clients) do
+              if client.name == 'rust-analyzer' then
+                has_rust_analyzer = true
+                break
+              end
+            end
+          end
+
+          -- 路由逻辑
+          if filetype == 'rust' and has_rust_analyzer then
+            -- 使用 rust-analyzer 的分组代码动作
+            vim.cmd.RustLsp('codeAction')
+          elseif pcall(require, 'tiny-code-action') then
+            -- 使用 tiny-code-action 提供更好的 UI
+            require('tiny-code-action').code_action()
+          else
+            -- 回退到标准 LSP 代码动作
+            vim.lsp.buf.code_action()
+          end
+        end, opts)
         -- 格式化功能已移至 conform.nvim，保留 LSP 格式化作为后备
         vim.keymap.set({'n', 'x'}, '<leader>F', function()               -- LSP 格式化代码（后备）
           vim.lsp.buf.format({ async = true })

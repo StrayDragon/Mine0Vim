@@ -4,9 +4,9 @@
 -- 前缀分组配置
 local prefix_groups = {
   ["<leader>f"] = "文件", ["<leader>e"] = "编辑", ["<leader>v"] = "视图",
-  ["<leader>g"] = "Git", ["<leader>l"] = "LSP", ["<leader>t"] = "测试",
-  ["<leader>d"] = "调试", ["<leader>b"] = "缓冲区", ["<leader>w"] = "窗口",
-  ["<leader>s"] = "搜索", ["<leader>c"] = "代码", ["<leader>r"] = "Rust",
+  ["<leader>g"] = "Git", ["<leader>s"] = "搜索", ["<leader>l"] = "LSP", ["<leader>t"] = "测试",
+  ["<leader>D"] = "调试", ["<leader>d"] = "诊断", ["<leader>b"] = "缓冲区", ["<leader>w"] = "窗口",
+  ["<leader>c"] = "代码", ["<leader>r"] = "Rust",
   ["<leader>u"] = "工具", ["<leader>o"] = "选项", ["<leader>S"] = "大小调整",
   ["<leader>T"] = "标签页", ["<leader>h"] = "帮助", ["<space>"] = "Space",
   ["g"] = "g 前缀", ["["] = "上一个", ["]"] = "下一个",
@@ -22,11 +22,12 @@ local special_mappings = {
 -- 常见 Leader 键描述（自动补全用）
 local common_descriptions = {
   ["<leader>ff"] = "查找文件", ["<leader>fg"] = "全局搜索", ["<leader>fb"] = "查找缓冲区",
-  ["<leader>fh"] = "帮助文档", ["<leader>fo"] = "最近文件", ["<leader>ca"] = "代码动作",
+  ["<leader>fh"] = "帮助文档", ["<leader>fo"] = "最近文件", ["<leader>ca"] = "代码动作", ["<leader>ra"] = "Rust代码动作",
   ["<leader>rn"] = "重命名", ["<leader>cf"] = "格式化", ["<leader>cd"] = "诊断信息",
   ["<leader>ui"] = "切换内联提示", ["<leader>gs"] = "Git 状态", ["<leader>gc"] = "Git 提交",
   ["<leader>gp"] = "推送", ["<leader>gl"] = "日志", ["<leader>gd"] = "差异",
-  ["<leader>tn"] = "测试函数", ["<leader>tf"] = "测试文件", ["<leader>ts"] = "测试套件",
+  ["<leader>tn"] = "测试函数", ["<leader>tf"] = "测试文件(neotest)", ["<leader>ts"] = "测试套件(neotest)",
+  ["<leader>tT"] = "测试函数(rust)", ["<leader>tC"] = "测试文件(cargo)", ["<leader>tA"] = "测试套件(cargo)",
   ["<space>f"] = "查找文件", ["<space>g"] = "全局搜索", ["<space>s"] = "符号列表",
   ["<space>o"] = "大纲视图", ["<space>c"] = "命令面板",
 }
@@ -89,9 +90,10 @@ local function generate_description(lhs)
       t = "测试操作", d = "调试操作", b = "缓冲区操作", w = "窗口操作",
       s = "搜索操作", c = "代码操作", r = "Rust操作", u = "工具操作",
       o = "选项操作", h = "帮助操作", ff = "查找文件", fg = "全局搜索",
-      fb = "查找缓冲区", ca = "代码动作", rn = "重命名", cf = "格式化",
+      fb = "查找缓冲区", ca = "代码动作", ra = "Rust代码动作", rn = "重命名", cf = "格式化",
       ui = "切换内联提示", gs = "Git 状态", gc = "Git 提交", gp = "推送",
       gl = "日志", gd = "差异", tn = "测试函数", tf = "测试文件", ts = "测试套件",
+      tT = "测试函数(rust)", tC = "测试文件(cargo)", tA = "测试套件(cargo)", tt = "运行最近测试", tl = "运行上次测试",
     }
     return descriptions[key] or ("Leader " .. key)
   end

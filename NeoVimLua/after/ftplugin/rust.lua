@@ -41,54 +41,61 @@ vim.keymap.set('n', '<leader>rn', function()
   end
 end, vim.tbl_extend('force', opts, { desc = '智能重命名' }))
 
--- 全面的代码操作
-vim.keymap.set({ 'n', 'x' }, '<leader>a', function()
-  -- 使用 rustaceanvim 的分组代码操作
+-- 全面的代码操作 - 现在由 lsp.lua 中的智能路由系统处理
+-- 保留特定于 Rust 的代码动作备用键位
+vim.keymap.set({ 'n', 'x' }, '<leader>ra', function()
+  -- 使用 rustaceanvim 的分组代码操作 (Rust 专用)
   vim.cmd.RustLsp('codeAction')
-end, vim.tbl_extend('force', opts, { desc = 'Rust 代码操作（分组）' }))
+end, vim.tbl_extend('force', opts, { desc = 'Rust 代码操作 (直接)' }))
 
--- Cargo 专用操作
-vim.keymap.set('n', '<leader>cb', function()
-  vim.cmd('!cargo build')
-end, vim.tbl_extend('force', opts, { desc = 'Cargo 构建' }))
+-- Cargo 专用操作 (在 .rs 文件中生效，避免与 Cargo.toml 中的 crates.nvim 冲突)
+if vim.bo.filetype == 'rust' and not vim.fn.expand('%:t'):match('Cargo%.toml$') then
+  vim.keymap.set('n', '<leader>cb', function()
+    vim.cmd('!cargo build')
+  end, vim.tbl_extend('force', opts, { desc = 'Cargo 构建' }))
 
-vim.keymap.set('n', '<leader>cr', function()
-  vim.cmd('!cargo run')
-end, vim.tbl_extend('force', opts, { desc = 'Cargo 运行' }))
+  vim.keymap.set('n', '<leader>cr', function()
+    vim.cmd('!cargo run')
+  end, vim.tbl_extend('force', opts, { desc = 'Cargo 运行' }))
 
-vim.keymap.set('n', '<leader>ct', function()
-  vim.cmd('!cargo test')
-end, vim.tbl_extend('force', opts, { desc = 'Cargo 测试' }))
+  vim.keymap.set('n', '<leader>ct', function()
+    vim.cmd('!cargo test')
+  end, vim.tbl_extend('force', opts, { desc = 'Cargo 测试' }))
 
-vim.keymap.set('n', '<leader>cc', function()
-  vim.cmd('!cargo check')
-end, vim.tbl_extend('force', opts, { desc = 'Cargo 检查' }))
+  vim.keymap.set('n', '<leader>cc', function()
+    vim.cmd('!cargo check')
+  end, vim.tbl_extend('force', opts, { desc = 'Cargo 检查' }))
 
-vim.keymap.set('n', '<leader>cq', function()
-  vim.cmd('!cargo clippy -- -D warnings')
-end, vim.tbl_extend('force', opts, { desc = 'Cargo Clippy 检查' }))
+  vim.keymap.set('n', '<leader>cq', function()
+    vim.cmd('!cargo clippy -- -D warnings')
+  end, vim.tbl_extend('force', opts, { desc = 'Cargo Clippy 检查' }))
+end
 
--- 增强的测试集成
-vim.keymap.set('n', '<leader>tn', function()
+-- 统一的测试系统 - 与 rust.lua 协作避免冲突
+-- 这里使用 cargo 命令作为 rustaceanvim 的补充，提供不同测试方式
+
+vim.keymap.set('n', '<leader>tT', function()
   -- 使用 rustaceanvim 测试最近的函数
   vim.cmd.RustLsp('testables')
-end, vim.tbl_extend('force', opts, { desc = '测试最近函数' }))
+end, vim.tbl_extend('force', opts, { desc = '测试最近函数 (rust-analyzer)' }))
 
-vim.keymap.set('n', '<leader>tf', function()
-  -- 测试当前文件
+vim.keymap.set('n', '<leader>tC', function()
+  -- 使用 cargo 测试当前文件
   vim.cmd('!cargo test -- %')
-end, vim.tbl_extend('force', opts, { desc = '测试当前文件' }))
+end, vim.tbl_extend('force', opts, { desc = '测试当前文件 (cargo)' }))
 
-vim.keymap.set('n', '<leader>ts', function()
-  -- 测试整个工作区
+vim.keymap.set('n', '<leader>tA', function()
+  -- 使用 cargo 测试整个工作区
   vim.cmd('!cargo test')
-end, vim.tbl_extend('force', opts, { desc = '测试套件' }))
+end, vim.tbl_extend('force', opts, { desc = '测试套件 (cargo)' }))
 
--- 增强调试快捷键
-vim.keymap.set('n', '<leader>db', function()
+-- 移除重复的 <leader>tf 和 <leader>ts 映射，使用 rust.lua 中的 neotest 实现
+
+-- 增强调试快捷键 - 与 DAP 系统协作
+vim.keymap.set('n', '<leader>Dt', function()
   -- 调试当前目标
   vim.cmd.RustLsp('debuggables')
-end, vim.tbl_extend('force', opts, { desc = '调试目标' }))
+end, vim.tbl_extend('force', opts, { desc = '调试目标 (rust-analyzer)' }))
 
 -- 文档和帮助
 vim.keymap.set('n', '<leader>hd', function()

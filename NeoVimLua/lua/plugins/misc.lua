@@ -58,7 +58,7 @@ return {
       vim.keymap.set('n', '<leader>hb', '<cmd>Gitsigns blame_line<CR>', { desc = 'Blame line' })
       vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>', { desc = 'Diff this' })
       vim.keymap.set('n', '<leader>hD', '<cmd>Gitsigns diffthis ~<CR>', { desc = 'Diff this ~' })
-      vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>', { desc = 'Toggle deleted' })
+      vim.keymap.set('n', '<leader>gd', '<cmd>Gitsigns toggle_deleted<CR>', { desc = 'Toggle deleted' })
 
       -- 文本对象支持
       vim.keymap.set({'o', 'x'}, 'ih', '<cmd>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
@@ -81,7 +81,7 @@ return {
     end,
     keys = {
       { "<A-Enter>", function() require("tiny-code-action").code_action() end, desc = "LSP Code Actions (Alt+Enter)" },
-      { "<leader>a", function() require("tiny-code-action").code_action() end, desc = "LSP Code Actions" },
+      -- <leader>a 现在由 lsp.lua 中的智能路由系统处理
     },
   },
 
@@ -318,7 +318,7 @@ return {
       { '<leader>d', function() require('fzf-lua').diagnostics_document() end, desc = 'Diagnostics (buffer) (FZF)' },
       { '<leader>D', function() require('fzf-lua').diagnostics_workspace() end, desc = 'Workspace Diagnostics (FZF)' },
       { '<leader>c', function() require('fzf-lua').commands() end, desc = 'Commands (FZF)' },
-      { '<leader>g', function() require('fzf-lua').live_grep() end, desc = 'Live Grep (FZF)' },
+      { '<leader>sg', function() require('fzf-lua').live_grep() end, desc = 'Live Grep (FZF)' },
       { '<leader>h', function() require('fzf-lua').files() end, desc = 'Find Files (FZF)' },
       { '<leader>b', function() require('fzf-lua').buffers() end, desc = 'Buffers (FZF)' },
       { 'gd', function() require('fzf-lua').lsp_definitions() end, desc = 'Go to Definition' },
@@ -347,6 +347,46 @@ return {
 
   -- Rust specific plugins moved to dedicated rust.lua plugin file
   -- This maintains backward compatibility while providing better organization
+
+  -- Enhanced notification system for smart keys
+  {
+    "rcarriga/nvim-notify",
+    lazy = false,  -- 立即加载，确保通知系统始终可用
+    config = function()
+      require("notify").setup({
+        -- 动画样式
+        stages = "fade_in_slide_out",
+        -- 超时时间
+        timeout = 3000,
+        -- 最大宽度
+        max_width = 50,
+        -- 最大高度
+        max_height = 10,
+        -- 渲染样式
+        render = "default",
+        -- 背景色
+        background_colour = "#282828",
+        -- 最小级别
+        minimum_width = 10,
+        -- 图标
+        icons = {
+          ERROR = "",
+          WARN = "",
+          INFO = "",
+          DEBUG = "",
+          TRACE = "✎",
+        },
+        -- 时间格式
+        time_formats = {
+          notifier = "%H:%M:%S",
+          notification = "%H:%M:%S",
+        },
+      })
+
+      -- 设置为默认通知函数
+      vim.notify = require("notify")
+    end,
+  },
 
   -- Claude Code integration
   {

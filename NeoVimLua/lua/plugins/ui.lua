@@ -48,7 +48,10 @@ return {
               'undotree', 'git', 'diff', 'help', 'lazy', 'mason', 'mason.nvim',
               'qf', 'quickfix', 'starter', 'alpha', 'dashboard', 'oil', 'minifiles',
               'netrw', 'Trouble', 'terminal', 'claude', 'claudecode', 'snacks_terminal',
-              'ClaudeTerminal', 'claude-terminal', 'Claude', 'claude_code_terminal'
+              'ClaudeTerminal', 'claude-terminal', 'Claude', 'claude_code_terminal',
+              -- DAP调试UI窗口
+              'dap-repl', 'dap-ui_scopes', 'dap-ui_watches', 'dap-ui_stacks',
+              'dap-ui_breakpoints', 'dap-ui_console', 'dap-float', 'dap-terminal'
             },
             winbar = {},
           },

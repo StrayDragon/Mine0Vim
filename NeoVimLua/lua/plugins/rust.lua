@@ -102,10 +102,10 @@ return {
               vim.cmd.RustLsp('codeAction')
             end, vim.tbl_extend('force', opts, { desc = 'Rust 代码操作' }))
 
-            -- 增强的重命名
+            -- 增强的重命名 (与 lsp.lua 协作，提供Rust优化版本)
             vim.keymap.set('n', '<leader>rn', function()
               return ':IncRename ' .. vim.fn.expand('<cword>')
-            end, vim.tbl_extend('force', opts, { desc = '重命名', expr = true }))
+            end, vim.tbl_extend('force', opts, { desc = '智能重命名', expr = true }))
 
             -- 保存时格式化（仅对 Rust）
             if client.supports_method('textDocument/formatting') then
@@ -432,7 +432,7 @@ return {
         },
       })
 
-      -- Cargo 操作的增强键位映射
+      -- Cargo.toml 专用键位映射 (仅在 Cargo.toml 文件中生效)
       vim.keymap.set('n', '<leader>ct', function()
         require('crates').toggle()
       end, { desc = '切换 Crate 版本', buffer = true })
