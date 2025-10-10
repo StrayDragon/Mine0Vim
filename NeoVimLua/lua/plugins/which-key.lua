@@ -129,7 +129,7 @@ return {
 				{ "<space>e", desc = "LSP 查找器 (fzf-lua)" },
 
 				-- 文件操作分组（fzf-lua 和 nvim-tree 会自动注册键位）
-				{ "<leader>f", group = "文件", icon = "📄 " },
+				{ "<leader>p", group = "文件查找", icon = "🔍 " },
 
 				-- 搜索分组（fzf-lua 会自动注册键位）
 				{ "<leader>s", group = "搜索", icon = "🔍 " },
@@ -201,9 +201,10 @@ return {
 				{ "<leader>Ds", desc = "显示调试状态" },
 
 				-- === 插件虚拟键位（现有功能保持） ===
-				{ "<leader>ff", desc = "查找文件 (fzf-lua)" },
-				{ "<leader>fb", desc = "缓冲区列表 (fzf-lua)" },
-				{ "<leader>fg", desc = "全局搜索 (fzf-lua)" },
+				{ "<leader>pf", desc = "查找文件 (fzf-lua)" },
+				{ "<leader>pb", desc = "缓冲区列表 (fzf-lua)" },
+				{ "<leader>pg", desc = "全局搜索 (fzf-lua)" },
+				{ "<leader>ph", desc = "帮助标签 (fzf-lua)" },
 				{ "<leader>xra", desc = "Rust 代码动作 (rustaceanvim)" },
 				{ "<leader>xrc", desc = "Cargo 管理 (crates.nvim)" },
 				{ "<leader>xpa", desc = "Python 代码动作" },

@@ -172,28 +172,28 @@ return {
 		end,
 		keys = {
 			{
-				"<leader>ff",
+				"<leader>pf",
 				function()
 					require("fzf-lua").files()
 				end,
 				desc = "Find files",
 			},
 			{
-				"<leader>fb",
+				"<leader>pb",
 				function()
 					require("fzf-lua").buffers()
 				end,
 				desc = "Find buffers",
 			},
 			{
-				"<leader>fg",
+				"<leader>pg",
 				function()
 					require("fzf-lua").live_grep()
 				end,
 				desc = "Live grep",
 			},
 			{
-				"<leader>fh",
+				"<leader>ph",
 				function()
 					require("fzf-lua").help_tags()
 				end,
