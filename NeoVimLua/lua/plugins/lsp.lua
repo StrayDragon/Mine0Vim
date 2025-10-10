@@ -1,188 +1,68 @@
 return {
-  -- Mason 和 LSP 配置 - 立即加载
+  -- LSP 工具管理
   {
     "williamboman/mason.nvim",
-    lazy = false,  -- 立即加载 LSP 工具管理器
+    lazy = false,
     build = ":MasonUpdate",
     config = function()
-      require("mason").setup({
-        ui = {
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-          }
-        }
-      })
+      require("mason").setup()
     end,
   },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    lazy = false,  -- 立即加载 LSP 配置桥接
-    dependencies = { "williamboman/mason.nvim" },
-    config = function()
-      -- 仅确保安装，不进行自动设置或启用
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "basedpyright" },
-        automatic_installation = false,
-        -- 禁用 LSP 服务器自动启用（Neovim 0.11+）
-        automatic_enable = false,
-        -- 通过提供空的处理器明确防止任何自动设置
-        handlers = {},
-      })
-    end,
-  },
+
+  -- LSP 配置
   {
     "neovim/nvim-lspconfig",
-    lazy = false,  -- 立即加载 LSP 核心配置
+    lazy = false,
     dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
-    -- 优化LSP启动性能
-    init = function()
-      -- 预设置诊断配置以提高性能
-      vim.diagnostic.config({
-        virtual_text = {
-          prefix = "●",
-          spacing = 2,
-        },
-        float = {
-          source = "always",
-          border = "rounded",
-        },
-        signs = true,
-        underline = true,
-        update_in_insert = false,  -- 插入模式不更新诊断
-        severity_sort = true,
-      })
-    end,
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
-      -- 统一所有客户端的位置编码以避免混合 UTF-8/UTF-16 警告
-      capabilities.general = capabilities.general or {}
-      capabilities.general.positionEncodings = { "utf-8" }
 
-      -- 在附加时设置键位映射
+      -- 诊断配置
+      vim.diagnostic.config({
+        virtual_text = { prefix = "●" },
+        float = { border = "rounded" },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
+
+      -- 键位映射
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, noremap = true, silent = true }
 
-        -- 保留 Coc.nvim 键位映射以实现无缝迁移
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)          -- 跳转到定义
-        vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)     -- 跳转到类型定义
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)      -- 跳转到实现
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)          -- 查找引用
-
-        -- 悬停文档
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-
-        -- 诊断导航
-        vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)        -- 上一个诊断
-        vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)        -- 下一个诊断
-
-        -- 操作
-        -- 重命名符号已移至 keymaps.lua，避免重复
-
-        -- 智能代码动作路由 - 根据文件类型选择最佳实现（保留，优先于 keymaps.lua）
-        vim.keymap.set({'n', 'x'}, '<leader>a', function()
-          local filetype = vim.bo.filetype
-          local bufnr = vim.api.nvim_get_current_buf()
-
-          -- 检查是否有 rust-analyzer 客户端
-          local has_rust_analyzer = false
-          if filetype == 'rust' then
-            local clients = vim.lsp.get_clients({ bufnr = bufnr })
-            for _, client in ipairs(clients) do
-              if client.name == 'rust_analyzer' then
-                has_rust_analyzer = true
-                break
-              end
-            end
-          end
-
-          -- 路由逻辑
-          if filetype == 'rust' and has_rust_analyzer then
-            -- 使用 rust-analyzer 的分组代码动作
-            vim.cmd.RustLsp('codeAction')
-          elseif pcall(require, 'tiny-code-action') then
-            -- 使用 tiny-code-action 提供更好的 UI
-            require('tiny-code-action').code_action()
-          else
-            -- 回退到标准 LSP 代码动作
-            vim.lsp.buf.code_action()
-          end
-        end, opts)
-        -- 格式化功能已移至 conform.nvim，保留 LSP 格式化作为后备
-        vim.keymap.set({'n', 'x'}, '<leader>F', function()               -- LSP 格式化代码（后备）
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-
-        -- 在浮动窗口中显示诊断（使用 <leader>de 避免与文件浏览器冲突）
+        vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
+        vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
         vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, opts)
+        vim.keymap.set({'n', 'x'}, '<leader>a', vim.lsp.buf.code_action, opts)
 
-        -- 为 Neovim 0.11+ 安全启用内联提示，具有强大的错误处理
         if client.server_capabilities.inlayHintProvider then
-          vim.schedule(function()
-            local ok, err = pcall(function()
-              if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
-                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-
-                -- 添加自动命令在文本更改期间禁用内联提示以防止列越界
-                local group = vim.api.nvim_create_augroup("InlayHintProtection_" .. bufnr, { clear = true })
-                vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufDelete", "BufWipeout" }, {
-                  group = group,
-                  buffer = bufnr,
-                  callback = function()
-                    pcall(function()
-                      if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
-                        vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-                        -- 短暂延迟后重新启用
-                        vim.defer_fn(function()
-                          if vim.api.nvim_buf_is_valid(bufnr) then
-                            pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
-                          end
-                        end, 100)
-                      end
-                    end)
-                  end,
-                })
-              end
-            end)
-            if not ok then
-              vim.notify("启用内联提示失败: " .. tostring(err), vim.log.levels.WARN)
-            end
-          end)
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
         end
       end
 
-      -- 使用新的 vim.lsp.config API（Neovim 0.11+）
-      local lsp_configs = {
-        -- Python LSP（主要需求）
+      -- LSP 服务器配置
+      local servers = {
         basedpyright = {
           cmd = { "basedpyright-langserver", "--stdio" },
           filetypes = { "python" },
-          capabilities = capabilities,
-          on_attach = on_attach,
           settings = {
             basedpyright = {
               analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
-                diagnosticMode = "workspace",
-                -- 为类型注解启用内联提示
-                inlayHints = {
-                  variableTypes = true,
-                  functionReturnTypes = true,
-                  callArgumentNames = "partial",
-                },
               },
             },
           },
         },
-
-        -- Lua LSP
         lua_ls = {
           cmd = { "lua-language-server" },
           filetypes = { "lua" },
-          capabilities = capabilities,
-          on_attach = on_attach,
           settings = {
             Lua = {
               runtime = { version = "LuaJIT" },
@@ -195,126 +75,30 @@ return {
             },
           },
         },
-
-        -- JSON LSP with formatting
         jsonls = {
           cmd = { "vscode-json-language-server", "--stdio" },
           filetypes = { "json", "jsonc", "jsonp" },
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            on_attach(client, bufnr)
-            -- Enable JSON formatting on save
-            if client.server_capabilities.documentFormattingProvider then
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("JsonFormat", { clear = true }),
-                buffer = bufnr,
-                callback = function()
-                  vim.lsp.buf.format({
-                    bufnr = bufnr,
-                    async = false,
-                  })
-                end,
-              })
-            end
-          end,
-          settings = {
-            json = {
-              format = {
-                enable = true,
-              },
-              schemas = {
-                {
-                  fileMatch = { "package.json" },
-                  url = "https://json.schemastore.org/package.json"
-                },
-                {
-                  fileMatch = { "tsconfig.json", "tsconfig.*.json" },
-                  url = "https://json.schemastore.org/tsconfig"
-                },
-              },
-            },
-          },
         },
-
-        -- YAML LSP with formatting
         yamlls = {
           cmd = { "yaml-language-server", "--stdio" },
           filetypes = { "yaml", "yml" },
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            on_attach(client, bufnr)
-            -- Enable YAML formatting on save
-            if client.server_capabilities.documentFormattingProvider then
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("YamlFormat", { clear = true }),
-                buffer = bufnr,
-                callback = function()
-                  vim.lsp.buf.format({
-                    bufnr = bufnr,
-                    async = false,
-                  })
-                end,
-              })
-            end
-          end,
-          settings = {
-            yaml = {
-              format = {
-                enable = true,
-                singleQuote = false,
-                bracketSpacing = true,
-                printWidth = 120,
-              },
-              schemas = {
-                {
-                  fileMatch = { "*.yml", "*.yaml" },
-                  url = "https://json.schemastore.org/github-workflow",
-                },
-                {
-                  fileMatch = { "docker-compose.yml", "docker-compose.yaml" },
-                  url = "https://json.schemastore.org/docker-compose",
-                },
-              },
-              validate = true,
-              completion = true,
-              hover = true,
-            },
-          },
         },
-
-        -- TOML LSP
         taplo = {
           cmd = { "taplo", "lsp", "stdio" },
           filetypes = { "toml" },
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = {
-            taplo = {
-              semanticTokens = true,
-              semanticTokensLegend = {
-                tokenTypes = {
-                  "property",
-                  "enumMember",
-                },
-                tokenModifiers = {
-                  "deprecated",
-                },
-              },
-            },
-          },
         },
-
       }
 
-      -- 使用新 API 注册 LSP 配置
-      for server_name, config in pairs(lsp_configs) do
-        vim.lsp.config(server_name, config)
+      -- 注册 LSP 服务器
+      for name, config in pairs(servers) do
+        config.capabilities = capabilities
+        config.on_attach = on_attach
+        vim.lsp.config(name, config)
       end
 
-      -- 为适当的文件类型自动启动 LSP 服务器
+      -- 自动启动 LSP
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
-          local filetype = args.file
           local lsp_map = {
             python = "basedpyright",
             lua = "lua_ls",
@@ -324,45 +108,11 @@ return {
             toml = "taplo",
           }
 
-          local server = lsp_map[filetype]
+          local server = lsp_map[args.file]
           if server then
             vim.lsp.enable(server)
           end
         end,
-      })
-
-      -- 注意：LSP 悬停和签名帮助边框现在由 config/options.lua 中的 vim.o.winborder = "rounded" 控制
-      -- 这在 Neovim 0.11+ 中全局应用于所有浮动窗口
-
-      -- 诊断配置
-      vim.diagnostic.config({
-        virtual_text = true,  -- 显示虚拟文本诊断
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = " ",  -- 错误符号
-            [vim.diagnostic.severity.WARN]  = " ",  -- 警告符号
-            [vim.diagnostic.severity.HINT]  = " ",  -- 提示符号
-            [vim.diagnostic.severity.INFO]  = " ",  -- 信息符号
-          },
-        },
-        underline = true,        -- 下划线标记
-        update_in_insert = false, -- 插入模式时不更新
-        severity_sort = true,     -- 按严重程度排序
-        float = {
-          border = {
-            {"┌", "FloatBorder"},
-            {"─", "FloatBorder"},
-            {"┐", "FloatBorder"},
-            {"│", "FloatBorder"},
-            {"┘", "FloatBorder"},
-            {"─", "FloatBorder"},
-            {"┚", "FloatBorder"},
-            {"│", "FloatBorder"},
-          },
-          source = "always",  -- 始终显示来源
-          header = "",        -- 无标题
-          prefix = "",        -- 无前缀
-        },
       })
     end,
   },

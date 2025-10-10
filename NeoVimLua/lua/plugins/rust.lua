@@ -9,111 +9,55 @@ return {
     ft = { 'rust' },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
-      'mfussenegger/nvim-dap',
-      'rcarriga/nvim-dap-ui',
     },
     config = function()
-      -- 增强的 rustaceanvim 配置及优化
-      local function get_debug_adapter()
-        if vim.fn.executable('codelldb') == 1 then
-          return 'codelldb'
-        elseif vim.fn.executable('lldb-vscode') == 1 then
-          return 'lldb-vscode'
-        elseif vim.fn.executable('lldb-dap') == 1 then
-          return 'lldb-dap'
-        else
-          return 'lldb-dap' -- 回退选项
-        end
-      end
-
       vim.g.rustaceanvim = {
-        -- 增强的工具配置
+        -- 简化的工具配置
         tools = {
-          -- 更好的悬停操作用户体验
           hover_actions = {
-            border = {
-              {"╭", "FloatBorder"},
-              {"─", "FloatBorder"},
-              {"╮", "FloatBorder"},
-              {"│", "FloatBorder"},
-              {"╯", "FloatBorder"},
-              {"─", "FloatBorder"},
-              {"╰", "FloatBorder"},
-              {"│", "FloatBorder"},
-            },
             auto_focus = false,
             max_width = 80,
             max_height = 20,
           },
 
-          -- 增强的测试执行器
-          test_executor = 'background', -- 使用后台执行以获得更好的用户体验
+          test_executor = 'background',
           test_status = {
             virtual_text = true,
             signs = true,
           },
 
-          -- 增强的 Crate 图
-          crate_graph = {
-            backend = 'dot',
-            output = 'svg',
-            enabled_graphviz_backends = { 'dot', 'neato', 'fdp', 'sfdp', 'twopi' },
-            graphviz_bin = nil, -- 使用系统默认
-          },
-
-          -- 增强的代码操作
           code_actions = {
             ui_select_fallback = true,
-            group_icon = " ",
           },
 
-          -- 增强的工作区符号搜索
           workspace_symbol = {
             search_kind = 'all_symbols',
             search_scope = 'workspace_and_dependencies',
           },
         },
 
-        -- 增强的服务器配置
+        -- 服务器配置
         server = {
           cmd = { 'rust-analyzer' },
           standalone = true,
-          ra_multiplex = {
-            enable = vim.fn.executable('ra-multiplex') == 1,
-          },
 
-          -- 增强的 on_attach，提供更多功能
           on_attach = function(client, bufnr)
-            -- 通用 LSP 键位映射（最小集合以避免与 ftplugin 冲突）
             local opts = { buffer = bufnr, noremap = true, silent = true, desc = '' }
 
-            -- 仅基本 LSP 映射（其他在 ftplugin/rust.lua 中）
-            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, vim.tbl_extend('force', opts, { desc = '跳转到声明' }))
-            vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, vim.tbl_extend('force', opts, { desc = '跳转到实现' }))
-            -- 移除 <leader>D 冲突，使用 <leader>Dt 替代类型定义（与调试区分）
-
-            -- 增强的悬停操作（使用不同的键位避免冲突）
+            -- 基本 LSP 映射
             vim.keymap.set('n', 'gK', function()
               vim.cmd.RustLsp { 'hover', 'actions' }
             end, vim.tbl_extend('force', opts, { desc = 'Rust 增强悬停' }))
 
-            -- 注意：基础的LSP键位已在 keymaps.lua 中定义
-            -- 这里只保留Rust特定的增强功能，避免重复定义
-
-            -- Rust特定的代码动作 - 使用新的分层前缀
+            -- Rust 代码动作
             vim.keymap.set({ 'n', 'v' }, '<leader>xra', function()
               vim.cmd.RustLsp('codeAction')
-            end, vim.tbl_extend('force', opts, { desc = 'Rust 代码动作 (直接)' }))
+            end, vim.tbl_extend('force', opts, { desc = 'Rust 代码动作' }))
 
-            -- 增强的重命名 - 保留作为基础重命名的增强版本
-            vim.keymap.set('n', '<leader>xrn', function()
-              return ':IncRename ' .. vim.fn.expand('<cword>')
-            end, vim.tbl_extend('force', opts, { desc = 'Rust 智能重命名', expr = true }))
-
-            -- 保存时格式化（仅对 Rust）
+            -- 保存时格式化
             if client.supports_method('textDocument/formatting') then
               vim.api.nvim_create_autocmd('BufWritePre', {
-                group = vim.api.nvim_create_augroup('LspFormat.' .. bufnr, {}),
+                group = vim.api.nvim_create_augroup('RustFormat.' .. bufnr, {}),
                 buffer = bufnr,
                 callback = function()
                   vim.lsp.buf.format({ bufnr = bufnr })
@@ -121,7 +65,7 @@ return {
               })
             end
 
-            -- 增强的防抖内联提示
+            -- 内联提示管理
             if client.server_capabilities.inlayHintProvider then
               local inlay_enabled = false
               local debounce_timer = nil
@@ -133,7 +77,6 @@ return {
                 end
               end
 
-              -- 防抖启用内联提示
               local function debounced_enable_inlay_hints()
                 if debounce_timer then
                   debounce_timer:stop()
@@ -143,13 +86,11 @@ return {
                 end, 300)
               end
 
-              -- 空闲时启用内联提示
               vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                 buffer = bufnr,
                 callback = debounced_enable_inlay_hints,
               })
 
-              -- 输入时禁用内联提示
               vim.api.nvim_create_autocmd({ 'InsertEnter', 'CursorMoved', 'TextChanged', 'TextChangedI' }, {
                 buffer = bufnr,
                 callback = function()
@@ -162,41 +103,28 @@ return {
             end
           end,
 
-          -- 增强的 rust-analyzer 设置
+          -- 简化的 rust-analyzer 设置
           default_settings = {
             ['rust-analyzer'] = {
-              -- Cargo 配置
               cargo = {
                 allFeatures = true,
                 loadOutDirsFromCheck = true,
-                targetDir = true,
               },
 
-              -- 简化的检查配置
               check = {
                 command = "clippy",
                 features = "all",
               },
 
-              -- 过程宏支持
               procMacro = {
                 enable = true,
               },
 
-              -- 增强的内联提示
               inlayHints = {
                 enable = true,
-                typeHints = {
-                  enable = true,
-                  hideClosureInitialization = false,
-                  hideNamedConstructor = false,
-                },
-                parameterHints = {
-                  enable = true,
-                },
-                chainingHints = {
-                  enable = true,
-                },
+                typeHints = { enable = true },
+                parameterHints = { enable = true },
+                chainingHints = { enable = true },
                 maxLength = 25,
                 lifetimeElisionHints = {
                   enable = "skip_trivial",
@@ -205,168 +133,43 @@ return {
                 closureReturnTypeHints = {
                   enable = "always",
                 },
-                reborrowHints = {
-                  enable = "mutable",
-                },
-                bindingModeHints = {
-                  enable = true,
-                },
               },
 
-              -- 增强的补全
               completion = {
                 addCallParentheses = true,
                 addCallArgumentSnippets = true,
-                postfix = {
-                  enable = true,
-                  private = {
-                    enable = true,
-                  },
-                },
-                autoimport = {
-                  enable = true,
-                },
-                autoself = {
-                  enable = true,
-                },
+                autoimport = { enable = true },
               },
 
-              -- 增强的诊断
               diagnostics = {
                 enable = true,
-                experimental = {
-                  enable = false,
-                },
-                disabled = {
-                  "unresolved-proc-macro", -- 经常是误报
-                },
                 enableRustcLint = true,
+                disabled = { "unresolved-proc-macro" },
               },
 
-              -- 增强的导入
               imports = {
-                granularity = {
-                  group = "module",
-                },
+                granularity = { group = "module" },
                 prefix = "crate",
-                prefer = {
-                  "std::option::Option",
-                  "std::result::Result",
-                  "std::vec::Vec",
-                  "std::collections::HashMap",
-                },
-                merge = {
-                  behave = "block",
-                },
               },
 
-              -- 增强的文件监视
               files = {
                 watcher = "server",
-                excludeDirs = {
-                  "target",
-                  ".git",
-                  "node_modules",
-                  ".vscode",
-                  ".idea",
-                },
+                excludeDirs = { "target", ".git" },
               },
 
-              -- 增强的透镜功能
               lens = {
                 enable = true,
-                run = {
-                  enable = true,
-                },
-                debug = {
-                  enable = true,
-                },
-                implementations = {
-                  enable = true,
-                },
-                methodReferences = {
-                  enable = true,
-                },
-                references = {
-                  enable = true,
-                  adt = { enable = true },
-                  enumVariant = { enable = true },
-                  method = { enable = true },
-                  trait = { enable = true },
-                  traitImpl = { enable = true },
-                },
+                run = { enable = true },
+                debug = { enable = true },
+                implementations = { enable = true },
               },
 
-              -- 增强的悬停
               hover = {
-                actions = {
-                  enable = true,
-                  implementations = {
-                    enable = true,
-                  },
-                  references = {
-                    enable = true,
-                  },
-                  run = {
-                    enable = true,
-                  },
-                  debug = {
-                    enable = true,
-                  },
-                  gotoTypeDef = {
-                    enable = true,
-                  },
-                },
-                memoryLayout = {
-                  enable = true,
-                  size = "both",
-                  offset = "both",
-                  alignment = "both",
-                  niches = true,
-                },
-                documentation = {
-                  enable = true,
-                },
-                linksInHover = true,
-              },
-
-              -- 性能优化
-              semanticHighlighting = {
-                strings = {
-                  enable = true,
-                },
-                punctuation = {
-                  enable = true,
-                  special = {
-                    enable = true,
-                  },
-                },
-                syntax = {
-                  enable = true,
-                },
-              },
-
-              -- 增强的工作区符号配置
-              workspace = {
-                symbol = {
-                  search = {
-                    kind = "all_symbols",
-                    scope = "workspace_and_dependencies",
-                    limit = 128,
-                  },
-                },
+                actions = { enable = true },
+                memoryLayout = { enable = true },
+                documentation = { enable = true },
               },
             },
-          },
-        },
-
-        -- 增强的 DAP 配置
-        dap = {
-          autoload_configurations = true,
-          adapter = require('dap').adapters.codelldb or {
-            type = 'executable',
-            command = get_debug_adapter(),
-            name = 'rt_lldb',
           },
         },
       }
