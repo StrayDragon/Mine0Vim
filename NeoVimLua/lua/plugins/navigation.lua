@@ -202,7 +202,7 @@ return {
 			{
 				"<space>d",
 				function()
-					require("fzf-lua").lsp_diagnostics()
+					require("fzf-lua").lsp_workspace_diagnostics()
 				end,
 				desc = "LSP diagnostics",
 			},
