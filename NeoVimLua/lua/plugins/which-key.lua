@@ -115,14 +115,6 @@ return {
 				-- === 标准布局分组（基于 StdKeymap.md） ===
 				-- 优先匹配标准文档，同时保持与现有插件的兼容性
 
-				-- Git 操作分组（gitsigns.nvim 会自动注册键位）
-				{ "<leader>h", group = "Git Signs", icon = "🚩 " },
-				{ "<leader>hs", desc = "暂存 Hunk" },
-				{ "<leader>hr", desc = "重置 Hunk" },
-				{ "<leader>hp", desc = "预览 Hunk" },
-				{ "<leader>hb", desc = " blame 行" },
-				{ "<leader>hd", desc = "diff this" },
-
 				-- g 前缀分组（LSP 导航相关）
 				{ "g", group = "LSP 导航", icon = "🔗 " },
 
@@ -212,9 +204,6 @@ return {
 				{ "<leader>ff", desc = "查找文件 (fzf-lua)" },
 				{ "<leader>fb", desc = "缓冲区列表 (fzf-lua)" },
 				{ "<leader>fg", desc = "全局搜索 (fzf-lua)" },
-				{ "<leader>gs", desc = "暂存变更 (gitsigns)" },
-				{ "<leader>gr", desc = "重置变更 (gitsigns)" },
-				{ "<leader>gp", desc = "预览变更 (gitsigns)" },
 				{ "<leader>xra", desc = "Rust 代码动作 (rustaceanvim)" },
 				{ "<leader>xrc", desc = "Cargo 管理 (crates.nvim)" },
 				{ "<leader>xpa", desc = "Python 代码动作" },

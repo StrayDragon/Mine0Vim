@@ -42,7 +42,7 @@ return {
 				vim.keymap.set({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, opts)
 
 				if client.server_capabilities.inlayHintProvider then
-					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					vim.lsp.inlay_hint.enable(bufnr, true)
 				end
 			end
 
@@ -68,7 +68,7 @@ return {
 							runtime = { version = "LuaJIT" },
 							diagnostics = { globals = { "vim" } },
 							workspace = {
-								library = vim.api.nvim_get_runtime_file("", true),
+								library = vim.fn.stdpath("config") .. "/lua",
 								checkThirdParty = false,
 							},
 							telemetry = { enable = false },
