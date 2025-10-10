@@ -214,3 +214,24 @@ opt.mouse = "a"  -- 在普通、可视、插入、命令行模式下启用鼠标
 
 -- 浮动窗口外观
 opt.winborder = "rounded"  -- 为所有浮动窗口设置圆角边框
+
+-- 文件类型特定的缩进设置
+vim.cmd([[
+  " Lua 文件：2 空格缩进
+  autocmd FileType lua setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " JSON 文件：2 空格缩进
+  autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " JSONC 文件：2 空格缩进
+  autocmd FileType jsonc setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " YAML 文件：2 空格缩进
+  autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " TOML 文件：2 空格缩进
+  autocmd FileType toml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+  " 配置文件通用的 2 空格缩进
+  autocmd FileType cfg,ini setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+]])

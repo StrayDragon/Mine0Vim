@@ -242,7 +242,6 @@ return {
         { "<leader>z", desc = "Zen 模式" },
 
         -- === 其他实用键位 ===
-        { "<leader>qf", desc = "快速文件" },
         { "<leader>nf", desc = "在文件树中查找当前文件" },
       })
 

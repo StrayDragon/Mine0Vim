@@ -90,7 +90,7 @@ return {
           if filetype == 'rust' then
             local clients = vim.lsp.get_clients({ bufnr = bufnr })
             for _, client in ipairs(clients) do
-              if client.name == 'rust-analyzer' then
+              if client.name == 'rust_analyzer' then
                 has_rust_analyzer = true
                 break
               end
@@ -196,6 +196,114 @@ return {
           },
         },
 
+        -- JSON LSP with formatting
+        jsonls = {
+          cmd = { "vscode-json-language-server", "--stdio" },
+          filetypes = { "json", "jsonc", "jsonp" },
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+            -- Enable JSON formatting on save
+            if client.server_capabilities.documentFormattingProvider then
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("JsonFormat", { clear = true }),
+                buffer = bufnr,
+                callback = function()
+                  vim.lsp.buf.format({
+                    bufnr = bufnr,
+                    async = false,
+                  })
+                end,
+              })
+            end
+          end,
+          settings = {
+            json = {
+              format = {
+                enable = true,
+              },
+              schemas = {
+                {
+                  fileMatch = { "package.json" },
+                  url = "https://json.schemastore.org/package.json"
+                },
+                {
+                  fileMatch = { "tsconfig.json", "tsconfig.*.json" },
+                  url = "https://json.schemastore.org/tsconfig"
+                },
+              },
+            },
+          },
+        },
+
+        -- YAML LSP with formatting
+        yamlls = {
+          cmd = { "yaml-language-server", "--stdio" },
+          filetypes = { "yaml", "yml" },
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+            -- Enable YAML formatting on save
+            if client.server_capabilities.documentFormattingProvider then
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("YamlFormat", { clear = true }),
+                buffer = bufnr,
+                callback = function()
+                  vim.lsp.buf.format({
+                    bufnr = bufnr,
+                    async = false,
+                  })
+                end,
+              })
+            end
+          end,
+          settings = {
+            yaml = {
+              format = {
+                enable = true,
+                singleQuote = false,
+                bracketSpacing = true,
+                printWidth = 120,
+              },
+              schemas = {
+                {
+                  fileMatch = { "*.yml", "*.yaml" },
+                  url = "https://json.schemastore.org/github-workflow",
+                },
+                {
+                  fileMatch = { "docker-compose.yml", "docker-compose.yaml" },
+                  url = "https://json.schemastore.org/docker-compose",
+                },
+              },
+              validate = true,
+              completion = true,
+              hover = true,
+            },
+          },
+        },
+
+        -- TOML LSP
+        taplo = {
+          cmd = { "taplo", "lsp", "stdio" },
+          filetypes = { "toml" },
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = {
+            taplo = {
+              semanticTokens = true,
+              semanticTokensLegend = {
+                tokenTypes = {
+                  "property",
+                  "enumMember",
+                },
+                tokenModifiers = {
+                  "deprecated",
+                },
+              },
+            },
+          },
+        },
+
       }
 
       -- 使用新 API 注册 LSP 配置
@@ -210,6 +318,10 @@ return {
           local lsp_map = {
             python = "basedpyright",
             lua = "lua_ls",
+            rust = "rust_analyzer",
+            json = "jsonls",
+            yaml = "yamlls",
+            toml = "taplo",
           }
 
           local server = lsp_map[filetype]

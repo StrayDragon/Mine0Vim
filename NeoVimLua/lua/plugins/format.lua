@@ -1,181 +1,138 @@
 return {
-  -- Modern formatting system with conform.nvim
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-      {
-        "<leader>f",
-        function()
-          local conform = require("conform")
-          local formatters = conform.list_formatters(0)
+	-- Minimal formatting configuration with conform.nvim
+	{
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		keys = {
+			{
+				"<leader>f",
+				function()
+					local conform = require("conform")
+					local formatters = conform.list_formatters(0)
 
-          if #formatters == 0 then
-            vim.notify("No formatters available for this file type", vim.log.levels.WARN)
-            return
-          end
+					if #formatters == 0 then
+						-- Check if there are configured formatters for this filetype
+						local configured_formatters = conform.formatters_by_ft[vim.bo.filetype]
+						if configured_formatters and #configured_formatters > 0 then
+							vim.notify(
+								string.format(
+									"Formatters configured but not available for %s: %s\nRun :Mason to install missing formatters.",
+									vim.bo.filetype or "current filetype",
+									table.concat(configured_formatters, ", ")
+								),
+								vim.log.levels.WARN
+							)
+						else
+							vim.notify(
+								"No formatters configured for " .. (vim.bo.filetype or "current filetype"),
+								vim.log.levels.WARN
+							)
+						end
+						return
+					end
 
-          conform.format({
-            async = true,
-            lsp_fallback = true,
-            timeout_ms = 1000,
-          })
-        end,
-        mode = { "n", "v" },
-        desc = "Format buffer",
-      },
-    },
-    dependencies = {
-      "williamboman/mason.nvim", -- Ensure formatters are available via Mason
-    },
-    opts = {
-      -- Format on save
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
+					conform.format({
+						async = true,
+						lsp_fallback = true,
+						timeout_ms = 1000,
+					})
+				end,
+				mode = { "n", "v" },
+				desc = "Format buffer",
+			},
+		},
+		opts = {
+			-- Format on save
+			format_on_save = function(bufnr)
+				-- Only format on save if formatters are available
+				local conform = require("conform")
+				local formatters = conform.list_formatters(bufnr)
 
-      -- Format after save (asynchronous)
-      format_after_save = false, -- Disabled to avoid conflicts with format_on_save
+				if #formatters == 0 then
+					return nil -- Skip formatting
+				end
 
-      -- Formatters by filetype
-      formatters_by_ft = {
-        -- Python formatters - using ruff only
-        python = { "ruff_format", "ruff_organize_imports" },
+				return {
+					timeout_ms = 500,
+					lsp_fallback = true,
+				}
+			end,
 
-        -- Lua formatters
-        lua = { "stylua" },
+			-- Formatters by filetype - minimal set only
+			formatters_by_ft = {
+				python = { "ruff_format" },
+				go = { "gofmt" },
+				json = { "json-lsp" },
+				jsonc = { "json-lsp" },
+				jsonp = { "json-lsp" },
+				lua = { "stylua" },
+				rust = { "rustfmt" },
+			},
 
-        -- Rust formatters
-        rust = { "rustfmt" },
+			-- Default format options
+			format = {
+				timeout_ms = 1000,
+				lsp_fallback = true,
+				quiet = false,
+			},
 
-        -- JavaScript/TypeScript formatters
-        javascript = { "prettierd", "prettier" },
-        typescript = { "prettierd", "prettier" },
-        javascriptreact = { "prettierd", "prettier" },
-        typescriptreact = { "prettierd", "prettier" },
+			-- Notification settings
+			notify_on_error = true,
+			log_level = vim.log.levels.WARN,
+		},
+		init = function()
+			-- Configure formatter-specific options
+			local formatters = require("conform.formatters")
 
-        -- Go formatters
-        go = { "gofmt", "gofumpt" },
+			-- Configure stylua for 2-space indentation
+			formatters.stylua = {
+				prepend_args = {
+					"--indent-type",
+					"Spaces",
+					"--indent-width",
+					"2",
+					"--quote-style",
+					"AutoPreferDouble",
+				},
+			}
 
-        -- Web formatters
-        html = { "prettierd", "prettier" },
-        css = { "prettierd", "prettier" },
-        scss = { "prettierd", "prettier" },
-        sass = { "prettierd", "prettier" },
+			-- Configure yamlfmt for 2-space indentation
+			formatters.yamlfmt = {
+				prepend_args = {
+					"--indent",
+					"2",
+				},
+			}
 
-        -- JSON/YAML/TOML formatters
-        json = { "prettierd", "prettier" },
-        jsonc = { "prettierd", "prettier" },  -- JSON with Comments
-        yaml = { "prettierd", "prettier" },
-        toml = { "taplo" },
+			-- Configure taplo (TOML formatter) for 2-space indentation
+			formatters.taplo = {
+				prepend_args = {
+					"--option",
+					"indent_string=\"  \"",
+				},
+			}
 
-        -- Shell formatters
-        bash = { "shfmt" },
-        sh = { "shfmt" },
+			-- Create user commands for format operations
+			vim.api.nvim_create_user_command("Format", function(args)
+				local range = nil
+				if args.count ~= -1 then
+					local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+					range = {
+						start = { args.line1, 0 },
+						["end"] = { args.line2, end_line:len() },
+					}
+				end
+				require("conform").format({
+					range = range,
+					async = false,
+					lsp_fallback = true,
+				})
+			end, { range = true })
 
-        -- Markdown formatters
-        markdown = { "prettierd", "prettier" },
-
-        -- SQL formatters
-        sql = { "sqlfmt" },
-
-        -- Other formatters
-        proto = { "buf" },
-
-        -- Fallback for any filetype not explicitly defined
-        ["_*"] = { "prettierd", "prettier" },  -- Use prettier as fallback
-      },
-
-      -- Formatter options
-      format = {
-        timeout_ms = 1000,
-        lsp_fallback = true,
-        quiet = false,
-      },
-
-      -- Notification settings
-      notify_on_error = true,
-
-      -- Log level
-      log_level = vim.log.levels.WARN,
-    },
-    config = function(_, opts)
-      require("conform").setup(opts)
-
-      -- Custom formatters configuration
-      local formatters = require("conform.formatters")
-
-      -- Enhanced Python formatter configuration
-      formatters.black = {
-        prepend_args = { "--line-length=88", "--target-version=py38" },
-      }
-
-      formatters.isort = {
-        prepend_args = { "--profile=black" },
-      }
-
-      -- Enhanced JavaScript formatter configuration
-      formatters.prettierd = {
-        command = "prettierd",
-        args = { "--stdin-filepath", "$FILENAME" },
-        range_args = function(self, ctx)
-          return { "--stdin-filepath", ctx.filename, "--range-start", ctx.range.start[1] }
-        end,
-      }
-
-      -- Enhanced Go formatter configuration
-      formatters.gofmt = {
-        prepend_args = { "-s", "-w" },
-      }
-
-      formatters.gofumpt = {
-        prepend_args = { "-extra" },
-      }
-
-      -- Rust formatter configuration
-      formatters.rustfmt = {
-        command = "rustfmt",
-        args = { "--emit=stdout" },
-        range_args = function(self, ctx)
-          return { "--range", string.format("%d:%d", ctx.range.start[1], ctx.range["end"][1]) }
-        end,
-      }
-
-      -- Shell formatter configuration
-      formatters.shfmt = {
-        prepend_args = { "-i", "2", "-ci", "-bn" },
-      }
-    end,
-    init = function()
-      -- Create user commands for format operations
-      vim.api.nvim_create_user_command("Format", function(args)
-        local range = nil
-        if args.count ~= -1 then
-          local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-          range = {
-            start = { args.line1, 0 },
-            ["end"] = { args.line2, end_line:len() },
-          }
-        end
-        require("conform").format({
-          range = range,
-          async = false,
-          lsp_fallback = true
-        })
-      end, { range = true })
-
-      vim.api.nvim_create_user_command("FormatInfo", function()
-        require("conform").info()
-      end, {})
-
-      -- Add format command to QuickUI menu (if available)
-      vim.defer_fn(function()
-        if vim.fn.exists("*quickui#context#open") == 1 then
-          -- This will be picked up by the existing QuickUI menu
-        end
-      end, 1000)
-    end,
-  },
+			vim.api.nvim_create_user_command("FormatInfo", function()
+				require("conform").info()
+			end, {})
+		end,
+	},
 }

@@ -261,10 +261,6 @@ return {
       map("n", "<leader>ud", function() snacks.dim.toggle() end,
         vim.tbl_extend("force", opts, { desc = "Toggle window dimming" }))
 
-      -- Quick file navigation
-      map("n", "<leader>qf", function() snacks.quickfile() end,
-        vim.tbl_extend("force", opts, { desc = "Quick file navigation" }))
-
       end,
   },
 
