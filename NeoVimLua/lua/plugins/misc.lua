@@ -66,22 +66,8 @@ return {
 				},
 			})
 
-			-- Git 操作快捷键
-			vim.keymap.set("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
-			vim.keymap.set("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
-			vim.keymap.set("v", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", { desc = "Stage hunk (visual)" })
-			vim.keymap.set("v", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", { desc = "Reset hunk (visual)" })
-			vim.keymap.set("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<CR>", { desc = "Stage buffer" })
-			vim.keymap.set("n", "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>", { desc = "Undo stage hunk" })
-			vim.keymap.set("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>", { desc = "Reset buffer" })
-			vim.keymap.set("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
-			vim.keymap.set("n", "<leader>hb", "<cmd>Gitsigns blame_line<CR>", { desc = "Blame line" })
-			vim.keymap.set("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>", { desc = "Diff this" })
-			vim.keymap.set("n", "<leader>hD", "<cmd>Gitsigns diffthis ~<CR>", { desc = "Diff this ~" })
-			vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns toggle_deleted<CR>", { desc = "Toggle deleted" })
-
-			-- 文本对象支持
-			vim.keymap.set({ "o", "x" }, "ih", "<cmd>Gitsigns select_hunk<CR>", { desc = "Select hunk" })
+			-- Git 操作快捷键已禁用
+			-- 如需使用 gitsigns 功能，请使用 :Gitsigns 命令手动调用
 		end,
 	},
 	{
