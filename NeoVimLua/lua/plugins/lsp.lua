@@ -1,119 +1,128 @@
 return {
-  -- LSP 工具管理
-  {
-    "williamboman/mason.nvim",
-    lazy = false,
-    build = ":MasonUpdate",
-    config = function()
-      require("mason").setup()
-    end,
-  },
+	-- LSP 工具管理
+	{
+		"williamboman/mason.nvim",
+		lazy = false,
+		build = ":MasonUpdate",
+		config = function()
+			require("mason").setup()
+		end,
+	},
 
-  -- LSP 配置
-  {
-    "neovim/nvim-lspconfig",
-    lazy = false,
-    dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
-    config = function()
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
+	-- LSP 配置
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+		dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
+		config = function()
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      -- 诊断配置
-      vim.diagnostic.config({
-        virtual_text = { prefix = "●" },
-        float = { border = "rounded" },
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-      })
+			-- 诊断配置
+			vim.diagnostic.config({
+				virtual_text = { prefix = "●" },
+				float = { border = "rounded" },
+				signs = true,
+				underline = true,
+				update_in_insert = false,
+				severity_sort = true,
+			})
 
-      -- 键位映射
-      local on_attach = function(client, bufnr)
-        local opts = { buffer = bufnr, noremap = true, silent = true }
+			-- 键位映射
+			local on_attach = function(client, bufnr)
+				local opts = { buffer = bufnr, noremap = true, silent = true }
 
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
-        vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
-        vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, opts)
-        vim.keymap.set({'n', 'x'}, '<leader>a', vim.lsp.buf.code_action, opts)
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+				vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
+				vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
+				vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, opts)
+				vim.keymap.set({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, opts)
 
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        end
-      end
+				if client.server_capabilities.inlayHintProvider then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end
+			end
 
-      -- LSP 服务器配置
-      local servers = {
-        basedpyright = {
-          cmd = { "basedpyright-langserver", "--stdio" },
-          filetypes = { "python" },
-          settings = {
-            basedpyright = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-              },
-            },
-          },
-        },
-        lua_ls = {
-          cmd = { "lua-language-server" },
-          filetypes = { "lua" },
-          settings = {
-            Lua = {
-              runtime = { version = "LuaJIT" },
-              diagnostics = { globals = { "vim" } },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-              },
-              telemetry = { enable = false },
-            },
-          },
-        },
-        jsonls = {
-          cmd = { "vscode-json-language-server", "--stdio" },
-          filetypes = { "json", "jsonc", "jsonp" },
-        },
-        yamlls = {
-          cmd = { "yaml-language-server", "--stdio" },
-          filetypes = { "yaml", "yml" },
-        },
-        taplo = {
-          cmd = { "taplo", "lsp", "stdio" },
-          filetypes = { "toml" },
-        },
-      }
+			-- LSP 服务器配置
+			local servers = {
+				basedpyright = {
+					cmd = { "basedpyright-langserver", "--stdio" },
+					filetypes = { "python" },
+					settings = {
+						basedpyright = {
+							analysis = {
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+							},
+						},
+					},
+				},
+				lua_ls = {
+					cmd = { "lua-language-server" },
+					filetypes = { "lua" },
+					settings = {
+						Lua = {
+							runtime = { version = "LuaJIT" },
+							diagnostics = { globals = { "vim" } },
+							workspace = {
+								library = vim.api.nvim_get_runtime_file("", true),
+								checkThirdParty = false,
+							},
+							telemetry = { enable = false },
+						},
+					},
+				},
+				rust_analyzer = {
+					cmd = { "rust-analyzer" },
+					filetypes = { "rust" },
+				},
+				gopls = {
+					cmd = { "gopls" },
+					filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				},
+				jsonls = {
+					cmd = { "vscode-json-language-server", "--stdio" },
+					filetypes = { "json", "jsonc", "jsonp" },
+				},
+				yamlls = {
+					cmd = { "yaml-language-server", "--stdio" },
+					filetypes = { "yaml", "yml" },
+				},
+				taplo = {
+					cmd = { "taplo", "lsp", "stdio" },
+					filetypes = { "toml" },
+				},
+			}
 
-      -- 注册 LSP 服务器
-      for name, config in pairs(servers) do
-        config.capabilities = capabilities
-        config.on_attach = on_attach
-        vim.lsp.config(name, config)
-      end
+			-- 注册 LSP 服务器
+			for name, config in pairs(servers) do
+				config.capabilities = capabilities
+				config.on_attach = on_attach
+				vim.lsp.config(name, config)
+			end
 
-      -- 自动启动 LSP
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function(args)
-          local lsp_map = {
-            python = "basedpyright",
-            lua = "lua_ls",
-            rust = "rust_analyzer",
-            json = "jsonls",
-            yaml = "yamlls",
-            toml = "taplo",
-          }
+			-- 自动启动 LSP
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function(args)
+					local lsp_map = {
+						python = "basedpyright",
+						lua = "lua_ls",
+						rust = "rust_analyzer",
+						go = "gopls",
+						json = "jsonls",
+						yaml = "yamlls",
+						toml = "taplo",
+					}
 
-          local server = lsp_map[args.file]
-          if server then
-            vim.lsp.enable(server)
-          end
-        end,
-      })
-    end,
-  },
+					local server = lsp_map[args.file]
+					if server then
+						vim.lsp.enable(server)
+					end
+				end,
+			})
+		end,
+	},
 }
