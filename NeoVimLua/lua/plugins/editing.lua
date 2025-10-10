@@ -1,11 +1,55 @@
+-- 编辑增强功能配置
+-- 包含文本编辑、移动、包围、注释等功能
+
 return {
-	-- Essential snacks.nvim features for enhanced editing experience
+	-- Surround text objects (modern Lua replacement for vim-surround)
+	{
+		"kylechui/nvim-surround",
+		lazy = false,
+		version = "*",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
+
+	-- Comments (gc/gcc)
+	{ "tpope/vim-commentary", lazy = false },
+
+	-- Cycle through predefined substitutions (gs to cycle)
+	{
+		"bootleq/vim-cycle",
+		lazy = false,
+		config = function()
+			vim.cmd([[
+        nmap <silent> gs <Plug>CycleNext
+        vmap <silent> gs <Plug>CycleNext
+      ]])
+		end,
+	},
+
+	-- Multi-cursor support (vim-visual-multi)
+	{
+		"mg979/vim-visual-multi",
+		branch = "master",
+		init = function()
+			-- Map <C-d> to add next occurrence, <C-c> to skip current region
+			vim.g.VM_maps = {
+				["Find Under"] = "<C-d>",
+				["Find Subword Under"] = "<C-d>",
+				["Skip Region"] = "<C-c>",
+			}
+		end,
+	},
+
+	-- Enhanced text editing with snacks.nvim
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
 		dependencies = {
-			"nvim-tree/nvim-web-devicons", -- For better icons
+			"nvim-tree/nvim-web-devicons",
 		},
 		opts = function()
 			return {
@@ -59,22 +103,12 @@ return {
 					end,
 				},
 
-				-- Terminal configuration - useful floating terminal
-				terminal = {
+				-- Words configuration for text navigation
+				words = {
 					enabled = true,
-					win = {
-						position = "float",
-						border = "rounded",
-						style = "minimal",
-						width = 0.8,
-						height = 0.8,
+					jump = {
+						freq = 100,
 					},
-				},
-
-				-- Quick file navigation
-				quickfile = {
-					enabled = true,
-					exclude = { "NvimTree", "neo-tree", "dashboard" },
 				},
 
 				-- Scrolling enhancement
@@ -86,45 +120,11 @@ return {
 					},
 				},
 
-				-- Words configuration for text navigation
-				words = {
-					enabled = true,
-					jump = {
-						freq = 100,
-					},
-				},
-
-				-- Zen mode for focused work
-				zen = {
-					enabled = true,
-					enter = false,
-					fixbuf = false,
-					minimal = false,
-					width = 120,
-					height = 0,
-					backdrop = {
-						transparent = true,
-						blend = 40,
-					},
-					keys = { q = false },
-					zindex = 40,
-					wo = {
-						winhighlight = "NormalFloat:Normal",
-					},
-				},
-
 				-- Status column configuration
 				statuscolumn = {
 					enabled = true,
 					left = { "mark", "sign" },
 					right = { "fold", "git" },
-				},
-
-				-- Styles configuration
-				styles = {
-					notification = {
-						wo = { wrap = true },
-					},
 				},
 			}
 		end,
@@ -132,26 +132,8 @@ return {
 			require("snacks").setup(opts)
 
 			local snacks = require("snacks")
-			local map = vim.keymap.set
-
-			-- Key mappings for useful features
-			map("n", "<leader>z", function()
-				snacks.zen.toggle()
-			end, { noremap = true, silent = true, desc = "Toggle zen mode" })
-
-			map("n", "<leader>tt", function()
-				snacks.terminal.toggle()
-			end, { noremap = true, silent = true, desc = "Toggle terminal" })
-
-			map("n", "<leader>bd", function()
-				snacks.bufdelete()
-			end, { noremap = true, silent = true, desc = "Delete buffer" })
 
 			-- Create user commands
-			vim.api.nvim_create_user_command("ZenMode", function()
-				snacks.zen.toggle()
-			end, { desc = "Toggle zen mode" })
-
 			vim.api.nvim_create_user_command("BigFileMode", function()
 				local buf = vim.api.nvim_get_current_buf()
 				local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(buf))
