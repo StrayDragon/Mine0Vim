@@ -72,7 +72,8 @@ return {
 
 							local function toggle_inlay_hints(enable)
 								if enable ~= inlay_enabled then
-									vim.lsp.inlay_hint.enable(bufnr, enable)
+									-- NeoVim 0.11+ API: enable(enable_value, { bufnr = bufnr })
+									vim.lsp.inlay_hint.enable(enable, { bufnr = bufnr })
 									inlay_enabled = enable
 								end
 							end

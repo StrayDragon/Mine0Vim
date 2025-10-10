@@ -42,7 +42,8 @@ return {
 				vim.keymap.set({ "n", "x" }, "<leader>a", vim.lsp.buf.code_action, opts)
 
 				if client.server_capabilities.inlayHintProvider then
-					vim.lsp.inlay_hint.enable(bufnr, true)
+					-- NeoVim 0.11+ API: enable(enable_value, { bufnr = bufnr })
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 				end
 			end
 
