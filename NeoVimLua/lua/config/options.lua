@@ -133,7 +133,6 @@ end
 -- 仅使用配置目录下的 node_modules；不回退到 PATH
 do
 	local cfg = vim.fn.stdpath("config")
-	local candidate = nil
 
 	-- 动态查找 neovim 包
 	local function find_neovim_cli()
@@ -158,10 +157,10 @@ do
 		return nil
 	end
 
-	candidate = find_neovim_cli()
+	local node_cli = find_neovim_cli()
 
-	if candidate then
-		vim.g.node_host_prog = candidate
+	if node_cli then
+		vim.g.node_host_prog = node_cli
 	else
 		if not vim.g._provider_node_warned then
 			vim.g._provider_node_warned = true

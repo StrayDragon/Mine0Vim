@@ -73,6 +73,7 @@ return {
 				-- Note: rustfmt is included with rust-analyzer
 
 				-- Configuration files
+				"prettierd", -- Prettier daemon (fast, supports JSON, JS, CSS, etc.)
 				"yamlfmt", -- YAML formatter
 				"taplo", -- TOML formatter
 			}

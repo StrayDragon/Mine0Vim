@@ -241,7 +241,7 @@ return {
 			local function on_attach(bufnr)
 				local api = require("nvim-tree.api")
 
-				local function opts(desc)
+				local function map_opts(desc)
 					return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 				end
 
@@ -249,22 +249,22 @@ return {
 				api.config.mappings.default_on_attach(bufnr)
 
 				-- 添加 l 和 h 键映射用于文件夹导航
-				vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
-				vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+				vim.keymap.set("n", "l", api.node.open.edit, map_opts("Open"))
+				vim.keymap.set("n", "h", api.node.navigate.parent_close, map_opts("Close Directory"))
 
 				-- 添加基本键位映射（使用安全的API调用）
-				vim.keymap.set("n", "E", api.tree.expand_all, opts("Expand All"))
-				vim.keymap.set("n", "W", api.tree.collapse_all, opts("Collapse All"))
-				vim.keymap.set("n", "y", api.fs.copy.node, opts("Copy"))
-				vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
-				vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
-				vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
-				vim.keymap.set("n", "a", api.fs.create, opts("Create"))
-				vim.keymap.set("n", "<C-t>", api.node.open.tab, opts("Open: New Tab"))
-				vim.keymap.set("n", "<C-v>", api.node.open.vertical, opts("Open: Vertical Split"))
-				vim.keymap.set("n", "<C-s>", api.node.open.horizontal, opts("Open: Horizontal Split"))
-				vim.keymap.set("n", "<Tab>", api.node.open.preview, opts("Open Preview"))
-				vim.keymap.set("n", "<C-q>", api.tree.close, opts("Close"))
+				vim.keymap.set("n", "E", api.tree.expand_all, map_opts("Expand All"))
+				vim.keymap.set("n", "W", api.tree.collapse_all, map_opts("Collapse All"))
+				vim.keymap.set("n", "y", api.fs.copy.node, map_opts("Copy"))
+				vim.keymap.set("n", "p", api.fs.paste, map_opts("Paste"))
+				vim.keymap.set("n", "d", api.fs.remove, map_opts("Delete"))
+				vim.keymap.set("n", "r", api.fs.rename, map_opts("Rename"))
+				vim.keymap.set("n", "a", api.fs.create, map_opts("Create"))
+				vim.keymap.set("n", "<C-t>", api.node.open.tab, map_opts("Open: New Tab"))
+				vim.keymap.set("n", "<C-v>", api.node.open.vertical, map_opts("Open: Vertical Split"))
+				vim.keymap.set("n", "<C-s>", api.node.open.horizontal, map_opts("Open: Horizontal Split"))
+				vim.keymap.set("n", "<Tab>", api.node.open.preview, map_opts("Open Preview"))
+				vim.keymap.set("n", "<C-q>", api.tree.close, map_opts("Close"))
 			end
 
 			-- 添加 on_attach 到配置
@@ -284,7 +284,7 @@ return {
 
 				for _, win in ipairs(vim.api.nvim_list_wins()) do
 					local buf = vim.api.nvim_win_get_buf(win)
-					local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+					local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
 					if ft == "NvimTree" then
 						nvim_tree_found = true
 						nvim_tree_win = win

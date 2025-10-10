@@ -119,9 +119,9 @@ return {
 			formatters_by_ft = {
 				python = { "ruff_format" },
 				go = { "gofmt" },
-				json = { "json-lsp" },
-				jsonc = { "json-lsp" },
-				jsonp = { "json-lsp" },
+				json = { "prettierd", "prettier", "json-lsp" },
+				jsonc = { "prettierd", "prettier", "json-lsp" },
+				jsonp = { "prettierd", "prettier", "json-lsp" },
 				lua = { "stylua" },
 				rust = { "rustfmt" },
 			},
