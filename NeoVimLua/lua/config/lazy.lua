@@ -18,4 +18,3 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 -- 将 lazy.nvim 添加到运行时路径
 vim.opt.rtp:prepend(lazypath)
-
