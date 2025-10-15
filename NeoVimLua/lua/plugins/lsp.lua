@@ -76,11 +76,7 @@ return {
 						},
 					},
 				},
-				rust_analyzer = {
-					cmd = { "rust-analyzer" },
-					filetypes = { "rust" },
-				},
-				gopls = {
+					gopls = {
 					cmd = { "gopls" },
 					filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				},
@@ -111,7 +107,6 @@ return {
 					local lsp_map = {
 						python = "basedpyright",
 						lua = "lua_ls",
-						rust = "rust_analyzer",
 						go = "gopls",
 						json = "jsonls",
 						yaml = "yamlls",

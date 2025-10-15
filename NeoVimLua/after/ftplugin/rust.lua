@@ -114,6 +114,3 @@ vim.keymap.set("n", "<leader>xr?", function()
 		print("✗ rust-analyzer 未运行")
 	end
 end, vim.tbl_extend("force", opts, { desc = "Rust 状态检查" }))
-
-print("Rust 文件类型配置已加载（公共优先原则）")
-
