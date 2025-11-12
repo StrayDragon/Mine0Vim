@@ -1,0 +1,150 @@
+Key,Mode,Description,File Location,Source,Category
+gd,Normal,跳转到定义,keymaps.lua:13 / lsp.lua:34,Direct,LSP Navigation
+gy,Normal,跳转到类型定义,keymaps.lua:16 / lsp.lua:35,Direct,LSP Navigation
+gi,Normal,跳转到实现,keymaps.lua:15 / lsp.lua:36,Direct,LSP Navigation
+gr,Normal,查找引用,keymaps.lua:14 / lsp.lua:37,Direct,LSP Navigation
+K,Normal,悬停帮助,keymaps.lua:19 / lsp.lua:38,Direct,LSP Help
+gK,Normal,Rust 增强悬停,rust.lua:48 / after/ftplugin/rust.lua:10,Direct,Rust Specific
+g[,Normal,上一个诊断,keymaps.lua:28 / lsp.lua:39,Direct,LSP Diagnostics
+g],Normal,下一个诊断,keymaps.lua:32 / lsp.lua:40,Direct,LSP Diagnostics
+gq,Normal,快速修复,keymaps.lua:20,Direct,LSP Quick Fix
+<leader>de,Normal,显示诊断浮动窗口,lsp.lua:41,Direct,LSP Diagnostics
+<leader>a,Normal/Visual,智能代码动作 (路由),lsp.lua:42,Direct,LSP Code Actions
+<leader>ca,Normal/Visual,代码动作 (兼容),keymaps.lua:48 / keymaps.lua:49,Direct,LSP Code Actions
+<leader>ra,Normal,代码动作 (当前行),keymaps.lua:37,Direct,LSP Code Actions
+<leader>rn,Normal,重命名符号,keymaps.lua:52,Direct,LSP Refactoring
+<leader>rf,Normal,重构菜单,keymaps.lua:55,Direct,Refactoring
+<leader>rl,Normal,CodeLens 动作,keymaps.lua:205,Direct,LSP CodeLens
+<leader>f,Normal/Visual,格式化并保存,keymaps.lua:61 / keymaps.lua:65,Direct,Formatting
+<leader>ws,Normal,工作区符号 (基础),keymaps.lua:73,Direct,LSP Symbols
+<leader>wsf,Normal,工作区符号 (fzf),keymaps.lua:79,Direct,LSP Symbols
+<leader>y,Normal,替换当前单词,keymaps.lua:101,Direct,Text Manipulation
+<leader>Y,Normal,复制所有内容到系统剪贴板,keymaps.lua:103,Direct,Text Manipulation
+<space>d,Normal,诊断列表 (fzf-lua),keymaps.lua:175 / navigation.lua:203,Direct,FZF Search
+<space>o,Normal,文档大纲 (fzf-lua),keymaps.lua:180 / navigation.lua:217,Direct,FZF Search
+<space>s,Normal,工作区符号 (fzf-lua),keymaps.lua:185 / navigation.lua:210,Direct,FZF Search
+<space>c,Normal,命令面板 (fzf-lua),keymaps.lua:190 / navigation.lua:224,Direct,FZF Search
+<space>q,Normal,快速修复列表 (fzf-lua),keymaps.lua:195 / navigation.lua:231,Direct,FZF Search
+<space>e,Normal,LSP 查找器 (fzf-lua),keymaps.lua:200 / navigation.lua:238,Direct,FZF Search
+<leader>pf,Normal,查找文件 (fzf-lua),navigation.lua:175,Plugin,FZF Search
+<leader>pb,Normal,缓冲区列表 (fzf-lua),navigation.lua:182,Plugin,FZF Search
+<leader>pg,Normal,全局搜索 (fzf-lua),navigation.lua:189,Plugin,FZF Search
+<leader>ph,Normal,帮助标签 (fzf-lua),navigation.lua:196,Plugin,FZF Search
+<leader>nf,Normal,在文件树中查找当前文件,navigation.lua:101,Direct,File Navigation
+<Leader>SL,Normal,右侧垂直分割,keymaps.lua:111,Direct,Window Management
+<Leader>SH,Normal,左侧垂直分割,keymaps.lua:114,Direct,Window Management
+<Leader>SK,Normal,上方水平分割,keymaps.lua:120,Direct,Window Management
+<Leader>SJ,Normal,下方水平分割,keymaps.lua:123,Direct,Window Management
+<Leader>Sr,Normal,水平转垂直,keymaps.lua:127,Direct,Window Management
+<Leader>SR,Normal,垂直转水平,keymaps.lua:128,Direct,Window Management
+<Leader>S<up>,Normal,增加高度,keymaps.lua:131,Direct,Window Management
+<Leader>S<down>,Normal,减少高度,keymaps.lua:132,Direct,Window Management
+<Leader>S<left>,Normal,减少宽度,keymaps.lua:133,Direct,Window Management
+<Leader>S<right>,Normal,增加宽度,keymaps.lua:134,Direct,Window Management
+<Leader>TE,Normal,新建标签页,keymaps.lua:137,Direct,Tab Management
+<Leader>TH,Normal,上一个标签页,keymaps.lua:138,Direct,Tab Management
+<Leader>TL,Normal,下一个标签页,keymaps.lua:139,Direct,Tab Management
+<Leader>1,Normal,跳转到缓冲区 1,buffer.lua:63,Direct,Buffer Navigation
+<Leader>2,Normal,跳转到缓冲区 2,buffer.lua:64,Direct,Buffer Navigation
+<Leader>3,Normal,跳转到缓冲区 3,buffer.lua:65,Direct,Buffer Navigation
+<Leader>4,Normal,跳转到缓冲区 4,buffer.lua:66,Direct,Buffer Navigation
+<Leader>5,Normal,跳转到缓冲区 5,buffer.lua:67,Direct,Buffer Navigation
+<Leader>6,Normal,跳转到缓冲区 6,buffer.lua:68,Direct,Buffer Navigation
+<Leader>7,Normal,跳转到缓冲区 7,buffer.lua:69,Direct,Buffer Navigation
+<Leader>8,Normal,跳转到缓冲区 8,buffer.lua:70,Direct,Buffer Navigation
+<Leader>9,Normal,跳转到缓冲区 9,buffer.lua:71,Direct,Buffer Navigation
+<Leader>0,Normal,跳转到最后缓冲区,buffer.lua:72,Direct,Buffer Navigation
+<Leader>q,Normal,关闭缓冲区,buffer.lua:73,Direct,Buffer Management
+<Leader>p,Normal,缓冲区选择模式,buffer.lua:76,Direct,Buffer Management
+<leader>ui,Normal,切换内联提示,keymaps.lua:142,Direct,UI Control
+<leader>z,Normal,Zen 模式,tools.lua:121,Plugin,UI Control
+<leader>tt,Normal,切换终端,tools.lua:125,Plugin,Terminal
+<leader>bd,Normal,删除缓冲区,tools.lua:129,Plugin,Buffer Management
+<leader>xra,Normal/Visual,Rust 代码动作（分组）,rust.lua:53 / after/ftplugin/rust.lua:18,Direct,Rust Tools
+<leader>xrr,Normal,Rust 运行/测试,after/ftplugin/rust.lua:23,Direct,Rust Tools
+<leader>xrd,Normal,Rust 调试,after/ftplugin/rust.lua:27,Direct,Rust Tools
+<leader>xrm,Normal,Rust 展开宏,after/ftplugin/rust.lua:32,Direct,Rust Tools
+<leader>xrR,Normal,Rust 重建过程宏,after/ftplugin/rust.lua:36,Direct,Rust Tools
+<leader>xre,Normal,Rust 解释错误,after/ftplugin/rust.lua:41,Direct,Rust Tools
+<leader>xrE,Normal,Rust 渲染诊断,after/ftplugin/rust.lua:45,Direct,Rust Tools
+<leader>xrh,Normal,Rust 打开文档,after/ftplugin/rust.lua:50,Direct,Rust Tools
+<leader>xrp,Normal,Rust 父模块,after/ftplugin/rust.lua:54,Direct,Rust Tools
+<leader>xrs,Normal/Visual,Rust 结构化搜索替换,after/ftplugin/rust.lua:59 / after/ftplugin/rust.lua:66,Direct,Rust Tools
+<leader>xrc,Normal,Rust 打开 Cargo.toml,after/ftplugin/rust.lua:74,Direct,Rust Tools
+<leader>xru,Normal,Rust 向上移动项目,after/ftplugin/rust.lua:79,Direct,Rust Tools
+<leader>xrD,Normal,Rust 向下移动项目,after/ftplugin/rust.lua:83,Direct,Rust Tools
+<leader>xrj,Normal,Rust 连接行,after/ftplugin/rust.lua:87,Direct,Rust Tools
+<leader>xrg,Normal,Rust Crate 图,after/ftplugin/rust.lua:92,Direct,Rust Tools
+<leader>xrt,Normal,Rust 语法树,after/ftplugin/rust.lua:96,Direct,Rust Tools
+<leader>xr?,Normal,Rust 状态检查,after/ftplugin/rust.lua:101,Direct,Rust Tools
+<leader>xrct,Normal,切换 Crate 版本,rust.lua:245,Plugin,Cargo Management
+<leader>xrcu,Normal,升级 Crate,rust.lua:249,Plugin,Cargo Management
+<leader>xrcU,Normal,升级所有 Crate,rust.lua:253,Plugin,Cargo Management
+<leader>xrca,Normal,更新 Crate,rust.lua:257,Plugin,Cargo Management
+<leader>xrcA,Normal,更新所有 Crate,rust.lua:261,Plugin,Cargo Management
+<leader>xrch,Normal,显示 Crate 主页,rust.lua:265,Plugin,Cargo Management
+<leader>xrcd,Normal,显示 Crate 文档,rust.lua:269,Plugin,Cargo Management
+<leader>xrcr,Normal,重新加载 Crate,rust.lua:273,Plugin,Cargo Management
+<leader>cc,Normal,打开 Crate 类别,rust.lua:277,Plugin,Cargo Management
+<leader>tl,Normal,运行上次测试,rust.lua:327,Plugin,Testing
+<leader>td,Normal,调试测试,rust.lua:331,Plugin,Testing
+<leader>to,Normal,显示测试输出,rust.lua:335,Plugin,Testing
+<leader>tO,Normal,切换测试输出面板,rust.lua:339,Plugin,Testing
+<leader>tS,Normal,切换测试摘要,rust.lua:343,Plugin,Testing
+<leader>ii,Normal,切换 Claude,tools.lua:184,Plugin,AI/Claude
+<leader>is,Visual,发送到 Claude,tools.lua:185,Plugin,AI/Claude
+<leader>it,Normal,添加文件,tools.lua:187,Plugin,AI/Claude
+<leader>ia,Normal,接受 diff,tools.lua:193,Plugin,AI/Claude
+<leader>id,Normal,拒绝 diff,tools.lua:194,Plugin,AI/Claude
+<leader>Db,Normal,切换断点,dap.lua:282,Direct,Debugging
+<leader>DB,Normal,条件断点,dap.lua:286,Direct,Debugging
+<leader>Dc,Normal,继续/开始调试,dap.lua:290,Direct,Debugging
+<leader>DC,Normal,运行到光标处,dap.lua:294,Direct,Debugging
+<leader>Do,Normal,跳过,dap.lua:298,Direct,Debugging
+<leader>Di,Normal,步入,dap.lua:302,Direct,Debugging
+<leader>DO,Normal,步出,dap.lua:306,Direct,Debugging
+<leader>Dq,Normal,终止调试,dap.lua:310,Direct,Debugging
+<leader>Dr,Normal,重新调试,dap.lua:314,Direct,Debugging
+<leader>Du,Normal,切换调试 UI,dap.lua:318,Direct,Debugging
+<leader>De,Normal/Visual,求值表达式,dap.lua:322 / dap.lua:326,Direct,Debugging
+<leader>Ds,Normal,显示调试状态,dap.lua:366,Direct,Debugging
+<leader>Dt,Normal,调试当前测试 (Rust),dap.lua:334,Direct,Rust Debugging
+<leader>Dm,Normal,调试主函数 (Rust),dap.lua:344,Direct,Rust Debugging
+<leader>Dbp,Normal,带日志的断点 (Rust),dap.lua:349,Direct,Rust Debugging
+<leader>re,Visual,Extract function,refactor.lua:60,Direct,Refactoring
+<leader>rf,Visual,Extract to file,refactor.lua:61,Direct,Refactoring
+<leader>rv,Visual,Extract variable,refactor.lua:62,Direct,Refactoring
+<leader>ri,Normal/Visual,Inline variable,refactor.lua:63,Direct,Refactoring
+<leader>rI,Normal,Inline function,refactor.lua:64,Direct,Refactoring
+<leader>rb,Normal,Extract block,refactor.lua:65,Direct,Refactoring
+<leader>rbf,Normal,Extract block to file,refactor.lua:66,Direct,Refactoring
+<leader>xar,Normal/Visual,重构菜单,refactor.lua:69,Direct,Refactoring
+<A-Enter>,Normal,LSP Code Actions,refactor.lua:18,Plugin,LSP Code Actions
+<A-1>,Normal,切换文件树,navigation.lua:97,Direct,File Navigation
+<A-3>,Normal,切换撤销树,tools.lua:50,Direct,Undo/Redo
+<A-7>,Normal,切换大纲视图,navigation.lua:252,Plugin,Code Outline
+<space>ao,Normal,切换大纲视图,navigation.lua:253,Plugin,Code Outline
+gs,Normal/Visual,循环切换,editing.lua:26,Plugin,Text Cycling
+<C-s>,Normal,初始化/增量选择,core.lua:17,Direct,Treesitter
+<C-d>,Normal,添加下一个匹配,editing.lua:39 / editing.lua:40,Plugin,Multiple Cursors
+<C-c>,Normal,跳过当前区域,editing.lua:41,Plugin,Multiple Cursors
+<C-h>,Command,左移,keymaps.lua:85,Direct,Command Line
+<C-j>,Command,下移,keymaps.lua:86,Direct,Command Line
+<C-k>,Command,上移,keymaps.lua:87,Direct,Command Line
+<C-l>,Command,右移,keymaps.lua:88,Direct,Command Line
+<C-a>,Command,行首,keymaps.lua:89,Direct,Command Line
+<C-e>,Command,行尾,keymaps.lua:90,Direct,Command Line
+<C-f>,Command,向下翻页,keymaps.lua:91,Direct,Command Line
+<C-b>,Command,左移,keymaps.lua:92,Direct,Command Line
+<C-d>,Command,删除,keymaps.lua:93,Direct,Command Line
+<C-_,Command,删除到行首,keymaps.lua:94,Direct,Command Line
+<Esc>,Terminal,退出终端模式,keymaps.lua:218,Direct,Terminal
+gw,Normal,切换窗口,keymaps.lua:98,Direct,Window Navigation
+l,Normal nvim-tree,打开 (nvim-tree),navigation.lua:90,Direct,File Tree
+h,Normal nvim-tree,关闭目录 (nvim-tree),navigation.lua:91,Direct,File Tree
+<leader>?,Normal,本地缓冲区键位,which-key.lua:120,Direct,Help
+<Tab>,Insert/Visual,选择补全/代码片段前进,code.lua:41,Plugin,Built-in CMP
+<S-Tab>,Insert/Visual,代码片段后退,code.lua:42,Plugin,Built-in CMP
+<C-Space>,Insert/Visual,显示补全/文档,code.lua:43,Plugin,Built-in CMP
+<C-e>,Insert/Visual,隐藏补全,code.lua:44,Plugin,Built-in CMP
+<CR>,Insert/Visual,接受补全,code.lua:45,Plugin,Built-in CMP

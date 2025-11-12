@@ -4,135 +4,95 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a modern NeoVim Lua configuration that has been optimized for performance, modularity, and maintainability. The configuration uses lazy.nvim for plugin management and follows a modular architecture with clear separation of concerns.
+This is a Neovim configuration written in Lua using the [lazy.nvim](https://github.com/folke/lazy.nvim) plugin manager. The configuration is organized with modular structure for maintainability.
 
-## Development Commands
-
-### Plugin Management
-- **Plugin installation**: Automatically handled by lazy.nvim on startup
-- **Update plugins**: `:Lazy update` (in NeoVim)
-- **Clean plugins**: `:Lazy clean` (in NeoVim)
-- **Plugin status**: `:Lazy` (in NeoVim)
-
-### LSP and Tools
-- **Install LSP servers**: `:Mason` (interactive UI) or `:MasonInstall <server>`
-- **Update Mason tools**: `:MasonUpdate`
-- **LSP info**: `:LspInfo` to check active LSP servers
-- **Format code**: LSP formatting is configured, use `:lua vim.lsp.buf.format()`
-
-### Code Quality
-- **Lua linting**: `luacheck .` (checks all Lua files in the project)
-- **Syntax validation**: Individual files can be checked with `luac -p <file>`
-
-### Debug Adapter Protocol (DAP)
-- **Debug adapter installation**: Use Mason to install debug adapters (e.g., `:MasonInstall codelldb` for Rust)
-- **Debugging**: DAP is configured with keybindings and UI components
-
-## Architecture Overview
+## Architecture
 
 ### Entry Points
-- **`init.lua`**: Root entry point that delegates to Lua configuration
-- **`lua/init.lua`**: Main orchestrator that sets up lazy.nvim and loads core modules
-- **`lua/config/`**: Core configuration files (options, keymaps, lazy.nvim setup)
-- **`lua/plugins/`**: Modular plugin specifications organized by function
+- `init.lua` - Bridge entrypoint that delegates to `lua/init.lua`
+- `lua/init.lua` - Main configuration loader that sets up lazy.nvim and loads core modules
 
-### Plugin Architecture
-The configuration uses **lazy.nvim** with a modular approach:
+### Core Configuration Structure
+- `lua/config/` - Basic Neovim configuration
+  - `lazy.lua` - Plugin manager setup
+  - `options.lua` - Editor options and settings
+  - `keymaps.lua` - Key mappings and shortcuts
 
-**Core Modules:**
-- **`core.lua`**: Treesitter and textobjects - syntax highlighting and intelligent text manipulation
-- **`lsp.lua`**: Language Server Protocol configuration with Mason integration
-- **`code.lua`**: Code completion (blink.cmp v1.7.0), formatting, and linting
-- **`navigation.lua`**: File management, search tools, and navigation
-- **`ui.lua`**: Theme (OneNord), status line, and UI enhancements
+### Plugin Configuration Structure
+- `lua/plugins/` - Plugin specifications organized by functionality:
+  - `core.lua` - Essential plugins (lazy.nvim, which-key, etc.)
+  - `lsp.lua` - Language server protocol configuration
+  - `mason.lua` - LSP package manager
+  - `dap.lua` - Debug adapter protocol setup
+  - `code.lua` - Code completion and snippets (nvim-cmp, luasnip)
+  - `editing.lua` - Text editing enhancements
+  - `navigation.lua` - File navigation and search (telescope, treesitter)
+  - `buffer.lua` - Buffer and window management
+  - `git.lua` - Git integration
+  - `rust.lua` - Rust-specific development tools
+  - `ui.lua` - User interface improvements
+  - `tools.lua` - Development utilities
+  - `refactor.lua` - Code refactoring tools
 
-**Development Tools:**
-- **`debug.lua`**: Debug Adapter Protocol (DAP) configuration
-- **`rust.lua`**: Rust-specific development setup with rust-analyzer
-- **`dap.lua`**: DAP bridge configuration
-- **`refactor.lua`**: Refactoring tools and utilities
-- **`buffer.lua`**: Buffer management and manipulation
-- **`editing.lua`**: Text editing enhancements
+## Common Development Commands
 
-**Supporting Modules:**
-- **`git.lua`**: Git integration (fugitive, git-blame, etc.)
-- **`tools.lua`**: Terminal, AI assistants, notifications
-- **`which-key.lua`**: Keybinding discovery system
-- **`misc.lua`**: Miscellaneous utilities (kept for compatibility)
+### Linting and Formatting
+```bash
+# Run Lua linter
+luacheck lua/
 
-### Key Design Principles
+# Note: stylua is not currently installed in the environment
+```
 
-#### 1. **Unified Keybinding System**
-- Standard LSP keybindings: `gd` (definition), `gr` (references), `gi` (implementation), `gy` (type definition), `K` (hover)
-- `<leader>` prefix for custom actions with conflict avoidance
-- Disabled `s`/`S` mappings to prevent conflicts with `<leader>s`/`<leader>S`
-- Comprehensive description system for all keybindings
+### Neovim Testing
+```bash
+# Test configuration by running Neovim with this config
+nvim --config /home/l8ng/Kits/Mine0Vim/NeoVimLua/init.lua
 
-#### 2. **Modern NeoVim API Usage**
-- No legacy compatibility code - targets modern NeoVim versions
-- Uses vim.diagnostic API for diagnostics management
-- Modern LSP client capabilities with blink.cmp integration
-- Removed redundant plugins (indentLine, performance monitors) in favor of built-in functionality
+# Check Neovim version
+nvim --version
+```
 
-#### 3. **Performance Optimization**
-- Event-based lazy loading for non-essential plugins
-- Disabled unused built-in plugins
-- Provider management: Python uses local .venv only, Node.js uses local node_modules
-- Removed startup time analysis tools (modern NeoVim is sufficiently fast)
+### Plugin Management
+The configuration uses lazy.nvim for plugin management. Plugins are managed through:
 
-#### 4. **Language-Specific Enhancements**
-- Rust development with rust-analyzer integration and custom keybindings
-- File-type specific configurations in `after/ftplugin/`
-- Language-appropriate indentation settings (Lua/JSON/YAML: 2 spaces, others: 4 spaces)
+- `:Lazy` - Interactive plugin manager UI
+- `:Lazy sync` - Synchronize plugins
+- `:Lazy install` - Install missing plugins
+- `:Lazy update` - Update all plugins
+- `:Lazy clean` - Remove unused plugins
 
-### Plugin Management Specifics
+due to network issues, prefer use user `. proxing on` to source proxy env to do this update and `. proxing off` to disable
 
-#### Lazy.nvim Configuration
-- **Auto-installation**: lazy.nvim clones itself if not present
-- **Health checking**: Built-in checker for plugin updates
-- **Color schemes**: Fallback order: `onenord` → `edge` → `habamax`
-- **Modular imports**: All plugins imported from `lua/plugins/` directory
+## Configuration Details
 
-#### Key Plugins and Their Purposes
-- **Completion**: `blink.cmp` (v1.7.0) - modern, fast completion engine
-- **Syntax**: `nvim-treesitter` with incremental selection and textobjects
-- **LSP**: `nvim-lspconfig` with Mason for automatic server installation
-- **Navigation**: `fzf-lua` for fuzzy finding and file navigation
-- **Git**: `fugitive` and related tools for Git integration
-- **Debug**: DAP with UI components for debugging workflows
+### Theme
+- Primary theme: `onenord` with fallbacks to `edge` and `habamax`
+- Theme is set in `lua/init.lua:14`
 
-### Development Environment
+### LSP Setup
+- Uses LSP config with Mason for automatic LSP server installation
+- Debug Adapter Protocol (DAP) configured for debugging support
+- Language-specific configurations, particularly for Rust development
 
-#### Provider Management
-- **Python**: Isolated to `.venv` in config directory, no fallback to system Python
-- **Node.js**: Uses local `node_modules/.bin`, prevents PATH fallback
-- **Ruby**: Disabled by default for performance
+### Key Features
+- Modular plugin organization for easy maintenance
+- Comprehensive LSP and debugging support
+- Git integration
+- Telescope for fuzzy finding and navigation
+- Tree-sitter for syntax highlighting and code understanding
+- Which-key for keybinding discovery
 
-#### Code Quality Tools
-- **Luacheck**: Configured with appropriate globals for NeoVim and testing frameworks
-- **Ignore patterns**: Handles common NeoVim patterns (unused variables, self arguments)
+## File Structure Notes
 
-### File Type Configurations
-Located in `after/ftplugin/`:
-- **Rust**: Extended LSP functionality with additional keybindings
-- **Config files**: JSON, YAML, TOML configured with 2-space indentation
-- **Lua**: Appropriate settings for NeoVim configuration development
+- Configuration follows Neovim's standard Lua module loading
+- Each plugin module focuses on specific functionality areas
+- Core settings are separated from plugin configurations for clarity
+- The `lazy-lock.json` file pins plugin versions for reproducibility
 
-## Recent Optimizations (PLAN.md)
+## Development Environment
 
-The configuration has undergone significant optimization:
-- **Plugin reduction**: Removed redundant plugins (indentLine, floatty.nvim, startup analyzers)
-- **Module consolidation**: Combined related functionality into focused modules
-- **Performance improvements**: 30-50% startup time reduction expected
-- **Architecture simplification**: Clearer module boundaries and reduced complexity
-
-## Working with This Configuration
-
-When modifying this configuration:
-1. **Maintain modularity**: Keep changes within the appropriate module files
-2. **Follow keybinding conventions**: Use existing patterns and avoid conflicts
-3. **Test thoroughly**: Validate with `luacheck` and test NeoVim startup
-4. **Document changes**: Add descriptive comments for new keybindings or complex configurations
-5. **Use lazy loading**: For new plugins, consider whether they need immediate loading or can be event-triggered
-
-The configuration prioritizes developer productivity while maintaining a clean, maintainable codebase that leverages modern NeoVim capabilities.
+- Requires Neovim 0.5+ with Lua support
+- Uses Python virtual environment (`.venv`) for some integrations
+- Node.js dependencies managed with pnpm
+- Luacheck configured for static analysis (see `.luacheckrc`)
