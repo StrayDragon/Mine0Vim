@@ -44,16 +44,6 @@ return {
 					on_attach = function(client, bufnr)
 						local opts = { buffer = bufnr, noremap = true, silent = true, desc = "" }
 
-						-- 基本 LSP 映射
-						vim.keymap.set("n", "gK", function()
-							vim.cmd.RustLsp({ "hover", "actions" })
-						end, vim.tbl_extend("force", opts, { desc = "Rust 增强悬停" }))
-
-						-- Rust 代码动作
-						vim.keymap.set({ "n", "v" }, "<leader>xra", function()
-							vim.cmd.RustLsp("codeAction")
-						end, vim.tbl_extend("force", opts, { desc = "Rust 代码动作" }))
-
 						-- 保存时格式化
 						if client.supports_method("textDocument/formatting") then
 							vim.api.nvim_create_autocmd("BufWritePre", {
@@ -240,44 +230,7 @@ return {
 				},
 			})
 
-			-- Cargo.toml 专用键位映射 (仅在 Cargo.toml 文件中生效)
-			-- 使用新的分层前缀系统避免冲突
-			vim.keymap.set("n", "<leader>xrct", function()
-				require("crates").toggle()
-			end, { desc = "切换 Crate 版本", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrcu", function()
-				require("crates").upgrade_crate()
-			end, { desc = "升级 Crate", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrcU", function()
-				require("crates").upgrade_all_crates()
-			end, { desc = "升级所有 Crate", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrca", function()
-				require("crates").update_crate()
-			end, { desc = "更新 Crate", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrcA", function()
-				require("crates").update_all_crates()
-			end, { desc = "更新所有 Crate", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrch", function()
-				require("crates").show_homepage()
-			end, { desc = "显示 Crate 主页", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrcd", function()
-				require("crates").show_documentation()
-			end, { desc = "显示 Crate 文档", buffer = true })
-
-			vim.keymap.set("n", "<leader>xrcr", function()
-				require("crates").reload()
-			end, { desc = "重新加载 Crate", buffer = true })
-
-			vim.keymap.set("n", "<leader>cc", function()
-				require("crates").open_category()
-			end, { desc = "打开 Crate 类别", buffer = true })
-		end,
+				end,
 	},
 
 	-- 增强的 Rust 测试集成

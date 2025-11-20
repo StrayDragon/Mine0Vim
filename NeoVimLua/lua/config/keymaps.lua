@@ -80,7 +80,7 @@ map("n", "<leader>wsf", function()
 	require("fzf-lua").lsp_workspace_symbols()
 end, vim.tbl_extend("force", opts, { desc = "工作区符号 (fzf)" }))
 
--- 命令行导航键位
+-- Terminal模式相关键位
 vim.cmd([[
   cnoremap <c-h> <left>
   cnoremap <c-j> <down>
