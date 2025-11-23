@@ -28,6 +28,15 @@ return {
 				side = "left",
 				float = {
 					enable = false,
+					quit_on_focus_loss = true,
+					open_win_config = {
+						relative = "editor",
+						border = "rounded",
+						width = 50,
+						height = 0.8,
+						row = "center",
+						col = "center",
+					},
 				},
 				preserve_window_proportions = true,
 				cursorline = true,
@@ -78,27 +87,213 @@ return {
 					".env",
 				},
 			},
+			actions = {
+				open_file = {
+					quit_on_open = false,
+				},
+			},
 		},
 		config = function(_, opts)
+			local api = require("nvim-tree.api")
+
+			-- Preset configurations similar to coc-explorer
+			local presets = {
+				left = {
+					view = {
+						side = "left",
+						float = { enable = false },
+					},
+					actions = {
+						open_file = { quit_on_open = false },
+					},
+				},
+				right = {
+					view = {
+						side = "right",
+						float = { enable = false },
+					},
+					actions = {
+						open_file = { quit_on_open = false },
+					},
+				},
+				tab = {
+					view = {
+						tab = {
+							sync = {
+								open = true,
+								close = true,
+							},
+						},
+						float = { enable = false },
+					},
+					actions = {
+						open_file = { quit_on_open = true },
+					},
+				},
+				floating = {
+					view = {
+						float = {
+							enable = true,
+							quit_on_focus_loss = true,
+							open_win_config = {
+								relative = "editor",
+								border = "rounded",
+								width = 80,
+								height = 0.8,
+								row = "center",
+								col = "center",
+							},
+						},
+					},
+					actions = {
+						open_file = { quit_on_open = true },
+					},
+				},
+				floating_top = {
+					view = {
+						float = {
+							enable = true,
+							quit_on_focus_loss = true,
+							open_win_config = {
+								relative = "editor",
+								border = "rounded",
+								width = 80,
+								height = 0.6,
+								row = 0,
+								col = "center",
+							},
+						},
+					},
+					actions = {
+						open_file = { quit_on_open = true },
+					},
+				},
+				floating_left = {
+					view = {
+						float = {
+							enable = true,
+							quit_on_focus_loss = true,
+							open_win_config = {
+								relative = "editor",
+								border = "rounded",
+								width = 50,
+								height = 0.8,
+								row = "center",
+								col = 0,
+							},
+						},
+					},
+					actions = {
+						open_file = { quit_on_open = true },
+					},
+				},
+				floating_right = {
+					view = {
+						float = {
+							enable = true,
+							quit_on_focus_loss = true,
+							open_win_config = {
+								relative = "editor",
+								border = "rounded",
+								width = 50,
+								height = 0.8,
+								row = "center",
+								col = "right",
+							},
+						},
+					},
+					actions = {
+						open_file = { quit_on_open = true },
+					},
+				},
+				buffer = {
+					filters = {
+						git_ignored = false,
+						dotfiles = true,
+						custom = {},
+					},
+					renderer = {
+						group_empty = false,
+					},
+				},
+			}
+
+			-- Function to apply preset
+			local function apply_preset(preset_name)
+				local preset = presets[preset_name]
+				if not preset then
+					vim.notify("Preset not found: " .. preset_name, vim.log.levels.ERROR)
+					return
+				end
+
+				-- Merge preset with default options
+				local merged_opts = vim.tbl_deep_extend("force", opts, preset)
+
+				-- Close existing tree if open
+				api.tree.close()
+
+				-- Apply new configuration
+				require("nvim-tree").setup(merged_opts)
+
+				-- Open tree with new configuration
+				api.tree.open()
+			end
+
 			local function on_attach(bufnr)
-				local api = require("nvim-tree.api")
 				local function opts_desc(desc)
 					return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 				end
 
 				api.config.mappings.default_on_attach(bufnr)
+
+				-- Enhanced navigation similar to coc-explorer
 				vim.keymap.set("n", "l", api.node.open.edit, opts_desc("Open"))
 				vim.keymap.set("n", "h", api.node.navigate.parent_close, opts_desc("Close Directory"))
+				vim.keymap.set("n", "L", api.node.open.vertical, opts_desc("Vsplit Open"))
+				vim.keymap.set("n", "H", api.tree.collapse_all, opts_desc("Collapse All"))
+				vim.keymap.set("n", "<C-t>", api.node.open.tab, opts_desc("Tab Open"))
+				vim.keymap.set("n", "o", api.node.open.edit, opts_desc("Open"))
+				vim.keymap.set("n", "e", api.node.open.edit, opts_desc("Open"))
+
+				-- File operations similar to coc-explorer
+				vim.keymap.set("n", "a", api.fs.create, opts_desc("Create"))
+				vim.keymap.set("n", "d", api.fs.remove, opts_desc("Delete"))
+				vim.keymap.set("n", "r", api.fs.rename, opts_desc("Rename"))
+				vim.keymap.set("n", "c", api.fs.copy.node, opts_desc("Copy"))
+				vim.keymap.set("n", "x", api.fs.cut, opts_desc("Cut"))
+				vim.keymap.set("n", "p", api.fs.paste, opts_desc("Paste"))
+				vim.keymap.set("n", "y", api.fs.copy.filename, opts_desc("Copy Name"))
+
+				-- Navigation
+				vim.keymap.set("n", "J", api.node.navigate.sibling.next, opts_desc("Next Sibling"))
+				vim.keymap.set("n", "K", api.node.navigate.sibling.prev, opts_desc("Prev Sibling"))
+				vim.keymap.set("n", "<C-v>", api.node.open.vertical, opts_desc("Vsplit"))
+				vim.keymap.set("n", "<C-s>", api.node.open.horizontal, opts_desc("Split"))
+
+				-- Toggle help
+				vim.keymap.set("n", "?", api.tree.toggle_help, opts_desc("Help"))
 			end
 
 			opts.on_attach = on_attach
 			require("nvim-tree").setup(opts)
 
+			-- Key mappings for different presets (similar to coc-explorer)
+			vim.keymap.set("n", "<space>ed", function() apply_preset("left") end, { desc = "Nvim-tree: Left preset" })
+			vim.keymap.set("n", "<space>ef", function() apply_preset("floating") end, { desc = "Nvim-tree: Floating preset" })
+			vim.keymap.set("n", "<space>et", function() apply_preset("tab") end, { desc = "Nvim-tree: Tab preset" })
+			vim.keymap.set("n", "<space>eb", function() apply_preset("buffer") end, { desc = "Nvim-tree: Buffer preset" })
+			vim.keymap.set("n", "<space>er", function() apply_preset("right") end, { desc = "Nvim-tree: Right preset" })
+			vim.keymap.set("n", "<space>eT", function() apply_preset("floating_top") end, { desc = "Nvim-tree: Floating Top preset" })
+			vim.keymap.set("n", "<space>eL", function() apply_preset("floating_left") end, { desc = "Nvim-tree: Floating Left preset" })
+			vim.keymap.set("n", "<space>eR", function() apply_preset("floating_right") end, { desc = "Nvim-tree: Floating Right preset" })
+
+			-- Default mappings
 			vim.keymap.set("n", "<A-1>", function()
-				require("nvim-tree.api").tree.toggle()
+				api.tree.toggle()
 			end, { desc = "Nvim-tree file browser" })
 
 			vim.keymap.set("n", "<leader>nf", "<Cmd>NvimTreeFindFile<CR>", { desc = "Nvim-tree find current file" })
+			vim.keymap.set("n", "<leader>ee", function() apply_preset("left") end, { desc = "Nvim-tree: Default left view" })
 		end,
 	},
 
