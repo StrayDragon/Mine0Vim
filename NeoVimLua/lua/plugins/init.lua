@@ -22,6 +22,9 @@ return {
 	-- 标签页管理
 	require("plugins.tabby"),
 
+	-- 工作区管理（作为独立插件）
+	require("plugins.workspace-manager"),
+
 	-- 编辑增强功能
 	require("plugins.editing"),
 

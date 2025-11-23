@@ -76,8 +76,15 @@ map(
 )
 
 -- 工作区符号（增强版本 - 使用 fzf-lua）
-map("n", "<leader>wsf", function()
-	require("fzf-lua").lsp_workspace_symbols()
+map("n", "<leader>wfs", function()
+	-- 检查是否有 LSP 客户端
+	if vim.tbl_isempty(vim.lsp.get_active_clients()) then
+		vim.notify("No LSP client attached", vim.log.levels.WARN)
+		-- 如果没有 LSP，使用文件符号作为替代
+		require("fzf-lua").live_grep()
+	else
+		require("fzf-lua").lsp_workspace_symbols()
+	end
 end, vim.tbl_extend("force", opts, { desc = "工作区符号 (fzf)" }))
 
 -- Terminal模式相关键位
