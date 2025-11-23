@@ -4,28 +4,103 @@ return {
 		"nvim-tree/nvim-web-devicons", -- for file icons
 	},
 	config = function()
-		-- 使用预设配置，简单且稳定
+		-- 使用自定义配置，过滤特殊窗口
+		local theme = {
+			fill = "TabLineFill",
+			head = "TabLine",
+			current_tab = "TabLineSel",
+			tab = "TabLine",
+			win = "TabLine",
+			tail = "TabLine",
+		}
+
 		require("tabby").setup({
-			preset = "tab_with_top_win",
+			line = function(line)
+				return {
+					{
+						{ "  ", hl = theme.head },
+						line.sep("", theme.head, theme.fill),
+					},
+					line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+						-- 过滤掉特殊窗口类型（NvimTree、Outline 等）
+						local buf = win.buf()
+						local buf_name = vim.api.nvim_buf_get_name(buf.id)
+						local buftype = vim.api.nvim_buf_get_option(buf.id, "buftype")
+						local filetype = vim.api.nvim_buf_get_option(buf.id, "filetype")
+
+						-- 只显示普通文件窗口，过滤掉 NvimTree、终端、快速修复等
+						if buftype == "" and filetype ~= "NvimTree" and filetype ~= "aerial" and not buf_name:match("NvimTree") then
+							-- 根据是否为当前窗口和是否修改来决定高亮
+							local win_hl
+							local icon
+							if win.is_current() then
+								win_hl = theme.current_tab  -- 使用当前标签页的高亮
+								icon = ""
+							else
+								win_hl = theme.win
+								icon = ""
+							end
+
+							-- 如果文件有修改，添加特殊标记
+							local modified = ""
+							if vim.api.nvim_buf_get_option(buf.id, "modified") then
+								modified = " ●"
+								-- 修改过的文件使用不同的高亮
+								if win.is_current() then
+									win_hl = theme.current_tab
+								else
+									win_hl = "TabLineModified"  -- 自定义修改文件的高亮
+								end
+							end
+
+							return {
+								line.sep("", win_hl, theme.fill),
+								icon,
+								win.file_icon() and " " or "",
+								win.file_icon(),
+								" ",
+								win.buf_name(),
+								modified,
+								line.sep("", win_hl, theme.fill),
+								hl = win_hl,
+								margin = " ",
+							}
+						end
+						return ""
+					end),
+					{
+						line.sep("", theme.tail, theme.fill),
+						{ "  ", hl = theme.tail },
+					},
+					line.spacer(),
+					line.tabs().foreach(function(tab)
+						local hl = tab.is_current() and theme.current_tab or theme.tab
+						return {
+							line.sep("", hl, theme.fill),
+							tab.is_current() and "" or "󰆣",
+							tab.number(),
+							tab.close_btn(""),
+							line.sep("", hl, theme.fill),
+							hl = hl,
+							margin = " ",
+						}
+					end),
+					hl = theme.fill,
+				}
+			end,
 			option = {
-				theme = {
-					fill = "TabLineFill",       -- tabline background
-					head = "TabLine",           -- head element highlight
-					current_tab = "TabLineSel", -- current tab label highlight
-					tab = "TabLine",            -- other tab label highlight
-					win = "TabLine",            -- window highlight
-					tail = "TabLine",           -- tail element highlight
-				},
-				nerdfont = true,              -- 使用 nerdfont
-				lualine_theme = nil,          -- 不使用 lualine 主题
 				tab_name = {
 					name_fallback = function(tabid)
-						-- 获取标签页中的第一个窗口的缓冲区名称
+						-- 获取当前标签页的第一个非特殊窗口
 						local wins = vim.api.nvim_tabpage_list_wins(tabid)
-						if #wins > 0 then
-							local buf = vim.api.nvim_win_get_buf(wins[1])
+						for _, win_id in ipairs(wins) do
+							local buf = vim.api.nvim_win_get_buf(win_id)
+							local buftype = vim.api.nvim_buf_get_option(buf, "buftype")
+							local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
 							local name = vim.api.nvim_buf_get_name(buf)
-							if name and name ~= "" then
+
+							-- 过滤掉 NvimTree、终端等特殊窗口
+							if buftype == "" and filetype ~= "NvimTree" and filetype ~= "aerial" and name ~= "" then
 								return vim.fn.fnamemodify(name, ":t")
 							end
 						end
@@ -43,6 +118,13 @@ return {
 
 		-- 始终显示 tabline
 		vim.o.showtabline = 2
+
+		-- 定义自定义高亮组用于修改过的文件
+		vim.api.nvim_set_hl(0, "TabLineModified", {
+			fg = "#e5c07b",  -- 黄色
+			bg = "#3b4252",
+			bold = true,
+		})
 
 		-- 标签页导航（兼容 barbar 的按键习惯）
 		vim.keymap.set("n", "<Leader>1", "1gt", { silent = true, desc = "跳转到标签页 1" })
