@@ -19,8 +19,8 @@ return {
 	-- UI 和界面插件
 	require("plugins.ui"),
 
-	-- 缓冲区管理
-	require("plugins.buffer"),
+	-- 标签页管理
+	require("plugins.tabby"),
 
 	-- 编辑增强功能
 	require("plugins.editing"),
