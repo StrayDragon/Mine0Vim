@@ -87,16 +87,6 @@ return {
 		lazy = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			-- 工作区组件
-			local function workspace_component()
-				local ok, workspace_manager = pcall(require, "workspace-manager")
-				if ok then
-					local name = workspace_manager.get_workspace_name()
-					return "📁 " .. name
-				end
-				return ""
-			end
-
 			require("lualine").setup({
 				options = {
 					theme = "onenord",
@@ -106,7 +96,7 @@ return {
 				},
 				sections = {
 					lualine_a = { "mode" },
-					lualine_b = { { workspace_component, color = { fg = "#8FBCBB" } }, "branch", "diff", "diagnostics" },
+					lualine_b = { "branch", "diff", "diagnostics" },
 					lualine_c = { "filename" },
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
