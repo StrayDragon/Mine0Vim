@@ -182,7 +182,6 @@ return {
 			require("crates").setup({
 				smart_insert = true,
 				insert_closing_quote = true,
-				avoid_prerelease = true,
 				autoload = true,
 				autoupdate = true,
 				loading_indicator = true,
@@ -209,22 +208,17 @@ return {
 				},
 				popup = {
 					autofocus = true,
-					copy_version = false,
-					hide_releases = false,
-					hide_prereleases = false,
-					hide_yanked = false,
 				},
-				src = {
-					cmp = {
-						enabled = true,
+				completion = {
+					blink = {
 						use_custom_kind = true,
 						kind_text = {
 							version = "版本",
 							feature = "特性",
 						},
 						kind_highlight = {
-							version = "CmpItemKindVersion",
-							feature = "CmpItemKindFeature",
+							version = "BlinkCmpKindVersion",
+							feature = "BlinkCmpKindFeature",
 						},
 					},
 				},
@@ -299,4 +293,3 @@ return {
 		end,
 	},
 }
-
