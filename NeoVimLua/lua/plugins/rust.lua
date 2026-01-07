@@ -14,10 +14,10 @@ return {
 			vim.g.rustaceanvim = {
 				-- 简化的工具配置
 				tools = {
+					-- hover_actions 会被 after/ftplugin/rust.lua 中的 :RustLsp hover actions 替代
+					-- 禁用自动 hover，避免与键位映射冲突
 					hover_actions = {
-						auto_focus = false,
-						max_width = 80,
-						max_height = 20,
+						replace_builtin_hover = false,  -- 不自动替换内置 hover
 					},
 
 					test_executor = "background",

@@ -16,7 +16,8 @@ map("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc 
 map("n", "gy", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, { desc = "跳转到类型定义" }))
 
 -- LSP帮助和诊断
-map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "悬停帮助" }))
+-- K 键位由各 LSP 的 on_attach 处理，避免全局冲突（特别是 rustaceanvim）
+-- map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "悬停帮助" }))
 map("n", "gq", function()
 	-- 快速修复，优先使用quickfix类型的代码动作
 	vim.lsp.buf.code_action({

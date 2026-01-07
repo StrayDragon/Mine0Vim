@@ -35,6 +35,7 @@ return {
 				vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+				-- K 键在通用 LSP 中映射，Rust 文件会被 after/ftplugin/rust.lua 覆盖
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 				vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
 				vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
