@@ -15,6 +15,17 @@ return {
 		lazy = false,
 		dependencies = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
 		config = function()
+			-- 确保在 Neovim 退出时正确清理所有 LSP 客户端
+			vim.api.nvim_create_autocmd("VimLeavePre", {
+				group = vim.api.nvim_create_augroup("LspCleanup", { clear = true }),
+				callback = function()
+					-- 停止所有 LSP 客户端以释放文件锁
+					for _, client in ipairs(vim.lsp.get_clients()) do
+						vim.lsp.stop_client(client.id, true) -- true = force stop
+					end
+				end,
+			})
+
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			-- 诊断配置

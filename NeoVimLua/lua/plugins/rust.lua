@@ -11,6 +11,19 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
+			-- 确保在 Neovim 退出时正确清理 rust-analyzer
+			vim.api.nvim_create_autocmd("VimLeavePre", {
+				group = vim.api.nvim_create_augroup("RustAnalyzerCleanup", { clear = true }),
+				callback = function()
+					-- 停止所有 rust-analyzer 客户端
+					for _, client in ipairs(vim.lsp.get_clients()) do
+						if client.name == "rust_analyzer" or client.name == "rust-analyzer" then
+							vim.lsp.stop_client(client.id, true) -- true = force stop
+						end
+					end
+				end,
+			})
+
 			vim.g.rustaceanvim = {
 				-- 简化的工具配置
 				tools = {
