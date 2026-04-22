@@ -29,9 +29,10 @@ return {
 		"ThePrimeagen/refactoring.nvim",
 		lazy = false,
 		dependencies = {
-			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
+			"lewis6991/async.nvim",
 		},
+
 		config = function()
 			require("refactoring").setup({
 				prompt_func_return_type = {
