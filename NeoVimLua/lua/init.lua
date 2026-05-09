@@ -7,7 +7,7 @@ require("lazy").setup({
 		{ import = "plugins" },
 	},
 	install = { colorscheme = { "onenord", "edge", "habamax" } },
-	checker = { enabled = true },
+	checker = { enabled = false },
 	})
 
 -- 设置 OneNord 主题
