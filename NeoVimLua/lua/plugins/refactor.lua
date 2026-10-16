@@ -30,6 +30,7 @@ return {
 		lazy = false,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
+			-- Neovim 0.12 需要 async.nvim（0.13+ 内置 vim.async 后可移除）
 			"lewis6991/async.nvim",
 		},
 

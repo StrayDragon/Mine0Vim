@@ -22,7 +22,6 @@ return {
 	-- 标签页管理
 	require("plugins.tabby"),
 
-	
 	-- 编辑增强功能
 	require("plugins.editing"),
 
