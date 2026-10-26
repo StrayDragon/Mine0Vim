@@ -34,12 +34,19 @@ return {
 		"mg979/vim-visual-multi",
 		branch = "master",
 		init = function()
-			-- Map <C-d> to add next occurrence, <C-c> to skip current region
+			-- 插件加载前：只设置 permanent 映射（"Skip Region" 是 buffer 映射，
+			-- 此时设置会触发 E716: Key not present in Dictionary）
 			vim.g.VM_maps = {
 				["Find Under"] = "<C-d>",
 				["Find Subword Under"] = "<C-d>",
-				["Skip Region"] = "<C-c>",
 			}
+		end,
+		config = function()
+			-- 插件加载后：buffer 映射在 VM 启动时读取 g:VM_maps，此时设置才生效。
+			-- 必须整表赋值，vim.g 的嵌套写入不会回写。
+			vim.g.VM_maps = vim.tbl_extend("force", vim.g.VM_maps or {}, {
+				["Skip Region"] = "<C-c>",
+			})
 		end,
 	},
 

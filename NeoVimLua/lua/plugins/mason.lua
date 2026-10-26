@@ -149,6 +149,9 @@ return {
 					"taplo",
 				},
 				automatic_installation = false,
+				-- rustaceanvim 自带 rust-analyzer 客户端（名字 "rust-analyzer"）；
+				-- mason-lspconfig 默认自动 enable 会再起一个 "rust_analyzer"，导致同仓库双客户端。
+				automatic_enable = { exclude = { "rust_analyzer" } },
 			})
 		end,
 	},

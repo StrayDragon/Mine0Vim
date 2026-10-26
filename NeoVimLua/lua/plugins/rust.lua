@@ -58,7 +58,7 @@ return {
 						local opts = { buffer = bufnr, noremap = true, silent = true, desc = "" }
 
 						-- 保存时格式化
-						if client.supports_method("textDocument/formatting") then
+						if client:supports_method("textDocument/formatting") then
 							vim.api.nvim_create_autocmd("BufWritePre", {
 								group = vim.api.nvim_create_augroup("RustFormat." .. bufnr, {}),
 								buffer = bufnr,
@@ -207,7 +207,7 @@ return {
 					prerelease = "  %s (预发布)",
 					yanked = "  %s (已撤销)",
 					nomatch = "  无匹配",
-					upgrade = "  %s → %s",
+					upgrade = "  → %s",
 					error = "  获取 Crate 错误",
 				},
 				highlight = {

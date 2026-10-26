@@ -125,7 +125,8 @@ return {
 						toml = "taplo",
 					}
 
-					local server = lsp_map[args.file]
+					-- FileType 事件里 args.match 才是 filetype；args.file 是文件名
+					local server = lsp_map[args.match]
 					if server then
 						vim.lsp.enable(server)
 					end
